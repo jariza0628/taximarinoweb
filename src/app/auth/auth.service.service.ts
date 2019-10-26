@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { Router } from "@angular/router";
+import { Router } from '@angular/router';
 import { auth } from 'firebase/app';
-import { AngularFireAuth } from "@angular/fire/auth";
+import { AngularFireAuth } from '@angular/fire/auth';
 import { User } from 'firebase';
 
 @Injectable({
@@ -25,7 +25,7 @@ export class AuthService {
    */
   async  login(email: string, password: string) {
     try {
-      await this.afAuth.auth.signInWithEmailAndPassword(email, password)
+      await this.afAuth.auth.signInWithEmailAndPassword(email, password);
       this.router.navigate(['admin/list']);
     } catch (e) {
       alert('Error!' + e.message);

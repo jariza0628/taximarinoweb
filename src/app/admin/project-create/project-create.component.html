@@ -1,3 +1,93 @@
-<p (click)="ce()">
-  project-create works!
-</p>
+<div class="container">
+  <div class="row">
+    <br> <br>
+    <h3>Gestionar Usuarios</h3>
+    <hr>
+  </div>
+  <form>
+    <div class="row">
+      <div class="col-sm">
+        <div class="form-group">
+          <label for="exampleFormControlInput1">Usuario</label>
+          <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="Pedro Perez">
+        </div>
+      </div>
+      <div class="col-sm">
+        <div class="form-group">
+          <label for="exampleFormControlInput1">email</label>
+          <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="email@email.com">
+        </div>
+
+      </div>
+
+    </div>
+    <div class="row">
+      <div class="col-sm">
+        <div class="form-group">
+          <label for="exampleFormControlInput1">Contraseña</label>
+          <input type="password" class="form-control" id="exampleFormControlInput1" placeholder=" ">
+        </div>
+      </div>
+      <div class="col-sm">
+        <div class="form-group">
+          <label for="exampleFormControlInput1">Cedula</label>
+          <input type="number" class="form-control" id="exampleFormControlInput1" placeholder="1045698585">
+        </div>
+      </div>
+      <div class="col-sm">
+        <div class="form-group">
+          <label for="exampleFormControlInput1">Telefono</label>
+          <input type="number" class="form-control" id="exampleFormControlInput1" placeholder="3006885544">
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm">
+        <div class="form-group">
+          <label for="exampleFormControlSelect1">Tipo Usuario</label>
+          <select class="form-control" id="exampleFormControlSelect1">
+            <option value="Vendedor">Vendedor</option>
+          </select>
+        </div>
+      </div>
+      <div class="col-sm">
+        <div class="form-group">
+          <label for="exampleFormControlSelect1">Zona De venta asociada</label>
+          <select class="form-control" id="exampleFormControlSelect1">
+            <option>1</option>
+            <option>2</option>
+          </select>
+        </div>s
+      </div>
+    </div>
+    <div class="col-sm">
+      <button type="button" class="btn btn-primary">Guardar</button>
+    </div>
+  </form>
+</div>
+
+<!-- Button trigger modal -->
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">
+    Launch demo modal
+  </button>
+  
+  <!-- Modal -->
+  <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalCenterTitle">Modal title</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          asd
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary">Save changes</button>
+        </div>
+      </div>
+    </div>
+  </div>
