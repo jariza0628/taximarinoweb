@@ -6,10 +6,27 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./project.component.css']
 })
 export class ProjectComponent implements OnInit {
+  menuOptions: any;
+  constructor() {
 
-  constructor() { }
+    this.menuOptions = [
+      {
+        name: 'Users',
+        link: 'create',
+        icon: 'fa fa-user fa-lg'
+      },
+      {
+        name: 'Zonas',
+        link: 'create',
+        icon: 'fa fa-dashboard fa-lg'
+      }
+    ];
+  }
 
   ngOnInit() {
+
   }
 
 }
+
+

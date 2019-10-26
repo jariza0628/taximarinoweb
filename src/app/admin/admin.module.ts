@@ -5,12 +5,24 @@ import { ProjectCreateComponent } from './project-create/project-create.componen
 import { ProjectUpdateComponent } from './project-update/project-update.component';
 import { ProjectComponent } from './project/project.component';
 import { AdminRoutingModule } from './admin-routing.module';
+import { LoginComponent } from './login/login.component';
+import { AngularFireModule } from '@angular/fire';
+import { AngularFireAuthModule } from '@angular/fire/auth';
+import { environment } from 'src/environments/environment';
+import { AngularFireDatabaseModule } from '@angular/fire/database';
+import { AngularFirestore } from '@angular/fire/firestore';
+
 
 @NgModule({
-  declarations: [ProjectListComponent, ProjectCreateComponent, ProjectUpdateComponent, ProjectComponent],
+  declarations: [ProjectListComponent, ProjectCreateComponent, ProjectUpdateComponent, ProjectComponent, LoginComponent],
   imports: [
     CommonModule,
-    AdminRoutingModule
-  ]
+    AdminRoutingModule,
+    AngularFireModule.initializeApp(environment.firebaseConfig),
+    AngularFireAuthModule,
+    AngularFireDatabaseModule
+  ],
+  providers: [AngularFirestore],
+
 })
 export class AdminModule { }

@@ -1,2 +1,31 @@
-<h2>Admin Interface</h2>
-<router-outlet></router-outlet>
+<div class="nav-side-menu">
+    <i class="fa fa-bars fa-2x toggle-btn" data-toggle="collapse" data-target="#menu-content"></i>
+    <div class="menu-list">
+        <ul id="menu-content" class="menu-content collapse out">
+            <li>
+                <a href="#">
+                    <i class="fa fa-dashboard fa-lg"></i> Dashboard
+                </a>
+            </li>
+
+            <li *ngFor="let item of menuOptions">
+
+                <a [routerLink]="[item.link]">
+                    <i class="{{ item.icon }}"></i> {{ item.name }}
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    <i class="fa fa-users fa-lg"></i> Users
+                </a>
+            </li>
+        </ul>
+    </div>
+</div>
+<div class="container" id="main">
+    <div class="row">
+        <div class="col-md-12">
+            <router-outlet></router-outlet>
+        </div>
+    </div>
+</div>
