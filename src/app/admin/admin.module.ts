@@ -11,16 +11,26 @@ import { AngularFireAuthModule } from '@angular/fire/auth';
 import { environment } from 'src/environments/environment';
 import { AngularFireDatabaseModule } from '@angular/fire/database';
 import { AngularFirestore } from '@angular/fire/firestore';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { PointSaleComponent } from './point-sale/point-sale.component';
+import { AgencyComponent } from './agency/agency.component';
+import { SalesComponent } from './sales/sales.component';
+import { IndividualServicesComponent } from './individual-services/individual-services.component';
+import { PlansComponent } from './plans/plans.component';
 
 
 @NgModule({
-  declarations: [ProjectListComponent, ProjectCreateComponent, ProjectUpdateComponent, ProjectComponent, LoginComponent],
+  declarations: [
+    ProjectListComponent, ProjectCreateComponent, ProjectUpdateComponent,
+    ProjectComponent, LoginComponent, PointSaleComponent, AgencyComponent, SalesComponent, IndividualServicesComponent, PlansComponent],
   imports: [
     CommonModule,
     AdminRoutingModule,
     AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFireAuthModule,
-    AngularFireDatabaseModule
+    AngularFireDatabaseModule,
+    FormsModule,
+    ReactiveFormsModule
   ],
   providers: [AngularFirestore],
 

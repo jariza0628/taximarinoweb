@@ -1,0 +1,84 @@
+<div class="container">
+  <div class="row">
+    <br> <br>
+    <h3 style="padding: 20px 10px;">Gestionar Servicios</h3>
+    <hr style="padding: 0px 10px;border: 1ps solid #777777; width: 100%;">
+  </div>
+  <form [formGroup]="_formEntity">
+    <input type="text" class="form-control" formControlName="id" *ngIf="editUser" style="display: none;;">
+
+
+    <div class="row">
+      <div class="col-sm">
+        <div class="form-group">
+          <label for="exampleFormControlInput1">Nombre Servicio</label>
+          <input type="text" class="form-control" formControlName="name" placeholder="Transporte ida y vuelta">
+        </div>
+      </div>
+      <div class="col-sm">
+        <div class="form-group">
+          <label for="exampleFormControlInput1">Valor Publico</label>
+          <input type="number" class="form-control" formControlName="publicvalue" placeholder=" ">
+        </div>
+      </div>
+      <div class="col-sm">
+        <div class="form-group">
+          <label for="exampleFormControlInput1">Valor Agencia</label>
+          <input type="number" class="form-control" formControlName="agencyvalue" placeholder="">
+        </div>
+      </div>
+
+    </div>
+    <div class="row">
+        <div class="col-sm">
+            <div class="form-group">
+              <label for="exampleFormControlInput1">Descripcion</label>
+              <input type="text" class="form-control" formControlName="description" placeholder="Rodadero">
+            </div>
+          </div>
+
+
+    </div>
+
+    <div class="col-sm" *ngIf="!edit">
+      <button type="submit" (click)="save()" [disabled]="_formEntity.invalid" class="btn btn-primary">Guardar</button>
+    </div>
+    <div class="col-sm" *ngIf="edit">
+      <button type="submit" (click)="updateUser()" [disabled]="_formEntity.invalid"
+        class="btn btn-primary">Actualizar</button> &nbsp;
+      <button type="reset" (click)="cancelUpdate()" class="btn btn-primary">Cancelar</button>
+    </div>
+  </form>
+
+  <div class="row">
+    <div class="col-sm">
+      <br>
+      <h4>Usuarios Registrados</h4>
+      <br>
+      <table class="table table-hover">
+        <thead>
+          <tr>
+            <th scope="col">Nombre Sericio</th>
+            <th scope="col">Descripción</th>
+            <th scope="col">Valor Publico</th>
+            <th scope="col">Valor Agencia</th>
+            <th scope="col">Opciones</th>
+
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of data">
+            <th>{{item.name}}</th>
+            <td>{{item.description}}</td>
+            <td>{{item.publicvalue}}</td>
+            <td>{{item.agencyvalue}}</td>
+            <td><a class="hover-a" (click)="deleteUser(item.id)">Eliminar</a> &nbsp;
+              <a class="hover-a" (click)="updateUserAct(item)">Editar</a></td>
+          </tr>
+
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+</div>

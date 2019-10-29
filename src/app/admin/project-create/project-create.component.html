@@ -1,21 +1,25 @@
 <div class="container">
   <div class="row">
     <br> <br>
-    <h3>Gestionar Usuarios</h3>
-    <hr>
+    <h3 style="padding: 20px 10px;">Gestionar Usuarios</h3>
+    <hr style="padding: 0px 10px;border: 1ps solid #777777; width: 100%;">
   </div>
-  <form>
+  <form [formGroup]="_formEntity">
+    <input type="text" class="form-control" formControlName="id" *ngIf="editUser" style="display: none;;">
+
     <div class="row">
+
       <div class="col-sm">
         <div class="form-group">
           <label for="exampleFormControlInput1">Usuario</label>
-          <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="Pedro Perez">
+          <input [ngClass]="{'validation': _formEntity.value.user === ''}" type="text" class="form-control"
+            formControlName="user" placeholder="Pedro Perez">
         </div>
       </div>
       <div class="col-sm">
         <div class="form-group">
           <label for="exampleFormControlInput1">email</label>
-          <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="email@email.com">
+          <input type="email" class="form-control" formControlName="email" placeholder="email@email.com">
         </div>
 
       </div>
@@ -25,19 +29,19 @@
       <div class="col-sm">
         <div class="form-group">
           <label for="exampleFormControlInput1">Contraseña</label>
-          <input type="password" class="form-control" id="exampleFormControlInput1" placeholder=" ">
+          <input type="password" class="form-control" formControlName="password" placeholder=" ">
         </div>
       </div>
       <div class="col-sm">
         <div class="form-group">
           <label for="exampleFormControlInput1">Cedula</label>
-          <input type="number" class="form-control" id="exampleFormControlInput1" placeholder="1045698585">
+          <input type="number" class="form-control" formControlName="dni" placeholder="1045698585">
         </div>
       </div>
       <div class="col-sm">
         <div class="form-group">
           <label for="exampleFormControlInput1">Telefono</label>
-          <input type="number" class="form-control" id="exampleFormControlInput1" placeholder="3006885544">
+          <input type="number" class="form-control" formControlName="phone" placeholder="3006885544">
         </div>
       </div>
     </div>
@@ -45,49 +49,57 @@
       <div class="col-sm">
         <div class="form-group">
           <label for="exampleFormControlSelect1">Tipo Usuario</label>
-          <select class="form-control" id="exampleFormControlSelect1">
-            <option value="Vendedor">Vendedor</option>
+          <select class="form-control" formControlName="type" id="exampleFormControlSelect1">
+            <option value="Vendedor" selected>Vendedor</option>
           </select>
         </div>
       </div>
       <div class="col-sm">
         <div class="form-group">
           <label for="exampleFormControlSelect1">Zona De venta asociada</label>
-          <select class="form-control" id="exampleFormControlSelect1">
-            <option>1</option>
-            <option>2</option>
+          <select class="form-control" formControlName="zone" id="exampleFormControlSelect2">
+            <option *ngFor="let item of zones" value="{{item.name}}">{{item.name}}</option>
           </select>
-        </div>s
+        </div>
       </div>
     </div>
-    <div class="col-sm">
-      <button type="button" class="btn btn-primary">Guardar</button>
+    <div class="col-sm" *ngIf="!editUser">
+      <button type="submit" (click)="saveUser()" [disabled]="_formEntity.invalid"
+        class="btn btn-primary">Guardar</button>
+    </div>
+    <div class="col-sm" *ngIf="editUser">
+      <button type="submit" (click)="updateUser()" [disabled]="_formEntity.invalid"
+        class="btn btn-primary">Actualizar</button> &nbsp;
+      <button type="reset" (click)="cancelUpdate()" class="btn btn-primary">Cancelar</button>
     </div>
   </form>
-</div>
 
-<!-- Button trigger modal -->
-<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">
-    Launch demo modal
-  </button>
-  
-  <!-- Modal -->
-  <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalCenterTitle">Modal title</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          asd
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary">Save changes</button>
-        </div>
-      </div>
+  <div class="row">
+    <div class="col-sm">
+      <br>
+      <h4>Usuarios Registrados</h4>
+      <br>
+      <table class="table table-hover">
+        <thead>
+          <tr>
+            <th scope="col">Usuairo</th>
+            <th scope="col">Telefono</th>
+            <th scope="col">Zona</th>
+            <th scope="col">Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of users">
+            <th>{{item.user}}</th>
+            <td>{{item.phone}}</td>
+            <td>{{item.zone}}</td>
+            <td><a class="hover-a" (click)="deleteUser(item.id)">Eliminar</a> &nbsp;
+              <a class="hover-a" (click)="updateUserAct(item)">Editar</a></td>
+          </tr>
+
+        </tbody>
+      </table>
     </div>
+
   </div>
+</div>

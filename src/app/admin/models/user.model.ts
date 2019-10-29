@@ -1,4 +1,7 @@
+import { PointSale } from './pointsale.model';
+
 export class User {
+    id?: any;
     user: string;
     password: string;
     name: string;
@@ -7,4 +10,6 @@ export class User {
     type: string;
     email?: string;
     onesignal?: string;
+    pintsale: any;
+    zone: any;
 }

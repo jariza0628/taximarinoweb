@@ -17,27 +17,27 @@ export class ProjectComponent implements OnInit {
       },
       {
         name: 'Planes o combos',
-        link: 'create',
+        link: 'plans',
         icon: 'fa fa-dashboard fa-lg'
       },
       {
         name: 'Servicios individuales',
-        link: 'create',
+        link: 'services',
         icon: 'fa fa-dashboard fa-lg'
       },
       {
         name: 'Ventas',
-        link: 'create',
+        link: 'sales',
         icon: 'fa fa-dashboard fa-lg'
       },
       {
         name: 'Zonas',
-        link: 'create',
+        link: 'ponitsale',
         icon: 'fa fa-dashboard fa-lg'
       },
       {
         name: 'Ajencias',
-        link: 'create',
+        link: 'agency',
         icon: 'fa fa-dashboard fa-lg'
       },
     ];
