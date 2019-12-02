@@ -28,4 +28,8 @@ export class GeneralServiceService {
   updateFirebase(entiti, data: any) {
     this.firestore.doc(entiti + '/' + data.id).update(data);
   }
+
+  getById(entiti, id) {
+    return this.firestore.collection(entiti).doc(id).ref.get();
+  }
 }

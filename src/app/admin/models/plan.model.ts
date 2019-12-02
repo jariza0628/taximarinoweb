@@ -7,6 +7,6 @@ export class Plan {
     description?: string;
     totalvalue?: any;
     discount?: any;
-    agency: Agency[];
+    agency: any;
     services: Service[];
 }

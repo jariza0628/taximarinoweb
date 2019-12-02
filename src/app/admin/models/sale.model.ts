@@ -9,6 +9,8 @@ export class Sale {
     date: Date;
     value: any;
     dicount: any;
+    codebar?: any;
+    state: 'Aprovado | Denegado | Cancelada';
     agency: Agency;
     detail: Service[];
     seller: User;
