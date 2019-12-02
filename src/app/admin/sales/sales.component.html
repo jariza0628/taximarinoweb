@@ -1,3 +1,34 @@
-<p>
-  sales works!
-</p>
+<div class="container">
+  <div class="row">
+    <div class="col-sm">
+      <br>
+      <h4>Usuarios Registrados</h4>
+      <br>
+      <table class="table table-hover">
+        <thead>
+        <tr>
+          <th scope="col">Nombre Sericio</th>
+          <th scope="col">Descripción</th>
+          <th scope="col">Valor</th>
+          <th scope="col">Descuento</th>
+          <th scope="col">Agencia</th>
+          <th scope="col">Opciones</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let item of data">
+          <th>{{item.name}}</th>
+          <td>{{item.description}}</td>
+          <td>{{item.totalvalue}}</td>
+          <td>{{item.discount}}</td>
+          <td>{{item.agency}}</td>
+          <td><a class="hover-a" (click)="deleteUser(item.id)">Eliminar</a> &nbsp;
+            <a class="hover-a" (click)="updateUserAct(item)">Editar</a></td>
+        </tr>
+
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+</div>

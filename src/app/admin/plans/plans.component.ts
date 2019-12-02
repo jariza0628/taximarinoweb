@@ -1,9 +1,9 @@
-import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { GeneralServiceService } from '../services/general-service.service';
-import { Plan } from '../models/plan.model';
-import { Service } from '../models/service.model';
-import { Agency } from '../models/agency.model';
+import {Component, OnInit} from '@angular/core';
+import {FormGroup, FormControl, Validators} from '@angular/forms';
+import {GeneralServiceService} from '../services/general-service.service';
+import {Plan} from '../models/plan.model';
+import {Service} from '../models/service.model';
+import {Agency} from '../models/agency.model';
 
 @Component({
   selector: 'app-plans',
@@ -40,15 +40,15 @@ export class PlansComponent implements OnInit {
         Validators.maxLength(100)
       ]),
       discount: new FormControl(0, [
-        Validators.max(100),
-        Validators.min(0)
-      ]
+          Validators.max(100),
+          Validators.min(0)
+        ]
       ),
       agency: new FormControl('', [
         Validators.maxLength(100)
       ]),
-      selectedDoor: new FormControl('', [
-      ])
+      services: new FormControl([], []),
+      selectedDoor: new FormControl('', [])
     });
   }
 
@@ -56,12 +56,15 @@ export class PlansComponent implements OnInit {
     this.getServices();
     this.getAgencies();
     console.log(' this.dataServices', this.dataServices);
-
+    this.getData();
   }
 
   save() {
+    this._formEntity.controls['services'].setValue(this.arraySelect);
     console.log('asd', this._formEntity.value);
     this._GeneralServiceService.createFirebase('plan', this._formEntity.value);
+    this._formEntity.reset();
+    this.arraySelect = [];
   }
 
   getData() {
@@ -112,8 +115,11 @@ export class PlansComponent implements OnInit {
     console.log(id);
     this._GeneralServiceService.deleteFirebase('plan', id);
   }
+
   updateUser() {
     console.log('updateUser', this._formEntity.value);
+    this._formEntity.controls['services'].setValue(this.arraySelect);
+    this.arraySelect = [];
     this.edit = false;
     this._GeneralServiceService.updateFirebase('plan', this._formEntity.value);
     this.cancelUpdate();
@@ -127,6 +133,7 @@ export class PlansComponent implements OnInit {
   cancelUpdate() {
     this._formEntity.reset();
     this.edit = false;
+    this.arraySelect = [];
   }
 
   loadDataForm(dataToEdit: Plan) {
@@ -138,14 +145,31 @@ export class PlansComponent implements OnInit {
         Validators.required,
         Validators.maxLength(100)
       ]),
-      selectedDoor: new FormControl(dataToEdit.name, [
+      description: new FormControl(dataToEdit.description, [
         Validators.required,
+        Validators.maxLength(100)
+      ]),
+      totalvalue: new FormControl(dataToEdit.totalvalue, [
+        Validators.required,
+        Validators.maxLength(100)
+      ]),
+      discount: new FormControl(dataToEdit.discount, [
+          Validators.max(100),
+          Validators.min(0)
+        ]
+      ),
+      agency: new FormControl(dataToEdit.agency, [
+        Validators.maxLength(100)
+      ]),
+      services: new FormControl('', []),
+      selectedDoor: new FormControl('', [
         Validators.maxLength(100)
       ]),
 
 
-
     });
+
+    this.arraySelect = dataToEdit.services || [];
 
   }
 
@@ -158,6 +182,7 @@ export class PlansComponent implements OnInit {
     console.log(deviceValue);
     this.addValueToArraySelect(deviceValue);
   }
+
   /**
    * Alñadir valor al selecionar un aopcion del select
    *     function (doc) {
@@ -175,13 +200,26 @@ export class PlansComponent implements OnInit {
 
     this._GeneralServiceService.getById('service', item).then(
       datas => {
-        console.log('datas', datas.data());
-        this.ps(datas.data());
+        // console.log('datas', datas.data());
+        const data = datas.data();
+        let existsService;
+        this.arraySelect.forEach(service => {
+            if (JSON.stringify(service) === JSON.stringify(data)) {
+              existsService = data;
+              return;
+            }
+          }
+        );
+
+        if (!existsService) {
+          this.ps(datas.data());
+        }
       }, err => {
         console.log(err);
       }
     );
   }
+
   ps(data) {
     this.total = this.total + data.publicvalue;
     this.arraySelect.push(data);
@@ -189,6 +227,7 @@ export class PlansComponent implements OnInit {
     this.sunValueTotal();
 
   }
+
   sunValueTotal() {
     this._formEntity.controls['totalvalue'].setValue(this.total);
 
