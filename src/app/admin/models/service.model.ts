@@ -4,4 +4,5 @@ export class Service {
     name: string;
     publicvalue: any;
     agencyvalue?: any;
+    status?: 'Activo' | 'Usado';
 }

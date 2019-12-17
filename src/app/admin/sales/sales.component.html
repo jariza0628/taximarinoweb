@@ -21,7 +21,7 @@
           <tbody>
           <tr *ngFor="let item of data" (click)="detailSale = item.detail" style="cursor: pointer">
             <th>{{item.name}}</th>
-            <td>{{item.date | date: 'medium'}}</td>
+            <td>{{item.date }}</td>
             <td>{{item.codebar}}</td>
             <td>{{item.dicount}}</td>
             <td>{{item.seller}}</td>

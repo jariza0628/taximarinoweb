@@ -20,8 +20,13 @@ const routes: Routes = [
         component: ProjectComponent,
         children: [
             {
+                path: 'sales',
+                component: SalesComponent,
+                canActivate: [AdminGuard]
+            },
+            {
                 path: 'list',
-                component: ProjectListComponent,
+                component: SalesComponent,
                 canActivate: [AdminGuard]
             },
             {
@@ -46,11 +51,7 @@ const routes: Routes = [
                 component: AgencyComponent,
                 canActivate: [AdminGuard]
             },
-            {
-                path: 'sales',
-                component: SalesComponent,
-                canActivate: [AdminGuard]
-            },
+
             {
                 path: 'services',
                 component: IndividualServicesComponent,
