@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { GeneralServiceService } from '../services/general-service.service';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
- import { Service } from '../models/service.model';
+import { Service } from '../models/service.model';
 
 @Component({
   selector: 'app-individual-services',
@@ -38,8 +38,10 @@ export class IndividualServicesComponent implements OnInit {
   }
 
   save() {
+    let body: any;
     console.log('asd', this._formEntity.value);
-    this._GeneralServiceService.createFirebase('service', this._formEntity.value);
+    body = { ... this._formEntity.value, status: 'Activo' };
+    this._GeneralServiceService.createFirebase('service', body);
   }
   getData() {
     this._GeneralServiceService.getFirebase('service').subscribe(
