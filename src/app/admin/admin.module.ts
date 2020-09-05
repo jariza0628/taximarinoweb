@@ -20,13 +20,14 @@ import { PlansComponent } from './plans/plans.component';
 import { NewSalesComponent } from './new-sales/new-sales.component';
 import { ReceiptComponent } from './new-sales/receipt/receipt.component';
 import { ReportComponent } from './report/report.component';
+import { DetailComponent } from './report/detail/detail.component';
 
 
 @NgModule({
   declarations: [
     ProjectListComponent, ProjectCreateComponent, ProjectUpdateComponent,
     ProjectComponent, LoginComponent, PointSaleComponent, AgencyComponent, SalesComponent,
-    IndividualServicesComponent, PlansComponent, NewSalesComponent, ReceiptComponent, ReportComponent],
+    IndividualServicesComponent, PlansComponent, NewSalesComponent, ReceiptComponent, ReportComponent, DetailComponent],
   imports: [
     CommonModule,
     AdminRoutingModule,

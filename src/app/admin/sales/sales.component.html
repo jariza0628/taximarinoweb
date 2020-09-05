@@ -4,61 +4,101 @@
       <br>
       <h4>Ventas Registradas</h4>
       <br>
+      <div class="row">
+        <div class="col-sm">
+          <label for="exampleInputPassword1">Filtar por fecha</label>
+          <input class="form-control" type="date" #dates [(ngModel)]="date"
+            (input)="search(sellers.value, $event.target.value)">
+        </div>
+        <div class="col-sm">
+          <label for="exampleInputPassword1">Filtar por vendedor</label>
+          <select class="custom-select custom-select mb-3 " #sellers
+            (change)="search(sellers.value, dates.value)">
+            <option selected>Selecciona un vendedor</option>
+            <option *ngFor="let item of user" value="{{item.user}}">{{item.user}}</option>
+          </select>
+        </div>
+
+      </div>
       <div style="height: 400px; overflow-x: auto">
         <table class="table table-hover">
           <thead>
-          <tr>
-            <th scope="col">Cliente</th>
-            <th scope="col">Fecha</th>
-            <th scope="col">Código de barra</th>
-            <th scope="col">Descuento</th>
-            <th scope="col">Vendedor</th>
-            <th scope="col">Estado</th>
-            <th scope="col">Total</th>
-            <th scope="col">Opciones</th>
-          </tr>
+            <tr>
+              <th scope="col">Cliente</th>
+              <th scope="col">Fecha</th>
+              <th scope="col">Código de barra</th>
+              <th scope="col">Descuento</th>
+              <th scope="col">Vendedor</th>
+              <th scope="col">Estado</th>
+              <th scope="col">Cantidad</th>
+              <th scope="col">Total</th>
+              <th scope="col">Opciones</th>
+            </tr>
           </thead>
           <tbody>
-          <tr *ngFor="let item of data" (click)="detailSale = item.detail" style="cursor: pointer">
-            <th>{{item.name}}</th>
-            <td>{{item.date }}</td>
-            <td>{{item.codebar}}</td>
-            <td>{{item.dicount}}</td>
-            <td>{{item.seller}}</td>
-            <td>{{item.state}}</td>
-            <td>{{item.total}}</td>
-            <td><a class="hover-a" *ngIf="item.state !== 'Aprobada' && item.state  !== 'Cancelada'"
-                   (click)="approve(item)">Aprobar</a> &nbsp;
-              <a class="hover-a" *ngIf="item.state !== 'Aprobada'  && item.state  !== 'Cancelada'"
-                 (click)="cancel(item)">Cancelar</a>
-            </td>
-          </tr>
+            <tr *ngFor="let item of data" (click)="showDeatil(item)" style="cursor: pointer">
+              <th>{{item.name}}</th>
+              <td>{{item.date + ' ' + item.hour | date:'short' }}</td>
+              <td>{{item.codebar}}</td>
+              <td>{{item.dicount}}</td>
+              <td>{{item.seller}}</td>
+              <td>{{item.state}}</td>
+              <td>1</td>
+              <td>{{item.total}}</td>
+              <td><a class="hover-a" *ngIf="item.state !== 'Aprobada' && item.state  !== 'Cancelada'"
+                  (click)="approve(item)">Aprobar</a> &nbsp;
+                <a class="hover-a" *ngIf="item.state !== 'Aprobada'  && item.state  !== 'Cancelada'"
+                  (click)="cancel(item)">Cancelar</a>
+              </td>
+            </tr>
 
           </tbody>
         </table>
       </div>
+      <br>
 
-      <div id="details " style="position: relative" *ngIf="detailSale.length > 0">
-        <img id="close" (click)="detailSale = []" src="/assets/close.png" alt="">
-        <table class="table table-hover">
-          <thead>
-          <tr>
-            <th scope="col">Nombre</th>
-            <th scope="col">Descripción</th>
-            <th scope="col">Valor</th>
-            <th scope="col">Valor Agencia</th>
-          </tr>
-          </thead>
-          <tbody>
-          <tr *ngFor="let service of detailSale">
-            <td>{{service.name}}</td>
-            <td>{{service.description}}</td>
-            <td>{{service.publicvalue}}</td>
-            <td>{{service.agencyvalue}}</td>
-          </tr>
-          </tbody>
-        </table>
+      <div class="card" *ngIf="showdeatil">
+        <div id="details " class="card-body" style="position: relative">
+          <img id="close" (click)="detailSale = []" src="/assets/close.png" alt="">
+          <table class="table table-hover" *ngIf="detailSale.length > 0">
+            <thead>
+              <tr>
+                <th scope="col">Nombre</th>
+                <th scope="col">Descripción</th>
+                <th scope="col">Valor</th>
+                <th scope="col">Valor Agencia</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let service of detailSale">
+                <td>{{service.name}}</td>
+                <td>{{service.description}}</td>
+                <td>{{service.publicvalue}}</td>
+                <td>{{service.agencyvalue}}</td>
+              </tr>
+
+            </tbody>
+          </table>
+          <table class="table table-hover" *ngIf="plan.length > 0">
+            <thead>
+              <tr>
+                <th scope="col">Nombre Plan</th>
+                <th scope="col">Descripción</th>
+                <th scope="col">Valor</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let plans of plan">
+                <td>{{plans.name}}</td>
+                <td>{{plans.description}}</td>
+                <td>{{plans.totalvalue}}</td>
+              </tr>
+
+            </tbody>
+          </table>
+        </div>
       </div>
+
     </div>
 
   </div>

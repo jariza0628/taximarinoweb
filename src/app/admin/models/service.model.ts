@@ -5,4 +5,6 @@ export class Service {
     publicvalue: any;
     agencyvalue?: any;
     status?: 'Activo' | 'Usado';
+    userVerify?: any;
+    typeverify: any;
 }

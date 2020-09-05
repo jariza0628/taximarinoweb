@@ -30,6 +30,10 @@ export class IndividualServicesComponent implements OnInit {
       agencyvalue: new FormControl(null, [
         Validators.required
       ]),
+      typeverify: new FormControl(null, [
+        Validators.required
+      ])
+      
     });
   }
 
@@ -96,6 +100,9 @@ export class IndividualServicesComponent implements OnInit {
       agencyvalue: new FormControl(dataToEdit.agencyvalue, [
         Validators.required
       ]),
+      typeverify: new FormControl(dataToEdit.agencyvalue, [
+        Validators.required
+      ])
 
 
     });

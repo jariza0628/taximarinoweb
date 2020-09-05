@@ -24,6 +24,15 @@ export class AgencyComponent implements OnInit {
       description: new FormControl('', [
         Validators.maxLength(100)
       ]),
+      nit: new FormControl('', [
+        Validators.maxLength(100)
+      ]),
+      address: new FormControl('', [
+        Validators.maxLength(100)
+      ]),
+      city: new FormControl('', [
+        Validators.maxLength(100)
+      ]),
     });
   }
 
@@ -80,6 +89,15 @@ export class AgencyComponent implements OnInit {
       ]),
       description: new FormControl(dataToEdit.description, [
          Validators.maxLength(100)
+      ]),
+      nit: new FormControl(dataToEdit.nit, [
+        Validators.maxLength(100)
+      ]),
+      address: new FormControl(dataToEdit.address, [
+        Validators.maxLength(100)
+      ]),
+      city: new FormControl(dataToEdit.city, [
+        Validators.maxLength(100)
       ]),
     });
   }

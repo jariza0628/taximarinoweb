@@ -51,12 +51,23 @@
           <label for="exampleFormControlSelect1">Tipo Usuario</label>
           <select class="form-control" formControlName="type" id="exampleFormControlSelect1">
             <option value="Vendedor" selected>Vendedor</option>
+            <option value="Verificador" selected>Verificador</option>
           </select>
         </div>
       </div>
       <div class="col-sm">
         <div class="form-group">
-          <label for="exampleFormControlSelect1">Zona De venta asociada</label>
+          <label for="exampleFormControlSelect1">Tipo Servicios a Verificar</label>
+          <select class="form-control" formControlName="typeverify" id="exampleFormControlSelect1">
+            <option>Seleccionar</option>
+            <option>Transporte</option>
+            <option>Almuerzos</option>
+          </select>
+        </div>
+      </div>
+      <div class="col-sm">
+        <div class="form-group">
+          <label for="exampleFormControlSelect1">Zona de venta asociada</label>
           <select class="form-control" formControlName="zone" id="exampleFormControlSelect2">
             <option *ngFor="let item of zones" value="{{item.name}}">{{item.name}}</option>
           </select>
@@ -85,6 +96,8 @@
             <th scope="col">Usuairo</th>
             <th scope="col">Telefono</th>
             <th scope="col">Zona</th>
+            <th scope="col">Tipo</th>
+            <th scope="col">Tipo Ser. Verificador</th>
             <th scope="col">Acciones</th>
           </tr>
         </thead>
@@ -93,6 +106,8 @@
             <th>{{item.user}}</th>
             <td>{{item.phone}}</td>
             <td>{{item.zone}}</td>
+            <td>{{item.type}}</td>
+            <td>{{item.typeverify}}</td>
             <td><a class="hover-a" (click)="deleteUser(item.id)">Eliminar</a> &nbsp;
               <a class="hover-a" (click)="updateUserAct(item)">Editar</a></td>
           </tr>

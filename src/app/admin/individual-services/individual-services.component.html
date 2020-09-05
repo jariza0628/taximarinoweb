@@ -11,31 +11,44 @@
     <div class="row">
       <div class="col-sm">
         <div class="form-group">
-          <label >Nombre Servicio</label>
+          <label>Nombre Servicio</label>
           <input type="text" class="form-control" formControlName="name" placeholder="Transporte ida y vuelta">
         </div>
       </div>
       <div class="col-sm">
         <div class="form-group">
-          <label >Valor Publico</label>
+          <label>Valor Publico</label>
           <input type="number" class="form-control" formControlName="publicvalue" placeholder=" ">
         </div>
       </div>
       <div class="col-sm">
         <div class="form-group">
-          <label >Valor Agencia</label>
+          <label>Valor Agencia</label>
           <input type="number" class="form-control" formControlName="agencyvalue" placeholder="">
         </div>
       </div>
 
     </div>
     <div class="row">
-        <div class="col-sm">
-            <div class="form-group">
-              <label for="">Descripcion</label>
-              <input type="text" class="form-control" formControlName="description" placeholder="Rodadero">
-            </div>
-          </div>
+      <div class="col-sm">
+        <div class="form-group">
+          <label for="">Descripcion</label>
+          <input type="text" class="form-control" formControlName="description" placeholder="Rodadero">
+        </div>
+      </div>
+      
+      <div class="col-sm">
+        <div class="form-group">
+          <label for="">Tipo verificador</label>
+           <select  class="form-control" formControlName="typeverify">
+            <option>Seleccionar</option>
+            <option>Transporte</option>
+            <option>Almuerzos</option>
+ 
+
+          </select>
+        </div>
+      </div>
 
 
     </div>
@@ -53,7 +66,7 @@
   <div class="row">
     <div class="col-sm">
       <br>
-      <h4>Usuarios Registrados</h4>
+      <h4>Servicios Registrados</h4>
       <br>
       <table class="table table-hover">
         <thead>
@@ -62,6 +75,7 @@
             <th scope="col">Descripción</th>
             <th scope="col">Valor Publico</th>
             <th scope="col">Valor Agencia</th>
+            <th scope="col">Tipo verificador</th>
             <th scope="col">Opciones</th>
 
           </tr>
@@ -72,6 +86,8 @@
             <td>{{item.description}}</td>
             <td>{{item.publicvalue}}</td>
             <td>{{item.agencyvalue}}</td>
+            <td>{{item.typeverify}}</td>
+
             <td><a class="hover-a" (click)="deleteUser(item.id)">Eliminar</a> &nbsp;
               <a class="hover-a" (click)="updateUserAct(item)">Editar</a></td>
           </tr>

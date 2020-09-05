@@ -45,6 +45,11 @@ export class ProjectComponent implements OnInit {
         link: 'new-sales',
         icon: 'fa fa-dashboard fa-lg'
       },
+      {
+        name: 'Informes',
+        link: 'reports',
+        icon: 'fa fa-dashboard fa-lg'
+      },
     ];
   }
 

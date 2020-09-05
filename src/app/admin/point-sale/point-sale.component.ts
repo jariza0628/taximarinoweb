@@ -37,6 +37,7 @@ export class PointSaleComponent implements OnInit {
   save() {
     console.log('asd', this._formEntity.value);
     this._GeneralServiceService.createFirebase('pointsale', this._formEntity.value);
+    this._formEntity.reset();
   }
   getData() {
     this._GeneralServiceService.getFirebase('pointsale').subscribe(

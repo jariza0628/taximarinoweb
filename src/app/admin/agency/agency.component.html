@@ -12,7 +12,7 @@
       <div class="col-sm">
         <div class="form-group">
           <label for="exampleFormControlInput1">Name</label>
-          <input type="text" class="form-control" formControlName="name" placeholder="Rodadero">
+          <input type="text" class="form-control" formControlName="name" placeholder="Agencia Tours">
         </div>
       </div>
 
@@ -23,6 +23,30 @@
         </div>
       </div>
     </div>
+    
+    <div class="row">
+
+      <div class="col-sm">
+        <div class="form-group">
+          <label for="exampleFormControlInput1">NIT</label>
+          <input type="text" class="form-control" formControlName="nit" placeholder="800.658.265-1">
+        </div>
+      </div>
+
+      <div class="col-sm">
+        <div class="form-group">
+          <label for="exampleFormControlInput1">Dirección</label>
+          <input type="text" class="form-control" formControlName="address" placeholder="Calle 12 # 10-10">
+        </div>
+      </div>
+      <div class="col-sm">
+        <div class="form-group">
+          <label for="exampleFormControlInput1">Ciudad</label>
+          <input type="text" class="form-control" formControlName="city" placeholder="Santa Marta">
+        </div>
+      </div>
+    </div>
+
 
     <div class="col-sm" *ngIf="!edit">
       <button type="submit" (click)="save()" [disabled]="_formEntity.invalid"
@@ -45,6 +69,9 @@
           <tr>
             <th scope="col">Nombre Agencia</th>
             <th scope="col">Descripcion</th>
+            <th scope="col">Nit</th>
+            <th scope="col">Direccion</th>
+            <th scope="col">Ciudad</th>
             <th scope="col">Opciones</th>
           </tr>
         </thead>
@@ -52,6 +79,9 @@
           <tr *ngFor="let item of data">
             <th>{{item.name}}</th>
             <td>{{item.description}}</td>
+            <th>{{item.nit}}</th>
+            <th>{{item.address}}</th>
+            <th>{{item.city}}</th>
              <td><a class="hover-a" (click)="deleteUser(item.id)">Eliminar</a> &nbsp;
               <a class="hover-a" (click)="updateUserAct(item)">Editar</a></td>
           </tr>

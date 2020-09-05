@@ -42,6 +42,9 @@ export class ProjectCreateComponent implements OnInit {
       zone: new FormControl('', [
         Validators.required,
       ]),
+      typeverify: new FormControl('', [
+        Validators.required,
+      ]),
 
 
     });
@@ -55,6 +58,7 @@ export class ProjectCreateComponent implements OnInit {
   saveUser() {
     console.log('asd', this._formEntity.value);
     this._GeneralServiceService.createFirebase('users', this._formEntity.value);
+    this._formEntity.reset();
   }
   getUsers() {
     this._GeneralServiceService.getFirebase('users').subscribe(
@@ -132,8 +136,9 @@ export class ProjectCreateComponent implements OnInit {
       zone: new FormControl(userToedit.pintsale, [
         Validators.required,
       ]),
-
-
+      typeverify: new FormControl('', [
+        Validators.required,
+      ])
     });
 
   }

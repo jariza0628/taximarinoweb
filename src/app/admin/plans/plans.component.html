@@ -43,6 +43,7 @@
         <div class="form-group">
           <label>Agencia </label>
           <select class="form-control" formControlName="agency" name="sel2">
+            <option value="">Seleccionar</option>
             <option [value]="i.name" *ngFor="let i of dataAgency">{{i.name}}</option>
           </select>
         </div>

@@ -12,5 +12,5 @@ export interface Sales {
   seller?: string;
   state?: 'Aprobada' | 'Denegada' | 'Cancelada' | 'Activa';
   total?: any;
-  date?: Date | string;
+  date?: Date;
 }
