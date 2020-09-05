@@ -1,0 +1,310 @@
+<ng-container *ngIf="!receipt">
+  <div class="container">
+    <div class="row">
+      <br> <br>
+      <h3 style="padding: 20px 10px;">Nueva venta</h3>
+      <hr style="padding: 0px 10px;border: 1px solid #777777; width: 100%;">
+    </div>
+    <form [formGroup]="_formEntity">
+      <div class="row">
+        <div class="col-sm">
+          <div class="form-group">
+            <label>Nombre Vendedor</label>
+            <input type="text" class="form-control"   formControlName="seller" placeholder="Playa Blanca" value="Oficina">
+          </div>
+        </div>
+        <div class="col-sm">
+          <div class="form-group">
+            <label>Nombre cliente (opcional)</label>
+            <input type="text" class="form-control" formControlName="name" placeholder="Alan Brito">
+          </div>
+        </div>
+        <div class="col-sm">
+          <div class="form-group">
+            <label>Cedula cliente (opcional)</label>
+            <input type="number" class="form-control" formControlName="dni" placeholder="1045639521">
+          </div>
+        </div>
+      </div>
+    </form>
+    <div class="row">
+      <div class="col-sm">
+        <div class="form-group">
+          <label>Selecciona un plan</label>
+          <select class="form-control" (change)="loadPlan($event.target.value)">
+            <option>Seleccionar</option>
+            <option *ngFor="let item of plans" value="{{item.id}}">{{item.name}}</option>
+          </select>
+        </div>
+      </div>
+      <div class="col-sm">
+        <div class="form-group">
+          <label>Selecciona uno o varios servicios individuales</label>
+          <select class="form-control" (change)="onChangeServ($event.target.value)">
+            <option>Seleccionar</option>
+            <option *ngFor="let item of services" value="{{item.id}}">{{item.name}}</option>
+          </select>
+        </div>
+      </div>
+    </div>
+    <!-- Mostrar planes 
+    <ng-container *ngIf="arraySelectPlan && arraySelectPlan.length > 0">
+      <div class="row">
+        <div class="col-sm">
+          <div class="form-group">
+            <label>Planes Seleccionados</label>
+            <p *ngFor="let item of arraySelectPlan">
+              {{item.name}} - {{item.totalvalue}}
+              <img (click)="removeItemFromArrPlan(item)" src="https://img.icons8.com/plasticine/2x/delete-sign.png"
+                width="20" height="20" style="float: right;">
+            </p>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+    -->
+
+
+    <ng-container>
+      <div class="row">
+        <div class="col-sm">
+          <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+           Ver todos los planes
+          </button>
+          <h5 class="card-title">Detalle de venta</h5>
+
+          <div class="card">
+            <div class="card-body">
+              <table class="table table-hover">
+                <thead>
+                  <tr>
+                    <th scope="col">Plan o servicio</th>
+                    <th scope="col">Descripción</th>
+                    <th scope="col">Precio</th>
+                    <th scope="col">Opciones</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let item of arraySelect">
+                    <th scope="row"> {{item.name}}</th>
+                    <td> {{item.description}}</td>
+                    <td>{{item.publicvalue}}</td>
+                    <td style="text-align: center;"><a style="cursor:pointer ;" (click)="removeItemFromArr(item)">
+                        Quitar <img src="https://img.icons8.com/plasticine/2x/delete-sign.png" width="20" height="20"
+                          style="float: right;"></a></td>
+                  </tr>
+                  <tr *ngFor="let item of arraySelectPlan">
+                    <th scope="row"> {{item.name}} </th>
+                    <td>{{item.description}}</td>
+                    <td> {{item.totalvalue}}</td>
+                    <td style="text-align: center;"><a style="cursor:pointer ;"
+                        (click)="removeItemFromArrPlan(item)">Quitar<img
+                          src="https://img.icons8.com/plasticine/2x/delete-sign.png" width="20" height="20"
+                          style="float: right;"></a></td>
+                  </tr>
+
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </ng-container>
+
+    <div class="row">
+      <div class="col-sm">
+        <fieldset id="group1">
+          <label>Efectivo</label>&nbsp;
+          <input type="radio" value="Efectivo" name="typepay" [(ngModel)]="typepay" checked>
+          &nbsp;&nbsp;
+          <label>Tarjeta</label>&nbsp;
+          <input type="radio" value="Tarjeta" name="typepay" [(ngModel)]="typepay">&nbsp;&nbsp;
+          <label>Mixto</label>&nbsp;
+          <input type="radio" value="Mixto" name="typepay" [(ngModel)]="typepay"
+            (click)="showmixprice = true">&nbsp;&nbsp;
+        </fieldset>
+      </div>
+
+
+    </div>
+
+    <ng-container *ngIf="showmixprice">
+      <div class="row">
+        <div class="col-sm-2">
+          <div class="form-group">
+            <label>Efectivo</label>
+            <input type="number" [(ngModel)]="efecty" class="form-control">
+
+          </div>
+        </div>
+        <div class="col-sm-2">
+          <div class="form-group">
+            <label>Tarjeta</label>
+            <input type="number" [(ngModel)]="tarjeta" class="form-control">
+
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>&nbsp;</label><br>
+          <button class="btn btn-primary" (click)="showmixprice = fasle">Cerrar</button>
+        </div>
+      </div>
+
+
+    </ng-container>
+    <div class="row">
+      <div class="col-sm-4">
+        <div class="form-group">
+          <label>Codigos de barra</label>
+          <input type="number" [(ngModel)]="code" class="form-control">
+
+        </div>
+        <ng-container *ngIf="barcodes && barcodes.length > 0">
+          <div class="row">
+            <div class="col-sm">
+              <div class="card" style="width: 18rem;">
+                <div class="card-body">
+                  <h5 class="card-title">Códigos añadidos</h5>
+
+                  <table class="table table-sm table-hover">
+                    <thead>
+                      <tr>
+                        <th scope="col">Codigo</th>
+                        <th scope="col">Opciones</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let item of barcodes">
+                        <th scope="row">{{item.code}}</th>
+                        <td> <a style="cursor: pointer;" (click)="removeCode(item)"> Quitar <img
+                              src="https://img.icons8.com/plasticine/2x/delete-sign.png" width="20" height="20"
+                              style="float: right;"></a></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </ng-container>
+      </div>
+      <div class="col-sm-3">
+        <div class="form-group">
+          <label>&nbsp;</label><br>
+          <button class="btn btn-primary" (click)="addCod()">+ Añadir otro código</button>
+        </div>
+      </div>
+      <div class="col-sm-3">
+        <div class="row">
+          <div class="col-sm-12">
+            <div class="form-group">
+              <label style="color: green;font-size: 18px;">Total de venta por código</label>
+              <h5>$ {{totalValue + total}}</h5>
+            </div>
+          </div>
+          <div class="col-sm-12">
+            <div class="form-group">
+              <label style="color: maroon;font-size: 18px;">Sumatoria total de venta</label>
+              <h5>$ {{(totalValue + total) * barcodes.length }}</h5>
+            </div>
+          </div>
+          <div class="col-sm-12">
+            <div class="form-group">
+              <button class="btn btn-primary" (click)="onSubmit1()">Crear Venta</button>
+            </div>
+          </div>
+
+
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+
+      <div class="col-sm-3">
+        <div class="form-group">
+          <label>&nbsp;</label><br>
+        </div>
+      </div>
+    </div>
+
+
+
+
+
+  </div>
+</ng-container>
+<app-receipt *ngIf="receipt" (hiddem)="receipt=false" [data]=dataFormvalue></app-receipt>
+
+
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Buscar un servicio</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <!--
+        <div class="row">
+
+
+          <div class="col-sm-8">
+            <div class="form-group">
+              <label for="inputPassword2" class="sr-only">Password</label>
+              <input type="password" class="form-control" id="inputPassword2" placeholder="Playa Blanca">
+            </div>
+          </div>
+          <div class="col-sm-4">
+            <div class="form-group">
+              <button type="submit" class="btn btn-primary mb-2">Buscar</button>
+            </div>
+          </div>
+        </div>
+         -->
+        <div class="row">
+          <table class="table table-sm table-hover">
+            <thead>
+              <tr>
+                <th scope="col">Plan</th>
+                <th scope="col">Descripcion</th>
+                <th scope="col">Valor</th>
+                <th scope="col">Opcion</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of services">
+                <th scope="row">{{item.name}}</th>
+                <td>{{item.description}}</td>
+                <td>{{item.publicvalue}}</td>
+                <td><a (click)="onChangeServ(item.id)">Añadir + </a></td>
+              </tr>
+             
+            </tbody>
+          </table>
+        </div>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  $("#exampleModal").modal({
+    modal: true,
+    buttons: {
+      Ok: function () {
+        $(this).modal("close");
+      }
+    }
+  });
+</script>

@@ -1,0 +1,70 @@
+<div class="body">
+  <div class="ticket" id="modalPrint">
+    <div class="row">
+      <div class="col-xs-12" style="width: 100%;">
+        <div class="box title" style="text-align: center;">
+          <p class="no-m"> <strong>Factura de venta Taxi Marino</strong> </p>
+          <p class="no-m"> Santa marta </p>
+          <br>
+        </div>
+      </div>
+    </div>
+    <!-- Detalle Orden -->
+    <div class="row" style="border-bottom-style: dashed; border-bottom:#383838">
+      <div class="col-xs-7">
+        <div class="box title">
+           <p class="no-m textleft">Generado por: {{user.email}}</p>
+        </div>
+      </div>
+      <div class="col-xs-5">
+        <div class="box title">
+          <p class="no-m textright"> Fecha: {{data.date | date }}</p>
+        </div>
+      </div>
+    </div>
+    <hr class="new2">
+    <div class="row">
+      <div class="col-xs-12">
+        <!-- Direccion -->
+        <p class="no-m">DATOS DEL CLIENTE</p>
+         <!-- Detalle orden -->
+        <p class="no-m"> {{ data.name }} CC: {{ data.dni}}</p>
+        <!-- Valor -->
+
+      </div>
+    </div>
+    <hr class="new2">
+    <div class="row">
+      <div class="col-xs-12">
+        <!-- Direccion -->
+        <p class="no-m">DETALLE DE FACTURA</p>
+        <br>
+        <!-- Detalle orden -->
+        <ng-container *ngIf="data.plans">
+          <p class="no-m" *ngFor="let item of data.plans">{{ item.description }} <b>${{ item.totalvalue }}</b></p>
+
+        </ng-container>
+        <!-- Valor -->
+        <ng-container *ngIf="data.detail">
+          <p class="no-m" *ngFor="let item of data.detail">{{ item.description }} <b>${{ item.publicvalue }}</b></p>
+        </ng-container>
+
+
+      </div>
+    </div>
+ 
+    <hr class="new2">
+
+    <!-- Valores detalle de orden -->
+    <div class="row">
+      <div class="col-xs-12">
+        <!-- Valor aliado y orden-->
+        <p class="no-m">Valor : <b>$ {{ data.total * data.codes.length   }}</b></p>
+        <!-- Nombre aliado-->
+        <p class="no-m">Numero de manillas: <b>{{ data.codes.length }}</b></p>
+
+      </div>
+    </div>
+
+    <button class="oculto-impresion" (click)="generarPDF()">Imprimir</button>
+  </div>

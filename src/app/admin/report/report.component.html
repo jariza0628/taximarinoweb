@@ -1,0 +1,59 @@
+<div class="container">
+  <div class="row">
+    <h4>Reportes de ventas</h4>
+  </div>
+  <div class="row">
+    <div class="form-group">
+
+      <div class="row">
+        <div class="col-sm">
+          <label for="exampleInputPassword1">Filtar por fecha</label>
+          <input class="form-control" type="date" #dates [(ngModel)]="date"
+            (input)="search(sellers.value, $event.target.value, zones.value )">
+        </div>
+        <div class="col-sm">
+          <label for="exampleInputPassword1">Filtar por vendedor</label>
+          <select class="custom-select custom-select mb-3 " #sellers
+            (change)="search(sellers.value, dates.value, zones.value)">
+            <option selected>Selecciona un vendedor</option>
+            <option *ngFor="let item of user" value="{{item.user}}">{{item.user}}</option>
+          </select>
+        </div>
+        <div class="col-sm">
+          <label for="exampleInputPassword1">Filtar por zonas</label>
+          <select class="custom-select custom-select mb-3 " #zones
+            (change)="search(sellers.value, dates.value, zones.value)">
+            <option selected>Selecciona una zona</option>
+            <option *ngFor="let item of pointsale" value="{{item.name}}">{{item.name}}</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="col-sm-12">
+      <table class="table table-hover">
+        <thead>
+          <tr>
+            <th scope="col"># Codigo de barra</th>
+            <th scope="col">Vandedor</th>
+            <th scope="col">Total</th>
+            <th scope="col"> Deatalle </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of data">
+            <th scope="row">{{item.codebar}}</th>
+            <td>{{item.seller}}</td>
+            <td>{{item.total}}</td>
+            <td><a [routerLink]="[ '../reports-detail/' +   item.id ]">Detalle</a></td>
+          </tr>
+
+        </tbody>
+      </table>
+    </div>
+    <div class="col-sm-12" *ngIf="totalinforme">
+      Total: ${{totalinforme}}
+    </div>
+  </div>
+</div>

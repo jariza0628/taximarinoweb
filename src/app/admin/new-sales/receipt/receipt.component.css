@@ -1,0 +1,50 @@
+.body {
+  padding: 0;
+  margin: 10px;
+  width: 400px;
+}
+.row {
+  margin: 0;
+}
+#modalPrint {
+  padding: 5px;
+}
+.title {
+  font-size: 16px;
+  text-align: center;
+}
+.no-m {
+  margin: 0px;
+}
+hr.new2 {
+  border-top: 3px dashed grey;
+}
+hr.style3 {
+  border-top: 1px dashed #8c8b8b;
+}
+
+/* width */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #888888;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #888;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+.textleft {
+  text-align: left;
+}
+.textright {
+  text-align: right;
+}
