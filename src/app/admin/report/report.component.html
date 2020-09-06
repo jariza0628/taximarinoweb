@@ -35,16 +35,16 @@
       <table class="table table-hover">
         <thead>
           <tr>
-            <th scope="col"># Codigo de barra</th>
+            <th scope="col">#Codigo</th>
             <th scope="col">Vandedor</th>
             <th scope="col">Total</th>
-            <th scope="col"> Deatalle </th>
+            <th scope="col"> Detalle </th>
           </tr>
         </thead>
         <tbody>
           <tr *ngFor="let item of data">
-            <th scope="row">{{item.codebar}}</th>
-            <td>{{item.seller}}</td>
+            <th scope="row">{{item.idGenerated}}</th>
+            <td>{{item.sellerName}}</td>
             <td>{{item.total}}</td>
             <td><a [routerLink]="[ '../reports-detail/' +   item.id ]">Detalle</a></td>
           </tr>

@@ -40,14 +40,14 @@
       <div class="col-sm">
         <div class="form-group">
           <label>Selecciona uno o varios servicios individuales</label>
-          <select class="form-control" (change)="onChangeServ($event.target.value)">
+          <select class="form-control" (change)="onChangeServ($event?.target?.value)">
             <option>Seleccionar</option>
             <option *ngFor="let item of services" value="{{item.id}}">{{item.name}}</option>
           </select>
         </div>
       </div>
     </div>
-    <!-- Mostrar planes 
+    <!-- Mostrar planes
     <ng-container *ngIf="arraySelectPlan && arraySelectPlan.length > 0">
       <div class="row">
         <div class="col-sm">
@@ -116,33 +116,31 @@
       <div class="col-sm">
         <fieldset id="group1">
           <label>Efectivo</label>&nbsp;
-          <input type="radio" value="Efectivo" name="typepay" [(ngModel)]="typepay" checked>
-          &nbsp;&nbsp;
+          <input type="radio" value="cash" name="typepay" [(ngModel)]="generalSale.paymentType" checked>
           <label>Tarjeta</label>&nbsp;
-          <input type="radio" value="Tarjeta" name="typepay" [(ngModel)]="typepay">&nbsp;&nbsp;
+          <input type="radio" value="card" name="typepay" [(ngModel)]="generalSale.paymentType">&nbsp;&nbsp;
+          <label>Credit</label>&nbsp;
+          <input type="radio" value="credit" name="typepay" [(ngModel)]="generalSale.paymentType">&nbsp;&nbsp;
           <label>Mixto</label>&nbsp;
-          <input type="radio" value="Mixto" name="typepay" [(ngModel)]="typepay"
-            (click)="showmixprice = true">&nbsp;&nbsp;
+          <input type="radio" value="mixed" name="typepay" [(ngModel)]="generalSale.paymentType">&nbsp;&nbsp;
         </fieldset>
       </div>
 
 
     </div>
 
-    <ng-container *ngIf="showmixprice">
+    <ng-container >
       <div class="row">
-        <div class="col-sm-2">
+        <div class="col-sm-2" *ngIf="generalSale.paymentType === 'cash' || generalSale.paymentType === 'mixed'">
           <div class="form-group">
             <label>Efectivo</label>
-            <input type="number" [(ngModel)]="efecty" class="form-control">
-
+            <input type="number" [(ngModel)]="generalSale.cash" class="form-control">
           </div>
         </div>
-        <div class="col-sm-2">
+        <div class="col-sm-2" *ngIf="generalSale.paymentType === 'card' || generalSale.paymentType === 'mixed'">
           <div class="form-group">
             <label>Tarjeta</label>
-            <input type="number" [(ngModel)]="tarjeta" class="form-control">
-
+            <input type="number" [(ngModel)]="generalSale.card" class="form-control">
           </div>
         </div>
 
@@ -285,7 +283,7 @@
                 <td>{{item.publicvalue}}</td>
                 <td><a (click)="onChangeServ(item.id)">Añadir + </a></td>
               </tr>
-             
+
             </tbody>
           </table>
         </div>

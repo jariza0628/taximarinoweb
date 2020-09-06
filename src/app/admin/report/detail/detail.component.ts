@@ -1,7 +1,11 @@
-import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { GeneralServiceService } from '../../services/general-service.service';
-import { ActivatedRoute, Params } from '@angular/router';
+import {Component, OnInit} from '@angular/core';
+import {FormGroup, FormControl, Validators} from '@angular/forms';
+import {GeneralServiceService} from '../../services/general-service.service';
+import {ActivatedRoute, Params} from '@angular/router';
+import {Sale} from '../../models/sale.model';
+import {Sales} from '../../models/sales';
+import {Tickets} from '../../../../utils/ticket';
+
 
 @Component({
   selector: 'app-detail',
@@ -25,9 +29,10 @@ export class DetailComponent implements OnInit {
   typepay: any;
   efecty: any;
   tarjeta: any;
-
+  listCodebar;
   id: any;
   salesData: any;
+  ticke = new Tickets();
 
   constructor(private _GeneralServiceService: GeneralServiceService, private rutaActiva: ActivatedRoute) {
     this.receipt = false;
@@ -37,7 +42,6 @@ export class DetailComponent implements OnInit {
     this.total = 0;
     this.barcodes = [];
     this.showmixprice = false;
-
 
 
     this.id = this.rutaActiva.snapshot.params.id;
@@ -67,21 +71,24 @@ export class DetailComponent implements OnInit {
   }
 
   getData() {
-    this._GeneralServiceService.getById('sales', this.id).then(
+    this._GeneralServiceService.getById('generalSale', this.id).then(
       datas => {
         this.salesData = datas.data();
         console.log('datas', this.salesData);
-
+        this._GeneralServiceService.getSaleByIdGenerated('sales', 'idGeneralSale', this.salesData.idGenerated)
+          .subscribe(res => {
+            this.listCodebar = res.map(data => data.payload.doc.data());
+          });
         this._formEntity = new FormGroup({
-          name: new FormControl(this.salesData.name, [
+          name: new FormControl(this.salesData.clientName, [
             Validators.required,
             Validators.maxLength(100)
           ]),
-          seller: new FormControl(this.salesData.seller, [
+          seller: new FormControl(this.salesData.sellerName, [
             Validators.required,
             Validators.maxLength(100)
           ]),
-          dni: new FormControl(this.salesData.dni, [
+          dni: new FormControl(this.salesData.clientIdentification, [
             Validators.required,
             Validators.maxLength(100)
           ]),
@@ -145,6 +152,10 @@ export class DetailComponent implements OnInit {
     this._GeneralServiceService.updateFirebase('sales', body);
 
 
+  }
+
+  print() {
+    this.ticke.pdf(this.salesData, this.listCodebar);
   }
 
 }
