@@ -56,20 +56,15 @@ export class GeneralServiceService {
       return this.firestore.collection(entiti, ref => ref.where(col, '==', data)).snapshotChanges();
     }
 
-
-
-
-
-
-
   }
   getSalesByDateAndSeller(entiti, data, data2) {
     return this.firestore.collection(entiti, ref => ref.where('seller', '==', data).where('date', '==', data2)).snapshotChanges();
-
   }
   getSalesBydate(entiti, data: string) {
     return this.firestore.collection(entiti, ref => ref.where('date', '==', data)).snapshotChanges();
-
-
   }
+  getSalesBydaCodeBar(entiti, code: string) {
+    return this.firestore.collection(entiti, ref => ref.where('codebar', '==', code)).snapshotChanges();
+  }
+  
 }

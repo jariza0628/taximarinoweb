@@ -140,10 +140,9 @@ export class NewSalesComponent implements OnInit {
   removeItemFromArr(item) {
 
     let i;
+    debugger
     i = this.arraySelect.indexOf(item);
-
     this.totalValue = this.totalValue - item.publicvalue;
-
     if (i !== -1) {
       this.arraySelect.splice(i, 1);
     }
@@ -151,8 +150,9 @@ export class NewSalesComponent implements OnInit {
 
   removeItemFromArrPlan(item) {
     let i;
+    debugger
     i = this.arraySelectPlan.indexOf(item);
-    this.total = this.total - item.totalvalue;
+    this.total = this.total - item.publicvalue;
 
     if (i !== -1) {
       this.arraySelectPlan.splice(i, 1);
@@ -160,6 +160,22 @@ export class NewSalesComponent implements OnInit {
   }
 
   addCod() {
+    // get code database
+    let dataResulCode = this.code;
+    this._GeneralServiceService.getSalesBydaCodeBar('sales', dataResulCode).subscribe(
+      (data: any) => {
+        let info = data.map(e => {
+          console.log(e.payload.doc.data());
+           return {
+            id: e.payload.doc.id,
+            ...e.payload.doc.data()
+          } as any;
+        });
+      },err =>{
+        console.log(err);
+      }
+    )
+
     let find_Code_duplic;
     if (this.code === '' || this.code === null) {
       alert('Ingrese un codigo de barra');
