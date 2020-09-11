@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { GeneralServiceService } from '../services/general-service.service';
-import { Plan } from '../models/plan.model';
-import { Service } from '../models/service.model';
+import {Component, OnInit} from '@angular/core';
+import {FormGroup, FormControl, Validators} from '@angular/forms';
+import {GeneralServiceService} from '../services/general-service.service';
+import {Plan} from '../models/plan.model';
+import {Service} from '../models/service.model';
+import {v4 as uuidv4} from 'uuid';
 
 @Component({
   selector: 'app-new-sales',
@@ -27,6 +28,7 @@ export class NewSalesComponent implements OnInit {
   efecty: any;
   tarjeta: any;
 
+  generalSale: GeneralSale = {};
   constructor(private _GeneralServiceService: GeneralServiceService) {
     this.receipt = false;
     this.arraySelectPlan = [];
@@ -40,7 +42,6 @@ export class NewSalesComponent implements OnInit {
 
 
     this.code = '';
-
 
 
     this._formEntity = new FormGroup({
@@ -79,6 +80,7 @@ export class NewSalesComponent implements OnInit {
         });
       });
   }
+
   getDataPlans() {
     this._GeneralServiceService.getFirebase('plan').subscribe(
       data => {
@@ -98,6 +100,7 @@ export class NewSalesComponent implements OnInit {
     this.addValueToArraySelectPlan(e);
 
   }
+
   addValueToArraySelectPlan(item) {
 
     this._GeneralServiceService.getById('plan', item).then(
@@ -109,6 +112,7 @@ export class NewSalesComponent implements OnInit {
       }
     );
   }
+
   psPlan(data) {
     this.total = this.total + data.totalvalue;
     this.arraySelectPlan.push(data);
@@ -131,6 +135,7 @@ export class NewSalesComponent implements OnInit {
       }
     );
   }
+
   ps(data) {
     this.totalValue = this.totalValue + data.publicvalue;
     this.arraySelect.push(data);
@@ -188,10 +193,10 @@ export class NewSalesComponent implements OnInit {
         }
       });
       if (find_Code_duplic === false) {
-        this.barcodes.push({ code: this.code });
+        this.barcodes.push({code: this.code});
 
       } else {
-        alert('Ya se encuentra registrado el codigo: ' + this.code + ' en esta venta registra otro nuevo.')
+        alert('Ya se encuentra registrado el codigo: ' + this.code + ' en esta venta registra otro nuevo.');
       }
       this.code = '';
     }
@@ -209,19 +214,20 @@ export class NewSalesComponent implements OnInit {
 
   appendLeadingZeroes(n) {
     if (n <= 9) {
-      return "0" + n;
+      return '0' + n;
     }
-    return n
+    return n;
   }
 
   onSubmit1() {
     let formValue;
     let body;
 
-    let dates = new Date();
+    const dates = new Date();
     let dateString, hour;
-    dateString = dates.getFullYear() + "-" + this.appendLeadingZeroes((dates.getMonth() + 1)) + "-" + this.appendLeadingZeroes(dates.getDate());
-    hour = dates.getHours() + ":" + dates.getMinutes() + ":" + dates.getSeconds();
+    dateString = dates.getFullYear() + '-' + this.appendLeadingZeroes((dates.getMonth() + 1))
+      + '-' + this.appendLeadingZeroes(dates.getDate());
+    hour = dates.getHours() + ':' + dates.getMinutes() + ':' + dates.getSeconds();
     formValue = this._formEntity.value;
 
     let ventas;
@@ -230,20 +236,33 @@ export class NewSalesComponent implements OnInit {
     if (this.arraySelectPlan.length > 0 || this.arraySelect.length > 0) {
 
       if (this.barcodes.length > 0) {
+        // id of sale general
+        const saleIdentifier = uuidv4();
+        // set object for creted general sale
+         this.generalSale = {
+           ...this.generalSale,
+          clientName: this._formEntity.value.name,
+          sellerName: this._formEntity.value.seller,
+          total: (this.totalValue + this.total) * this.barcodes.length,
+          idGenerated: saleIdentifier,
+          date: new Date(),
+          clientIdentification: this._formEntity.value.dni,
+        };
 
+        /* for push in firebase*/
         this.barcodes.forEach(element => {
           ventas = true;
           console.log('code foreac', element.code);
 
           if (element.code !== null) {
             let total;
-            total = this.total + this.totalValue;
+            total = (this.totalValue + this.total) * this.barcodes.length;
             formValue.codebar = '' + element.code;
 
-            if (this.typepay === 'Mixto') {
-              if (this.tarjeta > 0 && this.efecty > 0) {
+            if (this.generalSale.paymentType === 'mixed') {
+              if (this.generalSale.card > 0 && this.generalSale.cash > 0) {
                 let totaltmp;
-                totaltmp = this.tarjeta + this.efecty;
+                totaltmp = this.generalSale.card + this.generalSale.cash;
                 if (totaltmp !== total) {
                   alert('Los valores indicados no suman el total de la factura.');
                   ventas = false;
@@ -256,13 +275,13 @@ export class NewSalesComponent implements OnInit {
 
               }
             }
-            if (this.typepay === 'Efectivo') {
-              this.tarjeta = 0;
-              this.efecty = total;
+            if (this.generalSale.paymentType === 'cash') {
+              this.generalSale.card = 0;
+              this.generalSale.cash = total;
             }
-            if (this.typepay === 'Tarjeta') {
-              this.efecty = 0;
-              this.tarjeta = total;
+            if (this.generalSale.paymentType === 'card') {
+              this.generalSale.cash = 0;
+              this.generalSale.card = total;
 
             }
 
@@ -270,14 +289,15 @@ export class NewSalesComponent implements OnInit {
               ...formValue,
               plans: this.arraySelectPlan,
               detail: this.arraySelect,
-              date: dateString,
+              date: new Date(),
               hour: hour,
               total: total,
               state: 'Activo',
-              efecty: this.efecty,
-              tarjeta: this.tarjeta,
-              typepay: this.typepay,
-              zone: 'Oficina'
+              efecty: this.generalSale.cash,
+              tarjeta: this.generalSale.card,
+              typepay: this.generalSale.paymentType,
+              zone: 'Oficina',
+              idGeneralSale: saleIdentifier
             };
             if (ventas) {
               this.save(body);
@@ -291,13 +311,15 @@ export class NewSalesComponent implements OnInit {
         });
 
         if (ventas) {
+          const sale =  this._GeneralServiceService.createFirebase('generalSale', this.generalSale)
+          console.log(sale);
           alert('Venta creada. Su venta a sido registrada');
           this.receipt = true;
           let total;
           total = this.total + this.totalValue;
           this.dataFormvalue = {
-            ... this._formEntity.value, codes: this.barcodes,
-            plans: this.arraySelectPlan, detail: this.arraySelect, date: dateString, total: total, state: 'Activo'
+            ...this._formEntity.value, codes: this.barcodes,
+            plans: this.arraySelectPlan, detail: this.arraySelect, date: new Date(), total: total, state: 'Activo'
           };
 
 
@@ -328,21 +350,34 @@ export class NewSalesComponent implements OnInit {
 
   /**
    * name: "asdasd"
-dni: "asdas2"
-seller: "Jeffer ee"
-codebar: "3333333333333"
-dicount: ""
-service: ""
-plans: Array(1)
-0: {agency: "royal Cari 2", description: "asd", discount: 0, name: "PLAN TAYRONA", selectedDoor: "Ny3YhagmLOoNNdfIbfs0", …}
-length: 1
-__proto__: Array(0)
-detail: Array(0)
-length: 0
-__proto__: Array(0)
-date: "Mon, 30 Dec 2019 21:05:35 GMT"
-total: 13000
-state: "Activo"
+   dni: "asdas2"
+   seller: "Jeffer ee"
+   codebar: "3333333333333"
+   dicount: ""
+   service: ""
+   plans: Array(1)
+   0: {agency: "royal Cari 2", description: "asd", discount: 0, name: "PLAN TAYRONA", selectedDoor: "Ny3YhagmLOoNNdfIbfs0", …}
+   length: 1
+   __proto__: Array(0)
+   detail: Array(0)
+   length: 0
+   __proto__: Array(0)
+   date: "Mon, 30 Dec 2019 21:05:35 GMT"
+   total: 13000
+   state: "Activo"
    */
 
+}
+
+export interface GeneralSale {
+  clientName?: string;
+  clientIdentification?: string;
+  sellerName?: string;
+  paymentType?: 'card' | 'credit' | 'cash' | 'mixed';
+  card?: number;
+  cash?: number;
+  idGenerated?: string;
+  id?: string;
+  total?: number;
+  date?: Date;
 }

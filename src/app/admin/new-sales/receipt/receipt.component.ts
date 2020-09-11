@@ -1,6 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import * as jspdf from 'jspdf';
 import html2canvas from 'html2canvas';
+import {Tickets} from '../../../../utils/ticket';
 
 @Component({
   selector: 'app-receipt',
@@ -11,7 +12,7 @@ export class ReceiptComponent implements OnInit {
   user: any;
   @Input() data: any;
   @Output() hiddem = new EventEmitter();
-
+  ticket = new Tickets();
   barcodes: any;
   total: any;
   constructor() { }
@@ -30,21 +31,24 @@ export class ReceiptComponent implements OnInit {
 
 
   generarPDF() {
-    html2canvas(document.getElementById('modalPrint'), {
-      // Opciones
-      allowTaint: true,
-      useCORS: false,
-      // Calidad del PDF
-      scale: 2
-    }).then(function (canvas) {
-      // debugger
-      let clientHeight = document.getElementById('modalPrint').clientHeight;
+    this.ticket.pdf({}, [])
+    // html2canvas(document.getElementById('modalPrint'), {
+    //   // Opciones
+    //   allowTaint: true,
+    //   useCORS: false,
+    //   // Calidad del PDF
+    //   scale: 2
+    // }).then(function (canvas) {
+    //   // debugger
+    //   const clientHeight = document.getElementById('modalPrint').clientHeight;
+    //
+    //   const img = canvas.toDataURL('image/png');
+    //   const doc = new jspdf('p', 'px', [(clientHeight / 2), 110]);
+    //   doc.addImage(img, 'PNG', 5, 2, 70, 140);
+    //   doc.save('factura.pdf');
+    // });
 
-      let img = canvas.toDataURL('image/png');
-      let doc = new jspdf('p', 'px', [(clientHeight / 2), 110]);
-      doc.addImage(img, 'PNG', 5, 2, 70, 140);
-      doc.save('factura.pdf');
-    });
+
     this.lanzar();
   }
 

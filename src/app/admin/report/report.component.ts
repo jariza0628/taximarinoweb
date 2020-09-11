@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { GeneralServiceService } from '../services/general-service.service';
 import { Sales } from '../models/sales';
+import {GeneralSale} from '../new-sales/new-sales.component';
 
 @Component({
   selector: 'app-report',
@@ -8,7 +9,7 @@ import { Sales } from '../models/sales';
   styleUrls: ['./report.component.css']
 })
 export class ReportComponent implements OnInit {
-  public data: Array<Sales>;
+  public data: Array<GeneralSale>;
 
   pointsale: any;
 
@@ -33,7 +34,7 @@ export class ReportComponent implements OnInit {
 
 
   getData() {
-    this._GeneralServiceService.getFirebase('sales').subscribe(
+    this._GeneralServiceService.getFirebase('generalSale').subscribe(
       data => {
         // console.log('dara', data);
         this.data = data.map(e => {
@@ -171,9 +172,9 @@ export class ReportComponent implements OnInit {
               console.log('result', e.payload.doc.data());
               this.calc(e.payload.doc.data());
               return {
-                id: e.payload.doc.id,
-                ...e.payload.doc.data()
-              } as Sales;
+                ...e.payload.doc.data(),
+                id: e.payload.doc.id
+              };
             });
           });
 
