@@ -78,7 +78,10 @@ export class DetailComponent implements OnInit {
         this._GeneralServiceService.getSaleByIdGenerated('sales', 'idGeneralSale', this.salesData.idGenerated)
           .subscribe(res => {
             this.listCodebar = res.map(data => data.payload.doc.data());
+            console.log('this.listCodebar',this.listCodebar);
+
           });
+          
         this._formEntity = new FormGroup({
           name: new FormControl(this.salesData.clientName, [
             Validators.required,
