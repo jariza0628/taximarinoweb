@@ -44,7 +44,7 @@
               <td>{{item.seller}}</td>
               <td>{{item.state}}</td>
               <td>1</td>
-              <td>{{item.total}}</td>
+              <td>$ {{item.total}}</td>
               <td><a class="hover-a" *ngIf="item.state !== 'Aprobada' && item.state  !== 'Cancelada'"
                   (click)="approve(item)">Aprobar</a> &nbsp;
                 <a class="hover-a" *ngIf="item.state !== 'Aprobada'  && item.state  !== 'Cancelada'"
@@ -56,12 +56,13 @@
         </table>
       </div>
       <br>
-      <div class="total">
-        Total: {{ totalVenta }}
+      <div class="total" *ngIf="totalVenta">
+        Total Cierre: {{ totalVenta }}
       </div>
       <div class="card" *ngIf="showdeatil">
+        <h4 style="padding-left: 23px;padding-top: 10px;">Detalle de la venta</h4>
         <div id="details " class="card-body" style="position: relative">
-          <img id="close" (click)="detailSale = []" src="/assets/close.png" alt="">
+          <img id="close" (click)="detailSale = []; showdeatil = false" src="/assets/close.png" alt="">
           <table class="table table-hover" *ngIf="detailSale.length > 0">
             <thead>
               <tr>
