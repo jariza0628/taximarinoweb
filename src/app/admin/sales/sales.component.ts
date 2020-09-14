@@ -24,7 +24,7 @@ export class SalesComponent implements OnInit {
 
   date: any;
   user: any;
-
+  totalVenta: any;
   constructor(private _GeneralServiceService: GeneralServiceService) {
     this.showdeatil = false;
   }
@@ -107,33 +107,48 @@ export class SalesComponent implements OnInit {
     this._GeneralServiceService.updateFirebase('sales', element);
   }
 
+
   search(seller?, date?) {
     console.log('seller', seller);
     console.log('date', date);
-
-
-    if (date = '') {
+    if (date === '') {
       date = this.dateToday;
     }
-
-    if (seller = '') {
-      date = 'Oficina';
+    if (seller === 'Selecciona un vendedor' || seller === '' ) {
+      seller = 'Oficina';
     }
-
-  
     this._GeneralServiceService.getSalesByDateAndSeller('sales', seller, date).subscribe(
       data => {
         // console.log('dara', data);
         this.data = data.map(e => {
-          console.log('result', e.payload.doc.data());
-
+          console.log('result dara', e.payload.doc.data());
+          
           return {
             id: e.payload.doc.id,
             ...e.payload.doc.data()
           } as Sales;
         });
+        this.calcVenta();
       });
   }
+  calcVenta(){
+    let subtotalDetail, subtotalplan;
+    subtotalDetail = 0;
+    subtotalplan = 0;
+    for (let index = 0; index <  this.data.length; index++) {
+      let arrydetail =  this.data[index].detail;
+      let arryplan =  this.data[index].plans;
+      for (let index2 = 0; index2 <  arrydetail.length; index2++) {
+        subtotalDetail = subtotalDetail + arrydetail[index2].publicvalue;
+      }
+      for (let index3 = 0; index3 <  arryplan.length; index3++) {
+        subtotalplan = subtotalplan + arryplan[index3].totalvalue;
+      }
+    }
+      this.totalVenta = subtotalDetail + subtotalplan
+  }
+
+
 
 
 }
