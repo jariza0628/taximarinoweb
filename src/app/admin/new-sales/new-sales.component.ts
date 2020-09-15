@@ -5,7 +5,6 @@ import { Plan } from '../models/plan.model';
 import { Service } from '../models/service.model';
 import { v4 as uuidv4 } from 'uuid';
 import { Tickets } from 'src/utils/ticket';
-import { error } from 'console';
 
 @Component({
   selector: 'app-new-sales',
