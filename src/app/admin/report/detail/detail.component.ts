@@ -74,7 +74,7 @@ export class DetailComponent implements OnInit {
     this._GeneralServiceService.getById('generalSale', this.id).then(
       datas => {
         this.salesData = datas.data();
-        console.log('datas', this.salesData);
+        // console.log('datas', this.salesData);
         this._GeneralServiceService.getSaleByIdGenerated('sales', 'idGeneralSale', this.salesData.idGenerated)
           .subscribe(res => {
             this.listCodebar = res.map(data => data.payload.doc.data());
