@@ -1,9 +1,10 @@
-import {Component, OnInit} from '@angular/core';
-import {FormGroup, FormControl, Validators} from '@angular/forms';
-import {GeneralServiceService} from '../services/general-service.service';
-import {Plan} from '../models/plan.model';
-import {Service} from '../models/service.model';
-import {v4 as uuidv4} from 'uuid';
+import { Component, OnInit } from '@angular/core';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { GeneralServiceService } from '../services/general-service.service';
+import { Plan } from '../models/plan.model';
+import { Service } from '../models/service.model';
+import { v4 as uuidv4 } from 'uuid';
+import { Tickets } from 'src/utils/ticket';
 
 @Component({
   selector: 'app-new-sales',
@@ -29,6 +30,8 @@ export class NewSalesComponent implements OnInit {
   tarjeta: any;
 
   generalSale: GeneralSale = {};
+
+  ticke = new Tickets();
   constructor(private _GeneralServiceService: GeneralServiceService) {
     this.receipt = false;
     this.arraySelectPlan = [];
@@ -193,7 +196,7 @@ export class NewSalesComponent implements OnInit {
         }
       });
       if (find_Code_duplic === false) {
-        this.barcodes.push({code: this.code});
+        this.barcodes.push({ code: this.code });
 
       } else {
         alert('Ya se encuentra registrado el codigo: ' + this.code + ' en esta venta registra otro nuevo.');
@@ -239,8 +242,8 @@ export class NewSalesComponent implements OnInit {
         // id of sale general
         const saleIdentifier = uuidv4();
         // set object for creted general sale
-         this.generalSale = {
-           ...this.generalSale,
+        this.generalSale = {
+          ...this.generalSale,
           clientName: this._formEntity.value.name,
           sellerName: this._formEntity.value.seller,
           total: (this.totalValue + this.total) * this.barcodes.length,
@@ -293,14 +296,14 @@ export class NewSalesComponent implements OnInit {
               hour: hour,
               total: total,
               state: 'Activo',
-              efecty: this.generalSale.cash,
-              tarjeta: this.generalSale.card,
-              typepay: this.generalSale.paymentType,
+              efecty: this.generalSale.cash || null,
+              tarjeta: this.generalSale.card || null,
+              typepay: this.generalSale.paymentType|| null ,
               zone: 'Oficina',
               idGeneralSale: saleIdentifier
             };
             if (ventas) {
-              this.save(body);
+             this.save(body);
             }
 
             console.log('body', body);
@@ -311,10 +314,24 @@ export class NewSalesComponent implements OnInit {
         });
 
         if (ventas) {
-          const sale =  this._GeneralServiceService.createFirebase('generalSale', this.generalSale)
+          const sale = this._GeneralServiceService.createFirebase('generalSale', this.generalSale)
           console.log(sale);
+          sale.then(result => {
+            this._GeneralServiceService.getById('generalSale', result.id).then(
+              datas => {
+                const generalSale = datas.data();
+                this._GeneralServiceService.getSaleByIdGenerated('sales', 'idGeneralSale', generalSale.idGenerated)
+                  .subscribe(res => {
+                    const list = res.map(data => data.payload.doc.data());
+                    console.log(list);
+                    
+                    this.ticke.pdf(generalSale, list);
+                  });
+              });
+          });
+
           alert('Venta creada. Su venta a sido registrada');
-          this.receipt = true;
+          // this.receipt = true;
           let total;
           total = this.total + this.totalValue;
           this.dataFormvalue = {
@@ -343,8 +360,8 @@ export class NewSalesComponent implements OnInit {
   }
 
   async save(body) {
-    console.log('Body', body);
-    this._GeneralServiceService.createFirebase('sales', body);
+    this._GeneralServiceService.createFirebase('sales', body)
+      .catch(error => console.error(error))
   }
 
 

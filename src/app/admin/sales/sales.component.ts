@@ -24,7 +24,9 @@ export class SalesComponent implements OnInit {
 
   date: any;
   user: any;
+
   totalVenta: any;
+
   constructor(private _GeneralServiceService: GeneralServiceService) {
     this.showdeatil = false;
   }
@@ -147,8 +149,4 @@ export class SalesComponent implements OnInit {
     }
       this.totalVenta = subtotalDetail + subtotalplan
   }
-
-
-
-
 }

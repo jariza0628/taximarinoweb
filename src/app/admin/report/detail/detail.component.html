@@ -1,25 +1,43 @@
 <div class="container">
   <div class="row">
-    <h4>Detalle</h4>
+    <div class="col-sm" style="margin-top: 30px">
+      <h4>Detalle de la venta</h4>
+      <hr />
+    </div>
   </div>
   <form [formGroup]="_formEntity">
     <div class="row">
       <div class="col-sm">
         <div class="form-group">
           <label>Nombre Vendedor</label>
-          <input type="text" class="form-control" formControlName="seller" placeholder="Playa Blanca">
+          <input
+            type="text"
+            class="form-control"
+            formControlName="seller"
+            placeholder="Playa Blanca"
+          />
         </div>
       </div>
       <div class="col-sm">
         <div class="form-group">
           <label>Nombre cliente (opcional)</label>
-          <input type="text" class="form-control" formControlName="name" placeholder="Alan Brito">
+          <input
+            type="text"
+            class="form-control"
+            formControlName="name"
+            placeholder="Alan Brito"
+          />
         </div>
       </div>
       <div class="col-sm">
         <div class="form-group">
           <label>Cedula cliente (opcional)</label>
-          <input type="number" class="form-control" formControlName="dni" placeholder="1045639521">
+          <input
+            type="number"
+            class="form-control"
+            formControlName="dni"
+            placeholder="1045639521"
+          />
         </div>
       </div>
     </div>
@@ -31,9 +49,14 @@
         <div class="form-group">
           <label>Planes Seleccionados</label>
           <p *ngFor="let item of arraySelectPlan">
-            {{item.name}} - {{item.totalvalue}}
-            <img (click)="removeItemFromArrPlan(item)" src="https://img.icons8.com/plasticine/2x/delete-sign.png"
-              width="20" height="20" style="float: right;">
+            {{ item.name }} - {{ item.totalvalue }}
+            <img
+              (click)="removeItemFromArrPlan(item)"
+              src="https://img.icons8.com/plasticine/2x/delete-sign.png"
+              width="20"
+              height="20"
+              style="float: right"
+            />
           </p>
         </div>
       </div>
@@ -45,9 +68,14 @@
         <div class="form-group">
           <label>Planes Seleccionados</label>
           <p *ngFor="let item of arraySelect">
-            {{item.name}} - {{item.publicvalue}}
-            <img (click)="removeItemFromArr(item)" src="https://img.icons8.com/plasticine/2x/delete-sign.png" width="20"
-              height="20" style="float: right;">
+            {{ item.name }} - {{ item.publicvalue }}
+            <img
+              (click)="removeItemFromArr(item)"
+              src="https://img.icons8.com/plasticine/2x/delete-sign.png"
+              width="20"
+              height="20"
+              style="float: right"
+            />
           </p>
         </div>
       </div>
@@ -58,34 +86,42 @@
       <div class="col-sm-2">
         <div class="form-group">
           <label>Total</label>
-          <input type="number" [(ngModel)]="total" class="form-control" disabled>
-
+          <input
+            type="number"
+            [(ngModel)]="total"
+            class="form-control"
+            disabled
+          />
         </div>
       </div>
-
     </div>
     <div class="row">
-      <div class="col-sm-4">
+      <div class="col-sm-12">
         <div class="form-group">
-          <label>Codigos de barras: {{ salesData?.codebar}}</label>
+          <h5>Listado de manilla vendidas:</h5>
+          <div
+            class="table-cod"
+            style="border-top: 1 px solid gray !important;
+              border-bottom: 1 px solid gray !important; ;"
+            *ngFor="let item of listCodebar"
+          >
+            CODIGO DE BARRA:{{ item.codebar }}SUBTOTAL MANILLA:{{ item.total }}
+          </div>
         </div>
       </div>
     </div>
-
-
   </ng-container>
   <div class="row">
     <div class="col-sm-4">
       <div class="form-group">
-      <button class="btn btn-primary" (click)="submit()">Guardar</button>
+        <!-- <button class="btn btn-primary" (click)="submit()">Guardar</button> -->
+        <button class="btn btn-primary" (click)="print()">
+          Imprimir Factura
+        </button>
       </div>
     </div>
     <div class="col-sm-4">
-      <div class="form-group">
-        <button class="btn btn-primary" (click)="print()">Print</button>
-      </div>
+      <div class="form-group"></div>
     </div>
   </div>
-
-
 </div>
