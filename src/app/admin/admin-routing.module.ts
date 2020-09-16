@@ -14,6 +14,8 @@ import { IndividualServicesComponent } from './individual-services/individual-se
 import { PlansComponent } from './plans/plans.component';
 import { NewSalesComponent } from './new-sales/new-sales.component';
 import { ReceiptComponent } from './new-sales/receipt/receipt.component';
+import { ReportComponent } from './report/report.component';
+import { DetailComponent } from './report/detail/detail.component';
 
 
 const routes: Routes = [
@@ -69,6 +71,17 @@ const routes: Routes = [
                 component: NewSalesComponent,
                 canActivate: [AdminGuard],
             },
+            {
+                path: 'reports',
+                component: ReportComponent,
+                canActivate: [AdminGuard],
+            },
+            {
+                path: 'reports-detail/:id',
+                component: DetailComponent,
+                canActivate: [AdminGuard],
+            },
+            
         ]
     },
     {
