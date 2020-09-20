@@ -12,6 +12,7 @@ export class IndividualServicesComponent implements OnInit {
   public _formEntity: FormGroup;
   public data: any;
   public edit: boolean;
+  editUser: any;
   constructor(private _GeneralServiceService: GeneralServiceService) {
     this.edit = false;
     this._formEntity = new FormGroup({
