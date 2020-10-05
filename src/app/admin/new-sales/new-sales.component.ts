@@ -1,10 +1,10 @@
-import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { GeneralServiceService } from '../services/general-service.service';
-import { Plan } from '../models/plan.model';
-import { Service } from '../models/service.model';
-import { v4 as uuidv4 } from 'uuid';
-import { Tickets } from 'src/utils/ticket';
+import {Component, OnInit} from '@angular/core';
+import {FormGroup, FormControl, Validators} from '@angular/forms';
+import {GeneralServiceService} from '../services/general-service.service';
+import {Plan} from '../models/plan.model';
+import {Service} from '../models/service.model';
+import {v4 as uuidv4} from 'uuid';
+import {Tickets} from 'src/utils/ticket';
 
 @Component({
   selector: 'app-new-sales',
@@ -32,6 +32,7 @@ export class NewSalesComponent implements OnInit {
   generalSale: GeneralSale = {};
 
   ticke = new Tickets();
+
   constructor(private _GeneralServiceService: GeneralServiceService) {
     this.receipt = false;
     this.arraySelectPlan = [];
@@ -180,7 +181,7 @@ export class NewSalesComponent implements OnInit {
         }
       });
       if (find_Code_duplic === false) {
-        this.barcodes.push({ code: this.code });
+        this.barcodes.push({code: this.code});
 
       } else {
         alert('Ya se encuentra registrado el codigo: ' + this.code + ' en esta venta registra otro nuevo.');
@@ -282,12 +283,12 @@ export class NewSalesComponent implements OnInit {
               state: 'Activo',
               efecty: this.generalSale.cash || null,
               tarjeta: this.generalSale.card || null,
-              typepay: this.generalSale.paymentType|| null ,
+              typepay: this.generalSale.paymentType || null,
               zone: 'Oficina',
               idGeneralSale: saleIdentifier
             };
             if (ventas) {
-             this.save(body);
+              this.save(body);
             }
 
             console.log('body', body);
@@ -298,7 +299,7 @@ export class NewSalesComponent implements OnInit {
         });
 
         if (ventas) {
-          const sale = this._GeneralServiceService.createFirebase('generalSale', this.generalSale)
+          const sale = this._GeneralServiceService.createFirebase('generalSale', this.generalSale);
           console.log(sale);
           sale.then(result => {
             this._GeneralServiceService.getById('generalSale', result.id).then(
@@ -308,7 +309,7 @@ export class NewSalesComponent implements OnInit {
                   .subscribe(res => {
                     const list = res.map(data => data.payload.doc.data());
                     console.log(list);
-                    
+
                     this.ticke.pdf(generalSale, list);
                   });
               });
@@ -345,7 +346,7 @@ export class NewSalesComponent implements OnInit {
 
   async save(body) {
     this._GeneralServiceService.createFirebase('sales', body)
-      .catch(error => console.error(error))
+      .catch(error => console.error(error));
   }
 
 
@@ -381,4 +382,8 @@ export interface GeneralSale {
   id?: string;
   total?: number;
   date?: Date;
+}
+
+export enum paymentType {
+  'card', 'credit', 'cash', 'mixed',
 }

@@ -8,13 +8,13 @@
                 </a>
             </li>
 
-            <li *ngFor="let item of menuOptions">
+            <li *ngFor="let item of menuOptions" [routerLink]="[item.link]">
 
-                <a [routerLink]="[item.link]">
+                <a >
                     <i class="{{ item.icon }}"></i> {{ item.name }}
                 </a>
             </li>
-             
+
         </ul>
     </div>
 </div>
