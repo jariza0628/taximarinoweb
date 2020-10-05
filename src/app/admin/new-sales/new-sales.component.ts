@@ -1,15 +1,15 @@
-import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { GeneralServiceService } from '../services/general-service.service';
-import { Plan } from '../models/plan.model';
-import { Service } from '../models/service.model';
-import { v4 as uuidv4 } from 'uuid';
-import { Tickets } from 'src/utils/ticket';
+import { Component, OnInit } from "@angular/core";
+import { FormGroup, FormControl, Validators } from "@angular/forms";
+import { GeneralServiceService } from "../services/general-service.service";
+import { Plan } from "../models/plan.model";
+import { Service } from "../models/service.model";
+import { v4 as uuidv4 } from "uuid";
+import { Tickets } from "src/utils/ticket";
 
 @Component({
-  selector: 'app-new-sales',
-  templateUrl: './new-sales.component.html',
-  styleUrls: ['./new-sales.component.css']
+  selector: "app-new-sales",
+  templateUrl: "./new-sales.component.html",
+  styleUrls: ["./new-sales.component.css"],
 })
 export class NewSalesComponent implements OnInit {
   public receipt: boolean;
@@ -29,6 +29,8 @@ export class NewSalesComponent implements OnInit {
   efecty: any;
   tarjeta: any;
 
+  sellers: any;
+
   generalSale: GeneralSale = {};
 
   ticke = new Tickets();
@@ -41,76 +43,70 @@ export class NewSalesComponent implements OnInit {
     this.barcodes = [];
     this.showmixprice = false;
 
-    this.typepay = 'Efectivo';
+    this.typepay = "Efectivo";
 
-
-    this.code = '';
-
+    this.code = "";
 
     this._formEntity = new FormGroup({
-      name: new FormControl('', [
+      name: new FormControl("", [
         Validators.required,
-        Validators.maxLength(100)
+        Validators.maxLength(100),
       ]),
-      seller: new FormControl('Oficina', [
+      seller: new FormControl("yajaira oficina", [
         Validators.required,
-        Validators.maxLength(100)
+        Validators.maxLength(100),
       ]),
-      dni: new FormControl('', [
+      dni: new FormControl("", [
         Validators.required,
-        Validators.maxLength(100)
+        Validators.maxLength(100),
       ]),
-
     });
   }
 
   ngOnInit() {
     this.getData();
     this.getDataPlans();
+    this.getSellers();
   }
 
-
   getData() {
-    this._GeneralServiceService.getFirebase('service').subscribe(
-      data => {
-        console.log('dara', data);
-        this.services = data.map(e => {
-          // console.log(e.payload.doc.data());
-          return {
-            id: e.payload.doc.id,
-            ...e.payload.doc.data()
-          } as Service;
-        });
+    this._GeneralServiceService.getFirebase("service").subscribe((data) => {
+      console.log("dara", data);
+      this.services = data.map((e) => {
+        // console.log(e.payload.doc.data());
+        return {
+          id: e.payload.doc.id,
+          ...e.payload.doc.data(),
+        } as Service;
       });
+    });
   }
 
   getDataPlans() {
-    this._GeneralServiceService.getFirebase('plan').subscribe(
-      data => {
-        console.log('dara', data);
-        this.plans = data.map(e => {
-          // console.log(e.payload.doc.data());
-          return {
-            id: e.payload.doc.id,
-            ...e.payload.doc.data()
-          } as Plan;
-        });
+    this._GeneralServiceService.getFirebase("plan").subscribe((data) => {
+      console.log("dara", data);
+      this.plans = data.map((e) => {
+        // console.log(e.payload.doc.data());
+        return {
+          id: e.payload.doc.id,
+          ...e.payload.doc.data(),
+        } as Plan;
       });
+    });
   }
 
   loadPlan(e) {
-    console.log('ch', e);
+    console.log("ch", e);
     this.addValueToArraySelectPlan(e);
-
   }
 
   addValueToArraySelectPlan(item) {
-
-    this._GeneralServiceService.getById('plan', item).then(
-      datas => {
-        console.log('datas', datas.data());
+    this._GeneralServiceService.getById("plan", item).then(
+      (datas) => {
+        console.log("datas", datas.data());
         this.psPlan(datas.data());
-      }, err => {
+      },
+      (err) => {
         console.log(err);
       }
     );
@@ -128,12 +124,12 @@ export class NewSalesComponent implements OnInit {
   }
 
   addValueToArraySelect(item) {
-
-    this._GeneralServiceService.getById('service', item).then(
-      datas => {
-        console.log('datas', datas.data());
+    this._GeneralServiceService.getById("service", item).then(
+      (datas) => {
+        console.log("datas", datas.data());
         this.ps(datas.data());
-      }, err => {
+      },
+      (err) => {
         console.log(err);
       }
     );
@@ -146,10 +142,8 @@ export class NewSalesComponent implements OnInit {
   }
 
   removeItemFromArr(item) {
-
     let i;
-    debugger
-    i = this.arraySelect.indexOf(item);
+     i = this.arraySelect.indexOf(item);
     this.totalValue = this.totalValue - item.publicvalue;
     if (i !== -1) {
       this.arraySelect.splice(i, 1);
@@ -158,52 +152,88 @@ export class NewSalesComponent implements OnInit {
 
   removeItemFromArrPlan(item) {
     let i;
-    debugger
-    i = this.arraySelectPlan.indexOf(item);
-    this.total = this.total - item.publicvalue;
+     i = this.arraySelectPlan.indexOf(item);
+      
+    this.total = this.total - item.totalvalue;
 
     if (i !== -1) {
       this.arraySelectPlan.splice(i, 1);
     }
   }
-
-  addCod() {
+  alert(msj){
+    alert('msj')
+  }
+  async validaeCod(val) {
+    debugger
+    if(!val){
+      return
+    }
     // get code database
+    console.log("code", this.code);
+    let find_Code_duplic, cod_vendido;
     let dataResulCode = this.code;
-    this._GeneralServiceService.getSalesBydaCodeBar('sales', dataResulCode).subscribe(
-      (data: any) => {
-        let info = data.map(e => {
-          console.log(e.payload.doc.data());
-           return {
-            id: e.payload.doc.id,
-            ...e.payload.doc.data()
-          } as any;
-        });
-      },err =>{
-        console.log(err);
-      }
-    )
 
-    let find_Code_duplic;
-    if (this.code === '' || this.code === null) {
-      alert('Ingrese un codigo de barra');
+    if (this.code === "" || this.code === null) {
+      alert("Ingrese un codigo de barra");
     } else {
       find_Code_duplic = false;
-      // Buscar el codigo si ya fue añadido
-      this.barcodes.forEach(element => {
-        if (element.code === this.code) {
-          find_Code_duplic = true;
-        }
-      });
-      if (find_Code_duplic === false) {
-        this.barcodes.push({ code: this.code });
+      
+      //Validar si el cod fue vendido
+      await this._GeneralServiceService
+        .getSalesBydaCodeBar("sales", this.code + "")
+        .subscribe(
+          (data: any) => {
+            debugger
+            console.log("codeBAr search", data + "code:", this.code);
+            if(this.code===""){
+              return null
+            }else{
+              
+            }
+            let info = data.map((e) => {
+              console.log(e.payload.doc.data());
+              let result;
+              result = e.payload.doc.data();
+              if (result) {
+                cod_vendido = true;
+                
+                  alert("El codigo "+ this.code + " ya se encuentra regisrado intente con otro");
+                  this.code = "";
+                
+              }  
+               
+            });
+            console.log('info', info);
+            if(info.length === 0){
+              this.addCodesave(dataResulCode);
+            }
+            
+          },
+          (err) => {
+            console.log(err);
+          }
+        );
 
-      } else {
-        alert('Ya se encuentra registrado el codigo: ' + this.code + ' en esta venta registra otro nuevo.');
-      }
-      this.code = '';
+      
     }
+  }
 
+  addCodesave(code) {
+    let find_Code_duplic =false;
+    this.barcodes.forEach((element) => {
+      if (element.code === code) {
+        find_Code_duplic = true;
+      }
+    });
+    if (find_Code_duplic === false) {
+      this.barcodes.push({ code: code });
+    } else {
+      alert(
+        "Ya se encuentra registrado el codigo: " +
+          code +
+          " en esta venta registra otro nuevo."
+      );
+    }
   }
 
   removeCode(item) {
@@ -217,7 +247,7 @@ export class NewSalesComponent implements OnInit {
 
   appendLeadingZeroes(n) {
     if (n <= 9) {
-      return '0' + n;
+      return "0" + n;
     }
     return n;
   }
@@ -228,16 +258,20 @@ export class NewSalesComponent implements OnInit {
 
     const dates = new Date();
     let dateString, hour;
-    dateString = dates.getFullYear() + '-' + this.appendLeadingZeroes((dates.getMonth() + 1))
-      + '-' + this.appendLeadingZeroes(dates.getDate());
-    hour = dates.getHours() + ':' + dates.getMinutes() + ':' + dates.getSeconds();
+    dateString =
+      dates.getFullYear() +
+      "-" +
+      this.appendLeadingZeroes(dates.getMonth() + 1) +
+      "-" +
+      this.appendLeadingZeroes(dates.getDate());
+    hour =
+      dates.getHours() + ":" + dates.getMinutes() + ":" + dates.getSeconds();
     formValue = this._formEntity.value;
 
     let ventas;
     ventas = false;
 
     if (this.arraySelectPlan.length > 0 || this.arraySelect.length > 0) {
-
       if (this.barcodes.length > 0) {
         // id of sale general
         const saleIdentifier = uuidv4();
@@ -248,97 +282,113 @@ export class NewSalesComponent implements OnInit {
           sellerName: this._formEntity.value.seller,
           total: (this.totalValue + this.total) * this.barcodes.length,
           idGenerated: saleIdentifier,
-          date: new Date(),
+          date: dateString,
           clientIdentification: this._formEntity.value.dni,
         };
 
         /* for push in firebase*/
-        this.barcodes.forEach(element => {
+        this.barcodes.forEach((element) => {
           ventas = true;
-          console.log('code foreac', element.code);
+          console.log("code foreac", element.code);
 
           if (element.code !== null) {
             let total;
+            
             total = (this.totalValue + this.total) * this.barcodes.length;
-            formValue.codebar = '' + element.code;
+            formValue.codebar = "" + element.code;
 
-            if (this.generalSale.paymentType === 'mixed') {
+            if (this.generalSale.paymentType === "mixed") {
               if (this.generalSale.card > 0 && this.generalSale.cash > 0) {
                 let totaltmp;
                 totaltmp = this.generalSale.card + this.generalSale.cash;
                 if (totaltmp !== total) {
-                  alert('Los valores indicados no suman el total de la factura.');
+                  alert(
+                    "Los valores indicados no suman el total de la factura."
+                  );
                   ventas = false;
                   return null;
                 }
               } else {
-                alert('Efectivo y valor en tarjeta no puedes ser menor que 0');
+                alert("Efectivo y valor en tarjeta no puedes ser menor que 0");
                 ventas = false;
                 return null;
-
               }
             }
-            if (this.generalSale.paymentType === 'cash') {
+            if (this.generalSale.paymentType === "cash") {
               this.generalSale.card = 0;
               this.generalSale.cash = total;
             }
-            if (this.generalSale.paymentType === 'card') {
+            if (this.generalSale.paymentType === "card") {
               this.generalSale.cash = 0;
               this.generalSale.card = total;
-
             }
 
             body = {
               ...formValue,
               plans: this.arraySelectPlan,
               detail: this.arraySelect,
-              date: new Date(),
+              date: dateString,
               hour: hour,
               total: total,
-              state: 'Activo',
+              state: "Activo",
               efecty: this.generalSale.cash || null,
               tarjeta: this.generalSale.card || null,
-              typepay: this.generalSale.paymentType|| null ,
-              zone: 'Oficina',
-              idGeneralSale: saleIdentifier
+              typepay: this.generalSale.paymentType || null,
+              zone: "Oficina",
+              idGeneralSale: saleIdentifier,
             };
             if (ventas) {
-             this.save(body);
+              this.save(body);
+              this.code = "";
+
             }
 
-            console.log('body', body);
+            console.log("body", body);
           } else {
-            alert('Campos obligatorios, Debe indicar un código de barra');
+            alert("Campos obligatorios, Debe indicar un código de barra");
             return null;
           }
         });
 
         if (ventas) {
-          const sale = this._GeneralServiceService.createFirebase('generalSale', this.generalSale)
+          const sale = this._GeneralServiceService.createFirebase(
+            "generalSale",
+            this.generalSale
+          );
           console.log(sale);
-          sale.then(result => {
-            this._GeneralServiceService.getById('generalSale', result.id).then(
-              datas => {
+          sale.then((result) => {
+            this._GeneralServiceService
+              .getById("generalSale", result.id)
+              .then((datas) => {
                 const generalSale = datas.data();
-                this._GeneralServiceService.getSaleByIdGenerated('sales', 'idGeneralSale', generalSale.idGenerated)
-                  .subscribe(res => {
-                    const list = res.map(data => data.payload.doc.data());
+                this._GeneralServiceService
+                  .getSaleByIdGenerated(
+                    "sales",
+                    "idGeneralSale",
+                    generalSale.idGenerated
+                  )
+                  .subscribe((res) => {
+                    const list = res.map((data) => data.payload.doc.data());
                     console.log(list);
-                    
-                    this.ticke.pdf(generalSale, list);
+
+                    // this.ticke.pdf(generalSale, list);
                   });
               });
           });
 
-          alert('Venta creada. Su venta a sido registrada');
+          alert("Venta creada. Su venta a sido registrada");
           // this.receipt = true;
           let total;
           total = this.total + this.totalValue;
           this.dataFormvalue = {
-            ...this._formEntity.value, codes: this.barcodes,
-            plans: this.arraySelectPlan, detail: this.arraySelect, date: new Date(), total: total, state: 'Activo'
+            ...this._formEntity.value,
+            codes: this.barcodes,
+            plans: this.arraySelectPlan,
+            detail: this.arraySelect,
+            date: dateString,
+            total: total,
+            state: "Activo",
           };
-
 
           this.total = 0;
           this.totalValue = 0;
@@ -347,23 +397,39 @@ export class NewSalesComponent implements OnInit {
           this.barcodes = [];
           this._formEntity.reset();
           this.showmixprice = false;
-        }
 
+        }
       } else {
-        alert('Campos obligatorios, Debe indicar un código de barra');
+        alert("Campos obligatorios, Debe indicar un código de barra");
         return null;
       }
     } else {
-      alert('Campos obligatorios. Seleccione por lo menos un plan o un servicio a la venta');
+      alert(
+        "Campos obligatorios. Seleccione por lo menos un plan o un servicio a la venta"
+      );
       return null;
     }
   }
 
   async save(body) {
-    this._GeneralServiceService.createFirebase('sales', body)
-      .catch(error => console.error(error))
+    await this._GeneralServiceService
+      .createFirebase("sales", body)
+      .catch((error) => console.error(error));
   }
 
+  getSellers(){
+    this._GeneralServiceService.getSeller().subscribe(
+      data =>{
+        this.sellers = data.map((e) => {
+           console.log('users', e.payload.doc.data());
+          return {
+            id: e.payload.doc.id,
+            ...e.payload.doc.data(),
+          } as any;
+        });
+      }
+    )
+  }
 
   /**
    * name: "asdasd"
@@ -383,14 +449,13 @@ export class NewSalesComponent implements OnInit {
    total: 13000
    state: "Activo"
    */
-
 }
 
 export interface GeneralSale {
   clientName?: string;
   clientIdentification?: string;
   sellerName?: string;
-  paymentType?: 'card' | 'credit' | 'cash' | 'mixed';
+  paymentType?: "card" | "credit" | "cash" | "mixed";
   card?: number;
   cash?: number;
   idGenerated?: string;

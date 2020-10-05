@@ -69,13 +69,23 @@ export class GeneralServiceService {
   getSalesBydate(entiti, data: string) {
     return this.firestore.collection(entiti, ref => ref.where('date', '==', data)).snapshotChanges();
   }
+  getSalesBydateOficina(entiti, data: string) {
+    return this.firestore.collection(entiti, ref => ref.where('date', '>=', data)).snapshotChanges();
+  }
   getSalesBydaCodeBar(entiti, code: string) {
+    console.log('service', code);
+    
     return this.firestore.collection(entiti, ref => ref.where('codebar', '==', code)).snapshotChanges();
   }
   
   
   getSaleByIdGenerated(entiti?, col?, data?) {
     return this.firestore.collection(entiti, ref => ref.where(col, '==', data)).snapshotChanges();
+  }
+
+  //Vendeores
+  getSeller() {
+    return this.firestore.collection('users', ref => ref.where('type', '==', 'Vendedor')).snapshotChanges();
   }
 
 }

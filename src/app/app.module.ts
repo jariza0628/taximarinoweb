@@ -14,7 +14,7 @@ import { AdminModule } from './admin/admin.module';
 import { AngularFireModule } from '@angular/fire';
 import { AngularFireAuthModule } from '@angular/fire/auth';
 import { environment } from 'src/environments/environment';
-@NgModule({
+ @NgModule({
   declarations: [
     AppComponent,
     HeaderComponent,
@@ -22,13 +22,14 @@ import { environment } from 'src/environments/environment';
     HomeComponent,
     ContactComponent,
     AboutComponent,
-    AdminComponent
+    AdminComponent,
+     
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     AdminModule,
-    AngularFireModule.initializeApp(environment.firebaseConfig),
+     AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFireAuthModule
   ],
   providers: [],

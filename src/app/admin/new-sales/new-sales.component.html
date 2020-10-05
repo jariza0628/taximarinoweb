@@ -10,7 +10,9 @@
         <div class="col-sm">
           <div class="form-group">
             <label>Nombre Vendedor</label>
-            <input type="text" class="form-control"   formControlName="seller" placeholder="Playa Blanca" value="Oficina">
+            <select class="form-control"   formControlName="seller">
+              <option *ngFor="let item of sellers" value="{{ item.user }}">{{ item.user }}</option>
+            </select>
           </div>
         </div>
         <div class="col-sm">
@@ -192,7 +194,7 @@
       <div class="col-sm-3">
         <div class="form-group">
           <label>&nbsp;</label><br>
-          <button class="btn btn-primary" (click)="addCod()">+ Añadir otro código</button>
+          <div class="btn btn-primary" (click)="validaeCod(true)">+ Añadir otro código</div>
         </div>
       </div>
       <div class="col-sm-3">
@@ -211,7 +213,7 @@
           </div>
           <div class="col-sm-12">
             <div class="form-group">
-              <button class="btn btn-primary" (click)="onSubmit1()">Crear Venta</button>
+              <div class="btn btn-primary"  (click)="onSubmit1()">Crear Venta</div>
             </div>
           </div>
 
