@@ -2,20 +2,31 @@
 .no-margin {
   margin: 0px;
 }
+
 .no-padding {
   padding: 0;
 }
+
 .validate {
   border: 1px red solid;
 }
+
 .ng-valid[required],
 .ng-valid.required {
   border-left: 5px solid #42a948; /* green */
 }
+
 .ng-invalid:not(form) {
   border-left: 5px solid #a94442; /* red */
 }
+
 .hover-a:hover {
   color: rgb(72, 72, 216) !important;
   cursor: pointer;
+}
+
+.text-max {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
