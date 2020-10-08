@@ -3,7 +3,7 @@ import {Sales} from '../models/sales';
 import {GeneralServiceService} from '../services/general-service.service';
 import {Service} from '../models/service.model';
 import {paymentType} from '../new-sales/new-sales.component';
-import * as html2canvas from 'html2canvas';
+import html2canvas from 'html2canvas';
 import * as jsPDF from 'jspdf';
 
 @Component({
