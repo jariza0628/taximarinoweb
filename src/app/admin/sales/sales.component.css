@@ -6,8 +6,13 @@
 
 #close {
   position: absolute;
-  right: 0;
+  right: 17px;
   top: -18px;
   width: 15px;
   cursor: pointer;
+}
+.total{
+  font-size: 24px;
+  color: #AD1457;
+  font-weight: 600;
 }

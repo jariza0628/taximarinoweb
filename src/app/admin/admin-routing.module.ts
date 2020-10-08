@@ -1,102 +1,112 @@
-import {NgModule} from '@angular/core';
-import {Routes, RouterModule} from '@angular/router';
+import { NgModule } from "@angular/core";
+import { Routes, RouterModule } from "@angular/router";
 
-import {ProjectComponent} from './project/project.component';
-import {ProjectListComponent} from './project-list/project-list.component';
-import {ProjectCreateComponent} from './project-create/project-create.component';
-import {ProjectUpdateComponent} from './project-update/project-update.component';
-import {LoginComponent} from './login/login.component';
-import {AdminGuard} from './admin.guard';
-import {PointSaleComponent} from './point-sale/point-sale.component';
-import {AgencyComponent} from './agency/agency.component';
-import {SalesComponent} from './sales/sales.component';
-import {IndividualServicesComponent} from './individual-services/individual-services.component';
-import {PlansComponent} from './plans/plans.component';
-import {NewSalesComponent} from './new-sales/new-sales.component';
-import {ReceiptComponent} from './new-sales/receipt/receipt.component';
-import {ReportComponent} from './report/report.component';
-import {DetailComponent} from './report/detail/detail.component';
-
+import { ProjectComponent } from "./project/project.component";
+import { ProjectListComponent } from "./project-list/project-list.component";
+import { ProjectCreateComponent } from "./project-create/project-create.component";
+import { ProjectUpdateComponent } from "./project-update/project-update.component";
+import { LoginComponent } from "./login/login.component";
+import { AdminGuard } from "./admin.guard";
+import { PointSaleComponent } from "./point-sale/point-sale.component";
+import { AgencyComponent } from "./agency/agency.component";
+import { SalesComponent } from "./sales/sales.component";
+import { IndividualServicesComponent } from "./individual-services/individual-services.component";
+import { PlansComponent } from "./plans/plans.component";
+import { NewSalesComponent } from "./new-sales/new-sales.component";
+import { ReceiptComponent } from "./new-sales/receipt/receipt.component";
+import { ReportComponent } from "./report/report.component";
+import { DetailComponent } from "./report/detail/detail.component";
+import { CodebarComponent } from "./codebar/codebar.component";
+import { ReportAdminComponent } from "../report-admin/report-admin.component";
 
 const routes: Routes = [
   {
-    path: 'admin',
+    path: "admin",
     component: ProjectComponent,
     children: [
       {
-        path: 'sales',
+        path: "sales",
         component: SalesComponent,
-        canActivate: [AdminGuard]
+        canActivate: [AdminGuard],
       },
       {
-        path: 'list',
+        path: "list",
         component: SalesComponent,
-        canActivate: [AdminGuard]
+        canActivate: [AdminGuard],
       },
       {
-        path: 'create',
+        path: "create",
         component: ProjectCreateComponent,
-        canActivate: [AdminGuard]
-
+        canActivate: [AdminGuard],
       },
       {
-        path: 'update',
+        path: "update",
         component: ProjectUpdateComponent,
-        canActivate: [AdminGuard]
-
+        canActivate: [AdminGuard],
       },
       {
-        path: 'ponitsale',
+        path: "ponitsale",
         component: PointSaleComponent,
-        canActivate: [AdminGuard]
+        canActivate: [AdminGuard],
       },
       {
-        path: 'agency',
+        path: "agency",
         component: AgencyComponent,
-        canActivate: [AdminGuard]
+        canActivate: [AdminGuard],
       },
 
       {
-        path: 'services',
+        path: "services",
         component: IndividualServicesComponent,
-        canActivate: [AdminGuard]
+        canActivate: [AdminGuard],
       },
       {
-        path: 'plans',
+        path: "plans",
         component: PlansComponent,
-        canActivate: [AdminGuard]
+        canActivate: [AdminGuard],
       },
       {
-        path: 'new-sales',
+        path: "new-sales",
         component: NewSalesComponent,
         canActivate: [AdminGuard],
       },
       {
-        path: 'reports',
+        path: "reports",
         component: ReportComponent,
         canActivate: [AdminGuard],
       },
       {
-        path: 'reports-detail/:id',
+        path: "reports-detail/:id",
         component: DetailComponent,
         canActivate: [AdminGuard],
       },
       {
-        path: 'daily-reports',
-        loadChildren: './reports/reports.module#ReportsModule',
-        canActivate: [AdminGuard]
-      }
-    ]
+        path: "daily-reports",
+        loadChildren: "./reports/reports.module#ReportsModule",
+        canActivate: [AdminGuard],
+      },
+
+      {
+        path: "codebar",
+        component: CodebarComponent,
+        canActivate: [AdminGuard],
+      },
+
+      {
+        path: "gestion",
+        component: ReportAdminComponent,
+        canActivate: [AdminGuard],
+      },
+    ],
   },
   {
-    path: 'login', component: LoginComponent
-  }
+    path: "login",
+    component: LoginComponent,
+  },
 ];
-
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class AdminRoutingModule {
-}
+export class AdminRoutingModule {}

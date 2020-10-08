@@ -27,7 +27,8 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     HomeComponent,
     ContactComponent,
     AboutComponent,
-    AdminComponent
+    AdminComponent,
+     
   ],
   imports: [
     BrowserModule,

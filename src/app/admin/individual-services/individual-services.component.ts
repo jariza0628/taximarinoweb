@@ -12,6 +12,7 @@ export class IndividualServicesComponent implements OnInit {
   public _formEntity: FormGroup;
   public data: any;
   public edit: boolean;
+  editUser: any;
   constructor(private _GeneralServiceService: GeneralServiceService) {
     this.edit = false;
     this._formEntity = new FormGroup({
@@ -31,6 +32,9 @@ export class IndividualServicesComponent implements OnInit {
         Validators.required
       ]),
       typeverify: new FormControl(null, [
+        Validators.required
+      ]),
+      department: new FormControl(null, [
         Validators.required
       ])
       
@@ -100,7 +104,10 @@ export class IndividualServicesComponent implements OnInit {
       agencyvalue: new FormControl(dataToEdit.agencyvalue, [
         Validators.required
       ]),
-      typeverify: new FormControl(dataToEdit.agencyvalue, [
+      typeverify: new FormControl(dataToEdit.typeverify, [
+        Validators.required
+      ]),
+      department: new FormControl(dataToEdit.department, [
         Validators.required
       ])
 

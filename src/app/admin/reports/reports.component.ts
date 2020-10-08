@@ -197,8 +197,10 @@ export class ReportsComponent implements OnInit {
     return total;
   }
 
+
   generateReport() {
     const element = this.report.nativeElement as HTMLElement;
+    
 
     html2canvas(element, {height: 1000, width: 1000}).then(canvas => {
       const pdf = new jsPDF();

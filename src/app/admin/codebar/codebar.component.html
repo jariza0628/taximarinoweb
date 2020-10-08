@@ -1,0 +1,111 @@
+<div class="container">
+  <div class="row">
+    <div class="col-sm">
+      <br />
+      <h4>Buscar Codigos de barra</h4>
+      <br />
+      <div class="row">
+        <form [formGroup]="_formEntity">
+          <div class="col-sm">
+            <label for="exampleInputPassword1">Codigo de barra</label>
+            <input class="form-control" type="text" formControlName="codebar" />
+          </div>
+        </form>
+      </div>
+      <div class="row">
+        <div class="col-sm">
+          <div class="form-group">
+            <br />
+            <button class="btn btn-primary" (click)="submitFilter()">
+              Consultar
+            </button>
+          </div>
+        </div>
+      </div>
+      <div  >
+        <table class="table table-hover">
+          <thead>
+            <tr>
+              <th scope="col">Codigo</th>
+              <th scope="col">Fecha</th>
+              <th scope="col">Cliente</th>
+              <th scope="col">Descuento</th>
+              <th scope="col">Vendedor</th>
+              <th scope="col">Estado</th>
+              <th scope="col">Cantidad</th>
+             </tr>
+          </thead>
+          <tbody *ngIf="data">
+            <tr
+              *ngFor="let item of data"
+            >
+              <th>{{ item.codebar }}</th>
+              <td>{{ item.date + " " + item.hour }}</td>
+              <td>{{ item.name }}</td>
+              <td>{{ item.dicount }}</td>
+              <td>{{ item.seller }}</td>
+              <td>{{ item.state }}</td>
+              <td>1</td>
+             </tr>
+          </tbody>
+          <tbody>
+            <tr *ngIf="!data">
+              No result
+            </tr>
+          </tbody>
+        </table>
+        <div class="total"></div>
+      </div>
+      <br />
+       <div class="card" *ngIf="data">
+        <h6 style="padding-left: 10px; padding-top: 10px">
+          Detalle de la venta
+        </h6>
+        <div id="details " class="card-body" style="position: relative">
+         
+          <table class="table table-hover" *ngIf="data[0].detail">
+            <thead>
+              <tr>
+                <th scope="col">Nombre</th>
+                <th scope="col">Descripción</th>
+                <th scope="col">Valor</th>
+                <th scope="col">Estado Serv.</th>
+                <th scope="col">Verificador</th>
+                <th scope="col">Fecha Verif.</th>
+                <th scope="col">Valor</th>
+                <th scope="col">Valor Agencia</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let service of data[0].detail">
+                <td>{{ service.name | titlecase}}</td>
+                <td>{{ service.description | titlecase}}</td>
+                <td>{{ service.status }}</td>
+                <td>{{ service.verificador }}</td>
+                <td>{{ service.fecha }}</td>
+                <td>{{ service.publicvalue }}</td>
+                <td>{{ service.agencyvalue }}</td>
+              </tr>
+            </tbody>
+          </table>
+          <table class="table table-hover" *ngIf="data[0].plans">
+            <thead>
+              <tr>
+                <th scope="col">Nombre Plan</th>
+                <th scope="col">Descripción</th>
+                <th scope="col">Valor</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let plans of data[0].plans">
+                <td>{{ plans.name | titlecase}}</td>
+                <td>{{ plans.description | titlecase}}</td>
+                <td>{{ plans.totalvalue }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
