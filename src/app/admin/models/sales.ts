@@ -3,7 +3,7 @@ import {Service} from './service.model';
 
 export interface Sales {
   id?: any;
-  codebar?: any;
+  codebar?: string;
   detail?: Array<Service>;
   dicount?: string;
   dni?: string;

@@ -7,4 +7,5 @@ export class Service {
     status?: 'Activo' | 'Usado';
     userVerify?: any;
     typeverify: any;
+    department?: any;
 }

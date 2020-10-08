@@ -1,24 +1,37 @@
 <div class="container">
   <div class="row">
     <div class="col-sm">
-      <br>
+      <br />
       <h4>Ventas Registradas</h4>
-      <br>
+      <br />
       <div class="row">
         <div class="col-sm">
           <label for="exampleInputPassword1">Filtar por fecha</label>
-          <input class="form-control" type="date" #dates [(ngModel)]="date"
-            (input)="search(sellers.value, $event.target.value)">
+          <input
+            class="form-control"
+            type="date"
+            #dates
+            [(ngModel)]="date"
+            (input)="search(sellers.value, $event.target.value)"
+          />
         </div>
         <div class="col-sm">
           <label for="exampleInputPassword1">Filtar por vendedor</label>
-          <select class="custom-select custom-select mb-3 " #sellers
-            (change)="search(sellers.value, dates.value)">
+          <select
+            class="custom-select custom-select mb-3"
+            #sellers
+            (change)="search(sellers.value, dates.value)"
+          >
             <option selected>Selecciona un vendedor</option>
-            <option *ngFor="let item of user" value="{{item.user}}">{{item.user}}</option>
+            <option value="Oficina">Oficina</option>
+            <option *ngFor="let item of user" value="{{ item.user }}">
+              {{ item.user }}
+            </option>
           </select>
         </div>
-
+        <div class="col-sm">
+          <!-- <button class="btn" (click)="search(sellers.value, dates.value)">Buscar</button> -->
+        </div>
       </div>
       <div style="height: 400px; overflow-x: auto">
         <table class="table table-hover">
@@ -26,43 +39,75 @@
             <tr>
               <th scope="col">Cliente</th>
               <th scope="col">Fecha</th>
-              <th scope="col">Código de barra</th>
+              <th scope="col" (click)="ordenar()">Código de barra</th>
               <th scope="col">Descuento</th>
               <th scope="col">Vendedor</th>
+              <!-- 
               <th scope="col">Estado</th>
+                -->
               <th scope="col">Cantidad</th>
+              <!-- 
               <th scope="col">Total</th>
+              -->
               <th scope="col">Opciones</th>
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let item of data" (click)="showDeatil(item)" style="cursor: pointer">
-              <th>{{item.name}}</th>
-              <td>{{item.date + ' ' + item.hour | date:'short' }}</td>
-              <td>{{item.codebar}}</td>
-              <td>{{item.dicount}}</td>
-              <td>{{item.seller}}</td>
-              <td>{{item.state}}</td>
+            <tr
+              *ngFor="let item of data"
+              (click)="showDeatil(item)"
+              style="cursor: pointer"
+            >
+              <th>{{ item.name }}</th>
+              <td>{{ item.date + " " + item.hour | date: "short" }}</td>
+              <td>{{ item.codebar }}</td>
+              <td>{{ item.dicount }}</td>
+              <td>{{ item.seller }}</td>
+              <!-- 
+              <td>{{ item.state }}</td>
+            -->
               <td>1</td>
-              <td>{{item.total}}</td>
-              <td><a class="hover-a" *ngIf="item.state !== 'Aprobada' && item.state  !== 'Cancelada'"
-                  (click)="approve(item)">Aprobar</a> &nbsp;
-                <a class="hover-a" *ngIf="item.state !== 'Aprobada'  && item.state  !== 'Cancelada'"
-                  (click)="cancel(item)">Cancelar</a>
+              <!-- 
+              <td>$ {{ item.total }}</td>
+              -->
+              <td>
+                <a
+                  class="hover-a"
+                  *ngIf="
+                    item.state !== 'Aprobada' && item.state !== 'Cancelada'
+                  "
+                  (click)="approve(item)"
+                  >Aprobar</a
+                >
+                &nbsp;
+                <a
+                  class="hover-a"
+                  *ngIf="
+                    item.state !== 'Aprobada' && item.state !== 'Cancelada'
+                  "
+                  (click)="cancel(item)"
+                  >Cancelar</a
+                >
               </td>
             </tr>
-
           </tbody>
         </table>
-        <div class="total">
-        </div>
+        <div class="total"></div>
       </div>
-      <br>
-      Total: {{totalVenta}}
-
+      <br />
+      <p>Total Numero de manillas Vendidas: {{ data.length }}</p>
+      <div class="total" *ngIf="totalVenta">Total Cierre: {{ totalVenta }}</div>
       <div class="card" *ngIf="showdeatil">
+        <h4 style="padding-left: 23px; padding-top: 10px">
+          Detalle de la venta
+        </h4>
         <div id="details " class="card-body" style="position: relative">
-          <img id="close" (click)="detailSale = []" src="/assets/close.png" alt="">
+          <img
+            id="close"
+            (click)="detailSale = []; showdeatil = false"
+            src="/assets/close.png"
+            alt=""
+          />
           <table class="table table-hover" *ngIf="detailSale.length > 0">
             <thead>
               <tr>
@@ -74,12 +119,11 @@
             </thead>
             <tbody>
               <tr *ngFor="let service of detailSale">
-                <td>{{service.name}}</td>
-                <td>{{service.description}}</td>
-                <td>{{service.publicvalue}}</td>
-                <td>{{service.agencyvalue}}</td>
+                <td>{{ service.name }}</td>
+                <td>{{ service.description }}</td>
+                <td>{{ service.publicvalue }}</td>
+                <td>{{ service.agencyvalue }}</td>
               </tr>
-
             </tbody>
           </table>
           <table class="table table-hover" *ngIf="plan.length > 0">
@@ -92,17 +136,103 @@
             </thead>
             <tbody>
               <tr *ngFor="let plans of plan">
-                <td>{{plans.name}}</td>
-                <td>{{plans.description}}</td>
-                <td>{{plans.totalvalue}}</td>
+                <td>{{ plans.name }}</td>
+                <td>{{ plans.description }}</td>
+                <td>{{ plans.totalvalue }}</td>
               </tr>
-
             </tbody>
           </table>
         </div>
       </div>
+      <div>Total Historico: $ {{ totalVentaHistorico }}</div>
+      <div class="services">
+        <h5>Numero de manillas vendidas y cantidad de servicios</h5>
+        <form [formGroup]="_formEntity">
+          <div class="row">
+            <div class="col-sm">
+              <div class="form-group">
+                <label for="exampleFormControlInput1"
+                  >Servicio Individual</label
+                >
+                <select class="form-control" formControlName="name">
+                  <option value="{{ item.id }}" *ngFor="let item of services">
+                    {{ item.name | titlecase }}
+                  </option>
+                </select>
+              </div>
+            </div>
 
+            <div class="col-sm">
+              <div class="form-group">
+                <label for="exampleFormControlInput1">Fecha</label>
+                <input
+                  class="form-control"
+                  type="date"
+                  formControlName="datef"
+                />
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm">
+              <div class="form-group">
+                <button class="btn btn-primary" (click)="submitFilter()">
+                  Consultar
+                </button>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
     </div>
+  </div>
+</div>
+<!-- Button trigger modal -->
+<button
+  id="btnmodal"
+  type="button"
+  class="btn btn-primary"
+  data-toggle="modal"
+  data-target="#exampleModal"
+>
+  Launch demo modal
+</button>
 
+<!-- Modal -->
+<div
+  class="modal fade"
+  id="exampleModal"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Inidica el vendedor</h5>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <select #seller (click)="selectSeller(seller.value)">
+          <option *ngFor="let item of sellers" value="{{ item.user }}">
+            {{ item.user }}
+          </option>
+        </select>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">
+          Close
+        </button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
   </div>
 </div>

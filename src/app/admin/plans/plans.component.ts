@@ -18,7 +18,7 @@ export class PlansComponent implements OnInit {
   public arraySelect: any[];
   public dataServices: any;
   public dataAgency: any;
-
+  editUser: any;
   total: number;
   selectedDoor: any;
 
