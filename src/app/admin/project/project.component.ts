@@ -51,6 +51,16 @@ export class ProjectComponent implements OnInit {
         icon: 'fa fa-dashboard fa-lg'
       },
       {
+        name: 'Historico',
+        link: 'history',
+        icon: 'fa fa-dashboard fa-lg'
+      },
+      {
+        name: 'Inventario Manilla',
+        link: 'inventory',
+        icon: 'fa fa-dashboard fa-lg'
+      },
+      {
         name: 'Reportes Diarios',
         link: 'daily-reports',
         icon: 'fa fa-bell'

@@ -116,9 +116,11 @@ export class ReportsComponent implements OnInit {
     let total = 0;
     this.data.forEach(sale => {
       sale.plans.forEach(plan => {
+        total += plan.totalvalue;
+        /*
         plan.services.forEach(serviceItem => {
           total += serviceItem.publicvalue;
-        });
+        });*/
       });
       sale.detail.forEach(serviceItem => {
         total += serviceItem.publicvalue;
@@ -134,9 +136,11 @@ export class ReportsComponent implements OnInit {
   totalbySale(sale: Sales) {
     let total = 0;
     sale.plans.forEach(plan => {
-      plan.services.forEach(serviceItem => {
+      total += plan.totalvalue;
+
+      /*plan.services.forEach(serviceItem => {
         total += serviceItem.publicvalue;
-      });
+      });*/
     });
     sale.detail.forEach(serviceItem => {
       total += serviceItem.publicvalue;
@@ -172,9 +176,12 @@ export class ReportsComponent implements OnInit {
     this.data.forEach((sale: Sales | any) => {
       const getvalue = () => {
         sale.plans.forEach(plan => {
+          total += plan.totalvalue;
+
+          /*
           plan.services.forEach(serviceItem => {
             total += serviceItem.publicvalue;
-          });
+          });*/
         });
         sale.detail.forEach(serviceItem => {
           total += serviceItem.publicvalue;
@@ -216,7 +223,9 @@ export class ReportsComponent implements OnInit {
     });
 
   }
-
+  ordenar(){
+    console.log(this.data.sort((a,b) => parseInt(a.codebar) -  parseInt(b.codebar)));
+  }
 
 }
 

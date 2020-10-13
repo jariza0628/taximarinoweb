@@ -23,13 +23,15 @@ import { ReportComponent } from './report/report.component';
 import { DetailComponent } from './report/detail/detail.component';
 import { CodebarComponent } from './codebar/codebar.component';
 import { ReportAdminComponent } from '../report-admin/report-admin.component';
+import { HistoryReportComponent } from './history-report/history-report.component';
+import { InventoryComponent } from './inventory/inventory.component';
 
 
 @NgModule({
   declarations: [
     ProjectListComponent, ProjectCreateComponent, ProjectUpdateComponent,
     ProjectComponent, LoginComponent, ReportAdminComponent, PointSaleComponent, AgencyComponent, SalesComponent,
-    IndividualServicesComponent, PlansComponent, NewSalesComponent, ReceiptComponent, ReportComponent, DetailComponent, CodebarComponent],
+    IndividualServicesComponent, PlansComponent, NewSalesComponent, ReceiptComponent, ReportComponent, DetailComponent, CodebarComponent, HistoryReportComponent, InventoryComponent],
   imports: [
     CommonModule,
     AdminRoutingModule,
