@@ -206,22 +206,25 @@ export class ReportsComponent implements OnInit {
 
 
   generateReport() {
-    const element = this.report.nativeElement as HTMLElement;
-    
-
-    html2canvas(element, {height: 1000, width: 1000}).then(canvas => {
-      const pdf = new jsPDF();
-
-      pdf.addImage(canvas.toDataURL('image/png'), 'JPG', 5, 20, 200, 300);
-      const blob = pdf.output('bloburl');
-      const elementPrint = window.open(blob, '_blank', '', false);
-
-      elementPrint.focus();
-      elementPrint.print();
-      // document.body.appendChild(canvas);
-
-    });
-
+    // const element = this.report.nativeElement as HTMLElement;
+    //
+    //
+    // html2canvas(element, {height: 1000, width: 1000}).then(canvas => {
+    //   const pdf = new jsPDF();
+    //
+    //   pdf.addImage(canvas.toDataURL('image/png'), 'JPG', 5, 20, 200, 300);
+    //   const blob = pdf.output('bloburl');
+    //   const elementPrint = window.open(blob, '_blank', '', false);
+    //
+    //   elementPrint.focus();
+    //   elementPrint.print();
+    //   // document.body.appendChild(canvas);
+    //
+    // });
+    const menu = document.getElementById('menu-lateral');
+    menu.style.display = 'none';
+    window.print();
+    menu.style.display = 'block';
   }
   ordenar(){
     console.log(this.data.sort((a,b) => parseInt(a.codebar) -  parseInt(b.codebar)));
