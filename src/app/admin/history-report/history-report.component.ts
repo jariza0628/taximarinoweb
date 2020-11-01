@@ -72,7 +72,9 @@ export class HistoryReportComponent implements OnInit {
     if(formValue.service.length > 0){
       formValue.service.forEach(elementFor => {
         console.log('elementFor', elementFor);
+        //for sales arry
         this.sales.forEach((element) => {
+            //for formValue arry
           element.detail.forEach((service) => {
             if (formValue.service !== null && formValue.date !== null) {
               if (
@@ -92,7 +94,7 @@ export class HistoryReportComponent implements OnInit {
               }
             }
           });
-    
+          // Search plans
           element.plans.forEach((planCb) => {
             planCb.services.forEach((servPlan) => {
               if (elementFor !== null && formValue.date !== null) {

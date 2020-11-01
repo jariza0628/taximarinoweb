@@ -20,11 +20,11 @@ export class InventoryComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.date = this._GeneralServiceService.getDateNow();
     this.initiForm();
     this.sellers = [];
     this.range = [];
     this.getSellers();
-    this.date = this._GeneralServiceService.getDateNow();
     console.log(this.date);
     
   }
@@ -55,20 +55,24 @@ export class InventoryComponent implements OnInit {
         return {
           id: e.payload.doc.id,
           ...e.payload.doc.data(),
-        } as Service;
+        } as any;
       });
     });
   }
   submit(){
     this.date = this._GeneralServiceService.getDateNow();
-
+    let formValue;
+    formValue = this._formEntity.value;
+    console.log('formValue', formValue);
+    
   }
 
   preview(){
     let formValue;
     formValue = this._formEntity.value;
-    if(formValue.range_1 > formValue.range_2){
-      for (let index = formValue.range_1; formValue.range_1 < formValue.range_2; index++) {
+    console.log('formValue', formValue);
+    if(formValue.range_1 < formValue.range_2){
+      for (let index = formValue.range_1; index < formValue.range_2; index++) {
         this.range.push({
           codebar: ''+index,
           status: 'Active'
