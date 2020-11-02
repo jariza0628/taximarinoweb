@@ -165,7 +165,7 @@ export class NewSalesComponent implements OnInit {
     alert('msj')
   }
   async validaeCod(val) {
-    debugger
+     
     if(!val){
       return
     }
@@ -184,7 +184,7 @@ export class NewSalesComponent implements OnInit {
         .getSalesBydaCodeBar("sales", this.code + "")
         .subscribe(
           (data: any) => {
-            debugger
+             
             console.log("codeBAr search", data + "code:", this.code);
             if(this.code===""){
               return null

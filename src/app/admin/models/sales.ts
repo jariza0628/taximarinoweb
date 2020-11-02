@@ -13,4 +13,5 @@ export interface Sales {
   state?: 'Aprobada' | 'Denegada' | 'Cancelada' | 'Activa';
   total?: any;
   date?: Date;
+  vaucher?: any
 }

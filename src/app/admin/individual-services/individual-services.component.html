@@ -1,115 +1,149 @@
 <div class="container">
   <div class="row">
-    <br> <br>
-    <h3 style="padding: 20px 10px;">Gestionar Servicios</h3>
-    <hr style="padding: 0px 10px;border: 1ps solid #777777; width: 100%;">
+    <br />
+    <br />
+    <h3 style="padding: 20px 10px">Gestionar Servicios</h3>
+    <hr style="padding: 0px 10px; border: 1ps solid #777777; width: 100%" />
   </div>
   <form [formGroup]="_formEntity">
-    <input type="text" class="form-control" formControlName="id" *ngIf="editUser" style="display: none;;">
-
+    <input
+      type="text"
+      class="form-control"
+      formControlName="id"
+      *ngIf="editUser"
+      style="display: none ;"
+    />
 
     <div class="row">
       <div class="col-sm">
         <div class="form-group">
           <label>Nombre Servicio</label>
-          <input type="text" class="form-control" formControlName="name" placeholder="Transporte ida y vuelta">
+          <input
+            type="text"
+            class="form-control"
+            formControlName="name"
+            placeholder="Transporte ida y vuelta"
+          />
         </div>
       </div>
       <div class="col-sm">
         <div class="form-group">
           <label>Valor Publico</label>
-          <input type="number" class="form-control" formControlName="publicvalue" placeholder=" ">
+          <input
+            type="number"
+            class="form-control"
+            formControlName="publicvalue"
+            placeholder=" "
+          />
         </div>
       </div>
       <div class="col-sm">
         <div class="form-group">
           <label>Valor Agencia</label>
-          <input type="number" class="form-control" formControlName="agencyvalue" placeholder="">
+          <input
+            type="number"
+            class="form-control"
+            formControlName="agencyvalue"
+            placeholder=""
+          />
         </div>
       </div>
-
     </div>
     <div class="row">
       <div class="col-sm">
         <div class="form-group">
           <label for="">Descripcion</label>
-          <input type="text" class="form-control" formControlName="description" placeholder="Rodadero">
+          <input
+            type="text"
+            class="form-control"
+            formControlName="description"
+            placeholder="Rodadero"
+          />
         </div>
       </div>
-      
+
       <div class="col-sm">
         <div class="form-group">
           <label for="">Tipo verificador</label>
-           <select  class="form-control" formControlName="typeverify">
+          <select class="form-control" formControlName="typeverify">
             <option>Seleccionar</option>
             <option>Transporte</option>
             <option>Almuerzos</option>
- 
-
           </select>
         </div>
       </div>
       <div class="col-sm">
         <div class="form-group">
           <label for="">Departamento</label>
-           <select  class="form-control" formControlName="department">
+          <select class="form-control" formControlName="department">
             <option>Seleccionar</option>
             <option value="Acuario">Acuario</option>
             <option value="Pikua">Pikua</option>
             <option value="IncaInca">IncaInca</option>
             <option value="Katamran">Katamran</option>
             <option value="TxiMarino">TxiMarino</option>
-           </select>
+          </select>
         </div>
       </div>
-
-
     </div>
 
     <div class="col-sm" *ngIf="!edit">
-      <button type="submit" (click)="save()" [disabled]="_formEntity.invalid" class="btn btn-primary">Guardar</button>
+      <button
+        type="submit"
+        (click)="save()"
+        [disabled]="_formEntity.invalid"
+        class="btn btn-primary"
+      >
+        Guardar
+      </button>
     </div>
     <div class="col-sm" *ngIf="edit">
-      <button type="submit" (click)="updateUser()" [disabled]="_formEntity.invalid"
-        class="btn btn-primary">Actualizar</button> &nbsp;
-      <button type="reset" (click)="cancelUpdate()" class="btn btn-primary">Cancelar</button>
+      <button
+        type="submit"
+        (click)="updateUser()"
+        [disabled]="_formEntity.invalid"
+        class="btn btn-primary"
+      >
+        Actualizar
+      </button>
+      &nbsp;
+      <button type="reset" (click)="cancelUpdate()" class="btn btn-primary">
+        Cancelar
+      </button>
     </div>
   </form>
 
   <div class="row">
     <div class="col-sm">
-      <br>
+      <br />
       <h4>Servicios Registrados</h4>
-      <br>
+      <br />
       <table class="table table-hover">
         <thead>
           <tr>
-            <th scope="col">Nombre Sericio</th>
+            <th scope="col">Nombre Servicio</th>
             <th scope="col">Descripción</th>
             <th scope="col">Valor Publico</th>
-            <th scope="col">Valor Agencia</th>
             <th scope="col">Tipo verificador</th>
-            <th scope="col">Departaemento</th>
+            <th scope="col">Departamento</th>
             <th scope="col">Opciones</th>
-
           </tr>
         </thead>
         <tbody>
           <tr *ngFor="let item of data">
-            <th>{{item.name}}</th>
-            <td>{{item.description}}</td>
-            <td>{{item.publicvalue}}</td>
-            <td>{{item.agencyvalue}}</td>
-            <td>{{item.typeverify}}</td>
-            <td>{{item.department}}</td>
+            <th>{{ item.name | titlecase }}</th>
+            <td>{{ item.description }}</td>
+            <td>{{ item.publicvalue | currency: "$ ":"symbol":"4.0-0" }}</td>
+            <td>{{ item.typeverify }}</td>
+            <td>{{ item.department }}</td>
 
-            <td><a class="hover-a" (click)="deleteUser(item.id)">Eliminar</a> &nbsp;
-              <a class="hover-a" (click)="updateUserAct(item)">Editar</a></td>
+            <td>
+              <a class="hover-a" (click)="deleteUser(item.id)">Eliminar</a>
+              &nbsp; <a class="hover-a" (click)="updateUserAct(item)">Editar</a>
+            </td>
           </tr>
-
         </tbody>
       </table>
     </div>
-
   </div>
 </div>

@@ -18,6 +18,7 @@ export class ReportsComponent implements OnInit {
   users: Array<any> = [];
   services: Array<Service> = [];
   paymentType = paymentType;
+  totalVauches: number
   @ViewChild('report') report: ElementRef;
 
   constructor(private GN: GeneralServiceService) {
@@ -201,10 +202,29 @@ export class ReportsComponent implements OnInit {
   get totalBracelet() {
     let total = 0;
     this.services.forEach(service => total += this.countByService(service));
+    this.totalVauchess();
     return total;
   }
-
-
+  totalVauchess() {
+    this.totalVauches = 0;
+    this.data.forEach(sale => {
+      if(sale.vaucher){
+        sale.plans.forEach(plan => {
+          this.totalVauches += plan.totalvalue;
+          /*
+          plan.services.forEach(serviceItem => {
+            total += serviceItem.publicvalue;
+          });*/
+        });
+        sale.detail.forEach(serviceItem => {
+          this.totalVauches += serviceItem.publicvalue;
+        });
+      }
+    });
+    return this.totalVauches;
+  }
+  
+  
   generateReport() {
     // const element = this.report.nativeElement as HTMLElement;
     //
