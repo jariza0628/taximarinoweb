@@ -15,6 +15,16 @@
             </select>
           </div>
         </div>
+        <div class="row">
+          <div class="col-sm">
+            <div class="form-group">
+              <label></label>
+              <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal2" style="margin-top:31px;">
+                Cargar Cliente
+               </button>
+            </div>
+          </div>
+        </div>
         <div class="col-sm">
           <div class="form-group">
             <label>Nombre cliente (opcional)</label>
@@ -90,7 +100,7 @@
                   <tr *ngFor="let item of arraySelect">
                     <th scope="row"> {{item.name}}</th>
                     <td> {{item.description}}</td>
-                    <td>{{item.publicvalue}}</td>
+                    <td>{{item.publicvalue | currency: 'USD'}}</td>
                     <td style="text-align: center;"><a style="cursor:pointer ;" (click)="removeItemFromArr(item)">
                         Quitar <img src="https://img.icons8.com/plasticine/2x/delete-sign.png" width="20" height="20"
                           style="float: right;"></a></td>
@@ -98,7 +108,7 @@
                   <tr *ngFor="let item of arraySelectPlan">
                     <th scope="row"> {{item.name}} </th>
                     <td>{{item.description}}</td>
-                    <td> {{item.totalvalue}}</td>
+                    <td> {{item.totalvalue | currency: 'USD'}}</td>
                     <td style="text-align: center;"><a style="cursor:pointer ;"
                         (click)="removeItemFromArrPlan(item)">Quitar<img
                           src="https://img.icons8.com/plasticine/2x/delete-sign.png" width="20" height="20"
@@ -144,15 +154,22 @@
             <label>Tarjeta</label>
             <input type="number" [(ngModel)]="generalSale.card" class="form-control">
           </div>
+          
         </div>
+        <div class="col-sm-2" *ngIf="generalSale.paymentType === 'credit'">
+          <div class="form-group">
+            <label>Voucher</label>
+            <input type="number" [(ngModel)]="generalSale.card" class="form-control">
+          </div>
+      </div>
 
         <div class="form-group">
           <label>&nbsp;</label><br>
-          <button class="btn btn-primary" (click)="showmixprice = fasle">Cerrar</button>
+        <!--- <button class="btn btn-primary" (click)="showmixprice = fasle">Cerrar</button>-->
         </div>
       </div>
-
-
+      <label>&nbsp;</label><br>
+      <button class="btn btn-primary" (click)="showmixprice = fasle">Generar Consecutivos</button>
     </ng-container>
     <div class="row">
       <div class="col-sm-4">
@@ -202,13 +219,13 @@
           <div class="col-sm-12">
             <div class="form-group">
               <label style="color: green;font-size: 18px;">Total de venta por código</label>
-              <h5>$ {{totalValue + total}}</h5>
+              <h5>$ {{totalValue + total | currency: 'USD' }}</h5>
             </div>
           </div>
           <div class="col-sm-12">
             <div class="form-group">
               <label style="color: maroon;font-size: 18px;">Sumatoria total de venta</label>
-              <h5>$ {{(totalValue + total) * barcodes.length }}</h5>
+              <h5> {{(totalValue + total) * barcodes.length| currency: 'USD' }}</h5>
             </div>
           </div>
           <div class="col-sm-12">
@@ -245,7 +262,9 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Buscar un servicio</h5>
+        <h5 class="modal-title" id="exampleModalLabel">Buscar </h5>
+        <br>
+        <input type="text"  class="form-control">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -282,7 +301,7 @@
               <tr *ngFor="let item of services">
                 <th scope="row">{{item.name}}</th>
                 <td>{{item.description}}</td>
-                <td>{{item.publicvalue}}</td>
+                <td>{{item.publicvalue | currency: 'USD'}}</td>
                 <td><a (click)="onChangeServ(item.id)">Añadir + </a></td>
               </tr>
 
@@ -300,6 +319,16 @@
 
 <script>
   $("#exampleModal").modal({
+    modal: true,
+    buttons: {
+      Ok: function () {
+        $(this).modal("close");
+      }
+    }
+  });
+</script>
+<script>
+  $("#exampleModal2").modal({
     modal: true,
     buttons: {
       Ok: function () {

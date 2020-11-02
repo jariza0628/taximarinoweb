@@ -56,9 +56,10 @@
             <option>Seleccionar</option>
             <option value="Acuario">Acuario</option>
             <option value="Pikua">Pikua</option>
-            <option value="IncaInca">IncaInca</option>
-            <option value="Katamran">Katamran</option>
-            <option value="TxiMarino">TxiMarino</option>
+            <option value="InkaInka">InkaInka</option>
+            <option value="Katamaran">Katamaran</option>
+            <option value="TaxiMarino">TaxiMarino</option>
+            <option value="Canopy">Canopy</option>
            </select>
         </div>
       </div>
@@ -89,7 +90,7 @@
             <th scope="col">Valor Publico</th>
             <th scope="col">Valor Agencia</th>
             <th scope="col">Tipo verificador</th>
-            <th scope="col">Departaemento</th>
+            <th scope="col">Departamento</th>
             <th scope="col">Opciones</th>
 
           </tr>
@@ -98,7 +99,7 @@
           <tr *ngFor="let item of data">
             <th>{{item.name}}</th>
             <td>{{item.description}}</td>
-            <td>{{item.publicvalue}}</td>
+            <td>{{item.publicvalue }}</td>
             <td>{{item.agencyvalue}}</td>
             <td>{{item.typeverify}}</td>
             <td>{{item.department}}</td>

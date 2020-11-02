@@ -16,8 +16,8 @@ export const environment = {
     measurementId: "G-QHZ72YFG6C"
   }
   //PROD
-  /*
-  firebaseConfig: {
+  
+  /*firebaseConfig: {
     apiKey: 'AIzaSyDhp-1ADAPXE6ypuMMGjHHw_PP-ndWoQ8Q',
     authDomain: 'taximarino-98c35.firebaseapp.com',
     databaseURL: 'https://taximarino-98c35.firebaseio.com',
