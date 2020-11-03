@@ -29,6 +29,8 @@ export class NewSalesComponent implements OnInit {
   efecty: any;
   tarjeta: any;
 
+  vaucher: any
+
   sellers: any;
 
   arryTMP: any;
@@ -69,6 +71,7 @@ export class NewSalesComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.vaucher = null;
     this.getData();
     this.getDataPlans();
     this.getSellers();
@@ -351,6 +354,7 @@ export class NewSalesComponent implements OnInit {
               tarjeta: this.generalSale.card || null,
               typepay: this.generalSale.paymentType || null,
               zone: "Oficina",
+              vaucher: this.vaucher,
               idGeneralSale: saleIdentifier,
             };
             if (ventas) {

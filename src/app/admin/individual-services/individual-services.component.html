@@ -124,7 +124,7 @@
           <tr>
             <th scope="col">Nombre Servicio</th>
             <th scope="col">Descripción</th>
-            <th scope="col">Valor Publico</th>
+            <th scope="col">Valor</th>
             <th scope="col">Tipo verificador</th>
             <th scope="col">Departamento</th>
             <th scope="col">Opciones</th>
@@ -132,24 +132,15 @@
         </thead>
         <tbody>
           <tr *ngFor="let item of data">
-<<<<<<< HEAD
             <th>{{ item.name | titlecase }}</th>
-            <td>{{ item.description }}</td>
+            <td>{{ item.description  | titlecase }}</td>
             <td>{{ item.publicvalue | currency: "$ ":"symbol":"4.0-0" }}</td>
             <td>{{ item.typeverify }}</td>
             <td>{{ item.department }}</td>
-=======
-            <th>{{item.name}}</th>
-            <td>{{item.description}}</td>
-            <td>{{item.publicvalue }}</td>
-            <td>{{item.agencyvalue}}</td>
-            <td>{{item.typeverify}}</td>
-            <td>{{item.department}}</td>
->>>>>>> d2221d31aed80688a837bd078f09f252d1bcb9fe
 
             <td>
-              <a class="hover-a" (click)="deleteUser(item.id)">Eliminar</a>
-              &nbsp; <a class="hover-a" (click)="updateUserAct(item)">Editar</a>
+              <a style="color: white;" class="hover-a btn btn-danger" (click)="deleteUser(item.id)">Eliminar</a>
+              &nbsp; <a style="color: white;" class="hover-a btn btn-warning" (click)="updateUserAct(item)">Editar</a>
             </td>
           </tr>
         </tbody>

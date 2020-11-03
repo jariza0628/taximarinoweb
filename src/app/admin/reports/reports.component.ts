@@ -1,15 +1,15 @@
-import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
-import {Sales} from '../models/sales';
-import {GeneralServiceService} from '../services/general-service.service';
-import {Service} from '../models/service.model';
-import {paymentType} from '../new-sales/new-sales.component';
-import html2canvas from 'html2canvas';
-import * as jsPDF from 'jspdf';
+import { Component, ElementRef, OnInit, ViewChild } from "@angular/core";
+import { Sales } from "../models/sales";
+import { GeneralServiceService } from "../services/general-service.service";
+import { Service } from "../models/service.model";
+import { paymentType } from "../new-sales/new-sales.component";
+import html2canvas from "html2canvas";
+import * as jsPDF from "jspdf";
 
 @Component({
-  selector: 'app-reports',
-  templateUrl: './reports.component.html',
-  styleUrls: ['./reports.component.css']
+  selector: "app-reports",
+  templateUrl: "./reports.component.html",
+  styleUrls: ["./reports.component.css"],
 })
 export class ReportsComponent implements OnInit {
   seller: string;
@@ -18,11 +18,10 @@ export class ReportsComponent implements OnInit {
   users: Array<any> = [];
   services: Array<Service> = [];
   paymentType = paymentType;
-  totalVauches: number
-  @ViewChild('report') report: ElementRef;
+  totalVauches: number;
+  @ViewChild("report") report: ElementRef;
 
-  constructor(private GN: GeneralServiceService) {
-  }
+  constructor(private GN: GeneralServiceService) {}
 
   ngOnInit() {
     this.getsellers();
@@ -30,13 +29,14 @@ export class ReportsComponent implements OnInit {
   }
 
   servicesSale(sale: Sales) {
-    let services = '';
-    sale.plans.forEach(plan => {
-      services = `${services} ${services === '' ? '' : '+'} ${plan.name}`;
+    let services = "";
+    sale.plans.forEach((plan) => {
+      services = `${services} ${services === "" ? "" : "+"} ${plan.name}`;
     });
 
-    sale.detail.forEach(service =>
-      services = `${services} ${services === '' ? '' : '+'} ${service.name}`
+    sale.detail.forEach(
+      (service) =>
+        (services = `${services} ${services === "" ? "" : "+"} ${service.name}`)
     );
     return services;
   }
@@ -47,65 +47,66 @@ export class ReportsComponent implements OnInit {
    * */
   search() {
     if (this.seller && this.date) {
-      this.GN.getSalesByDateAndSeller('sales', this.seller, this.date).subscribe(
-        data => {
-          // console.log('dara', data);
-          this.data = data.map(e => {
-            console.log('result', e.payload.doc.data());
+      this.GN.getSalesByDateAndSeller(
+        "sales",
+        this.seller,
+        this.date
+      ).subscribe((data) => {
+        // console.log('dara', data);
+        this.data = data.map((e) => {
+          console.log("result", e.payload.doc.data());
 
-            return {
-              id: e.payload.doc.id,
-              ...e.payload.doc.data()
-            } as Sales;
-          });
+          return {
+            id: e.payload.doc.id,
+            ...e.payload.doc.data(),
+          } as Sales;
         });
+      });
     }
   }
 
   getsellers() {
-    this.GN.getFirebase('users').subscribe(
-      data => {
-        // console.log('dara', data);
-        this.users = data.map(e => {
-          console.log(e.payload.doc.data());
-          return {
-            id: e.payload.doc.id,
-            ...e.payload.doc.data()
-          } as any;
-        });
+    this.GN.getFirebase("users").subscribe((data) => {
+      // console.log('dara', data);
+      this.users = data.map((e) => {
+        console.log(e.payload.doc.data());
+        return {
+          id: e.payload.doc.id,
+          ...e.payload.doc.data(),
+        } as any;
       });
+    });
   }
 
   getServices() {
-    this.GN.getFirebase('service').subscribe(
-      data => {
-        console.log('dara', data);
-        this.services = data.map(e => {
-          // console.log(e.payload.doc.data());
-          return {
-            id: e.payload.doc.id,
-            ...e.payload.doc.data()
-          } as Service;
-        });
+    this.GN.getFirebase("service").subscribe((data) => {
+      console.log("dara", data);
+      this.services = data.map((e) => {
+        // console.log(e.payload.doc.data());
+        return {
+          id: e.payload.doc.id,
+          ...e.payload.doc.data(),
+        } as Service;
       });
+    });
   }
 
   typePayment(sale: Sales | any) {
-    switch (sale.paymentType) {
-      case 'card':
-        return 'Tarjeta';
+    switch (sale.typepay) {
+      case "card":
+        return "Tarjeta";
         break;
-      case 'cash':
-        return 'Efectivo';
+      case "cash":
+        return "Efectivo";
         break;
-      case 'credit':
-        return 'Crédito';
+      case "credit":
+        return "Crédito";
         break;
-      case 'mixed':
-        return 'Mixto';
+      case "mixed":
+        return "Mixto";
         break;
       default:
-        return 'Efectivo';
+        return "Efectivo";
         break;
     }
   }
@@ -115,15 +116,15 @@ export class ReportsComponent implements OnInit {
    * */
   get total() {
     let total = 0;
-    this.data.forEach(sale => {
-      sale.plans.forEach(plan => {
+    this.data.forEach((sale) => {
+      sale.plans.forEach((plan) => {
         total += plan.totalvalue;
         /*
         plan.services.forEach(serviceItem => {
           total += serviceItem.publicvalue;
         });*/
       });
-      sale.detail.forEach(serviceItem => {
+      sale.detail.forEach((serviceItem) => {
         total += serviceItem.publicvalue;
       });
     });
@@ -136,14 +137,14 @@ export class ReportsComponent implements OnInit {
 
   totalbySale(sale: Sales) {
     let total = 0;
-    sale.plans.forEach(plan => {
+    sale.plans.forEach((plan) => {
       total += plan.totalvalue;
 
       /*plan.services.forEach(serviceItem => {
         total += serviceItem.publicvalue;
       });*/
     });
-    sale.detail.forEach(serviceItem => {
+    sale.detail.forEach((serviceItem) => {
       total += serviceItem.publicvalue;
     });
     return total;
@@ -156,13 +157,13 @@ export class ReportsComponent implements OnInit {
   countByService(service: Service) {
     if (this.services.length > 0) {
       let total = 0;
-      this.data.forEach(sale => {
-        sale.plans.forEach(plan => {
-          plan.services.forEach(serviceItem => {
+      this.data.forEach((sale) => {
+        sale.plans.forEach((plan) => {
+          plan.services.forEach((serviceItem) => {
             total += serviceItem.name === service.name ? 1 : 0;
           });
         });
-        sale.detail.forEach(serviceItem => {
+        sale.detail.forEach((serviceItem) => {
           total += serviceItem.name === service.name ? 1 : 0;
         });
       });
@@ -176,7 +177,7 @@ export class ReportsComponent implements OnInit {
     let total = 0;
     this.data.forEach((sale: Sales | any) => {
       const getvalue = () => {
-        sale.plans.forEach(plan => {
+        sale.plans.forEach((plan) => {
           total += plan.totalvalue;
 
           /*
@@ -184,47 +185,131 @@ export class ReportsComponent implements OnInit {
             total += serviceItem.publicvalue;
           });*/
         });
-        sale.detail.forEach(serviceItem => {
+        sale.detail.forEach((serviceItem) => {
           total += serviceItem.publicvalue;
         });
       };
-      if (!sale.paymentType && paymentype === paymentType.cash) {
+      if (!sale.typepay && paymentype === paymentType.cash) {
         getvalue();
       }
-      if (sale.paymentType === paymentype) {
+      if (sale.typepay &&  paymentype === paymentType.card) {
         getvalue();
       }
-
+      
     });
     return total;
   }
 
   get totalBracelet() {
     let total = 0;
-    this.services.forEach(service => total += this.countByService(service));
+    this.services.forEach((service) => (total += this.countByService(service)));
     this.totalVauchess();
     return total;
   }
   totalVauchess() {
     this.totalVauches = 0;
-    this.data.forEach(sale => {
-      if(sale.vaucher){
-        sale.plans.forEach(plan => {
+    this.data.forEach((sale) => {
+      if (sale.vaucher) {
+        sale.plans.forEach((plan) => {
           this.totalVauches += plan.totalvalue;
           /*
           plan.services.forEach(serviceItem => {
             total += serviceItem.publicvalue;
           });*/
         });
-        sale.detail.forEach(serviceItem => {
+        sale.detail.forEach((serviceItem) => {
           this.totalVauches += serviceItem.publicvalue;
         });
       }
     });
     return this.totalVauches;
   }
-  
-  
+  calcTypePay(typepay) {
+    let total = 0;
+    this.data.forEach((sale) => {
+      if (sale.typepay === typepay) {
+        sale.plans.forEach((plan) => {
+          total += plan.totalvalue;
+          /*
+          plan.services.forEach(serviceItem => {
+            total += serviceItem.publicvalue;
+          });*/
+        });
+        sale.detail.forEach((serviceItem) => {
+          total += serviceItem.publicvalue;
+        });
+      }
+    });
+    return total;
+  }
+  calcMixed(tarjeta) {
+    let total = 0;
+    let totalMixed = 0;
+    this.data.forEach((sale) => {
+      if (sale.typepay === 'mixed') {
+        if(tarjeta==='tarjeta'){
+          totalMixed = totalMixed + sale.tarjeta;
+        }
+        if(tarjeta==='efectivo'){
+          totalMixed = totalMixed + sale.efecty;
+        }
+        sale.plans.forEach((plan) => {
+          total += plan.totalvalue;
+          /*
+          plan.services.forEach(serviceItem => {
+            total += serviceItem.publicvalue;
+          });*/
+        });
+        sale.detail.forEach((serviceItem) => {
+          total += serviceItem.publicvalue;
+        });
+      }
+    });
+    return totalMixed;
+  }
+  calcDepartament(dept) {
+    let totalDep = 0;
+    this.data.forEach((sale) => {
+      sale.plans.forEach((plan) => {
+        // totalDep += plan.totalvalue;
+        plan.services.forEach((serviceItem) => {
+          if (dept === serviceItem.department) {
+            totalDep += serviceItem.publicvalue;
+          }
+        });
+      });
+      sale.detail.forEach((serviceItem) => {
+        if (dept === serviceItem.department) {
+          totalDep += serviceItem.publicvalue;
+        }
+      });
+    });
+    console.log("calcDepartament" + dept + ": ", totalDep);
+
+    return totalDep;
+  }
+  calcDepartamentCant(dept) {
+    let totalDep = 0;
+    this.data.forEach((sale) => {
+      sale.plans.forEach((plan) => {
+        // totalDep += plan.totalvalue;
+        plan.services.forEach((serviceItem) => {
+          if (dept === serviceItem.department) {
+            totalDep += 1;
+          }
+        });
+      });
+      sale.detail.forEach((serviceItem) => {
+        if (dept === serviceItem.department) {
+          totalDep += 1;
+        }
+      });
+    });
+    console.log("calcDepartament" + dept + ": ", totalDep);
+
+    return totalDep;
+  }
+
   generateReport() {
     // const element = this.report.nativeElement as HTMLElement;
     //
@@ -241,17 +326,18 @@ export class ReportsComponent implements OnInit {
     //   // document.body.appendChild(canvas);
     //
     // });
-    const menu = document.getElementById('menu-lateral');
-    menu.style.display = 'none';
+    const menu = document.getElementById("menu-lateral");
+    menu.style.display = "none";
     window.print();
-    menu.style.display = 'block';
+    menu.style.display = "block";
   }
-  ordenar(){
-    console.log(this.data.sort((a,b) => parseInt(a.codebar) -  parseInt(b.codebar)));
+  ordenar() {
+    console.log(
+      this.data.sort((a, b) => parseInt(a.codebar) - parseInt(b.codebar))
+    );
   }
-
 }
 
 /*
-*
-* */
+ *
+ * */

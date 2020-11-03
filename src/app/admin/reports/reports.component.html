@@ -1,7 +1,7 @@
 <div class="container">
   <div id="reporte" class="row">
     <div class="col-sm">
-      <h4>Reportes Diarios</h4>
+      <h4 (click)="calcDepartament('Acuario')">Reportes Diarios</h4>
       <div class="row">
         <div class="col-sm">
           <label for="date">Filtar por fecha</label>
@@ -132,7 +132,7 @@
           TOTAL PAGO EFECTIVO
         </div>
         <div class="col-lg-4 col-md-4 font-weight-bold">
-          ${{ totalByTypePayment(paymentType.cash) - totalVauches | number }}
+          ${{ calcTypePay('cash') + calcMixed('efectivo') | number }}
         </div>
         <div class="col-lg-5 col-md-5 font-weight-bold"></div>
         <div class="col-lg-3 col-md-3 font-weight-bold">TOTAL PAGO CRÉDITO</div>
@@ -142,7 +142,7 @@
         <div class="col-lg-5 col-md-5 font-weight-bold"></div>
         <div class="col-lg-3 col-md-3 font-weight-bold">TOTAL PAGO TARJETA</div>
         <div class="col-lg-4 col-md-4 font-weight-bold">
-          ${{ totalByTypePayment(paymentType.card) | number }}
+          ${{ calcTypePay('card') + calcMixed('tarjeta') | number }}
         </div>
         <div class="col-lg-5 col-md-5 font-weight-bold"></div>
         <div class="col-lg-3 col-md-3 font-weight-bold">TOTAL VAUCHES</div>
@@ -155,7 +155,33 @@
           ${{ total | number }}
         </div>
         <div class="col-lg-5 col-md-5 font-weight-bold"></div>
+
+       
       </div>
+      <hr>
+      <div  class="row details">
+        <div class="col-lg-5 col-md-5 font-weight-bold">CANTIDAD {{ calcDepartamentCant('Acuario') }}</div>
+
+        <div class="col-lg-3 col-md-3 font-weight-bold">VENTAS ACUARIO</div>
+        <div class="col-lg-4 col-md-4 font-weight-bold">
+          ${{ calcDepartament('Acuario') | number }}
+        </div>
+  
+        <div class="col-lg-5 col-md-5 font-weight-bold"></div>
+        
+      </div>
+      <div  class="row details">
+        <div class="col-lg-5 col-md-5 font-weight-bold">CANTIDAD {{ calcDepartamentCant('Taximarino') }}</div>
+
+        <div class="col-lg-3 col-md-3 font-weight-bold">VENTAS TAXI</div>
+        <div class="col-lg-4 col-md-4 font-weight-bold">
+          ${{ calcDepartament('Taximarino') | number }}
+        </div>
+  
+        <div class="col-lg-5 col-md-5 font-weight-bold"></div>
+        
+      </div>
+    
     </div>
   </div>
 </div>
