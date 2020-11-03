@@ -1,10 +1,10 @@
-import {Component, OnInit} from '@angular/core';
-import {FormGroup, FormControl, Validators} from '@angular/forms';
-import {GeneralServiceService} from '../services/general-service.service';
-import {Plan} from '../models/plan.model';
-import {Service} from '../models/service.model';
-import {v4 as uuidv4} from 'uuid';
-import {Tickets} from 'src/utils/ticket';
+import { Component, OnInit } from "@angular/core";
+import { FormGroup, FormControl, Validators } from "@angular/forms";
+import { GeneralServiceService } from "../services/general-service.service";
+import { Plan } from "../models/plan.model";
+import { Service } from "../models/service.model";
+import { v4 as uuidv4 } from "uuid";
+import { Tickets } from "src/utils/ticket";
 
 @Component({
   selector: "app-new-sales",
@@ -30,6 +30,10 @@ export class NewSalesComponent implements OnInit {
   tarjeta: any;
 
   sellers: any;
+
+  arryTMP: any;
+
+  seacrhData: any;
 
   generalSale: GeneralSale = {};
 
@@ -80,9 +84,24 @@ export class NewSalesComponent implements OnInit {
           ...e.payload.doc.data(),
         } as Service;
       });
+      this.arryTMP = this.services;
     });
   }
-
+  restDate() {
+    debugger;
+    this.arryTMP = this.services;
+  }
+  serach(dataToSearch) {
+    console.log("dataToSearch", dataToSearch);
+    this.arryTMP = [];
+    this.services.forEach((element) => {
+      if (element.name.toLowerCase().includes(dataToSearch.toLowerCase())) {
+        this.arryTMP.push(element);
+      }
+    });
+    console.log("this.arryTMP", this.arryTMP);
+ 
+  }
   getDataPlans() {
     this._GeneralServiceService.getFirebase("plan").subscribe((data) => {
       console.log("dara", data);
@@ -144,7 +163,7 @@ export class NewSalesComponent implements OnInit {
 
   removeItemFromArr(item) {
     let i;
-     i = this.arraySelect.indexOf(item);
+    i = this.arraySelect.indexOf(item);
     this.totalValue = this.totalValue - item.publicvalue;
     if (i !== -1) {
       this.arraySelect.splice(i, 1);
@@ -153,21 +172,20 @@ export class NewSalesComponent implements OnInit {
 
   removeItemFromArrPlan(item) {
     let i;
-     i = this.arraySelectPlan.indexOf(item);
-      
+    i = this.arraySelectPlan.indexOf(item);
+
     this.total = this.total - item.totalvalue;
 
     if (i !== -1) {
       this.arraySelectPlan.splice(i, 1);
     }
   }
-  alert(msj){
-    alert('msj')
+  alert(msj) {
+    alert("msj");
   }
   async validaeCod(val) {
-     
-    if(!val){
-      return
+    if (!val) {
+      return;
     }
     // get code database
     console.log("code", this.code);
@@ -178,18 +196,16 @@ export class NewSalesComponent implements OnInit {
       alert("Ingrese un codigo de barra");
     } else {
       find_Code_duplic = false;
-      
+
       //Validar si el cod fue vendido
       await this._GeneralServiceService
         .getSalesBydaCodeBar("sales", this.code + "")
         .subscribe(
           (data: any) => {
-             
             console.log("codeBAr search", data + "code:", this.code);
-            if(this.code===""){
-              return null
-            }else{
-              
+            if (this.code === "") {
+              return null;
+            } else {
             }
             let info = data.map((e) => {
               console.log(e.payload.doc.data());
@@ -197,30 +213,29 @@ export class NewSalesComponent implements OnInit {
               result = e.payload.doc.data();
               if (result) {
                 cod_vendido = true;
-                
-                  alert("El codigo "+ this.code + " ya se encuentra regisrado intente con otro");
-                  this.code = "";
-                
-              }  
-               
+
+                alert(
+                  "El codigo " +
+                    this.code +
+                    " ya se encuentra regisrado intente con otro"
+                );
+                this.code = "";
+              }
             });
-            console.log('info', info);
-            if(info.length === 0){
+            console.log("info", info);
+            if (info.length === 0) {
               this.addCodesave(dataResulCode);
             }
-            
           },
           (err) => {
             console.log(err);
           }
         );
-
-      
     }
   }
 
   addCodesave(code) {
-    let find_Code_duplic =false;
+    let find_Code_duplic = false;
     this.barcodes.forEach((element) => {
       if (element.code === code) {
         find_Code_duplic = true;
@@ -294,7 +309,7 @@ export class NewSalesComponent implements OnInit {
 
           if (element.code !== null) {
             let total;
-            
+
             total = (this.totalValue + this.total) * this.barcodes.length;
             formValue.codebar = "" + element.code;
 
@@ -341,7 +356,6 @@ export class NewSalesComponent implements OnInit {
             if (ventas) {
               this.save(body);
               this.code = "";
-
             }
 
             console.log("body", body);
@@ -398,7 +412,6 @@ export class NewSalesComponent implements OnInit {
           this.barcodes = [];
           this._formEntity.reset();
           this.showmixprice = false;
-
         }
       } else {
         alert("Campos obligatorios, Debe indicar un código de barra");
@@ -418,18 +431,16 @@ export class NewSalesComponent implements OnInit {
       .catch((error) => console.error(error));
   }
 
-  getSellers(){
-    this._GeneralServiceService.getSeller().subscribe(
-      data =>{
-        this.sellers = data.map((e) => {
-           console.log('users', e.payload.doc.data());
-          return {
-            id: e.payload.doc.id,
-            ...e.payload.doc.data(),
-          } as any;
-        });
-      }
-    )
+  getSellers() {
+    this._GeneralServiceService.getSeller().subscribe((data) => {
+      this.sellers = data.map((e) => {
+        console.log("users", e.payload.doc.data());
+        return {
+          id: e.payload.doc.id,
+          ...e.payload.doc.data(),
+        } as any;
+      });
+    });
   }
 
   /**
@@ -466,5 +477,8 @@ export interface GeneralSale {
 }
 
 export enum paymentType {
-  'card', 'credit', 'cash', 'mixed',
+  "card",
+  "credit",
+  "cash",
+  "mixed",
 }
