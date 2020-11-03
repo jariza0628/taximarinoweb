@@ -108,7 +108,9 @@
         <div class="col-lg-2 col-md-2 font-weight-bold">NOMBRE</div>
         <div class="col-lg-1 col-md-1 font-weight-bold">CANTIDAD</div>
         <div class="col-lg-2 col-md-2 font-weight-bold"></div>
-        <div class="col-lg-3 col-md-3 font-weight-bold">VALOR INDIVIDUAL SER.</div>
+        <div class="col-lg-3 col-md-3 font-weight-bold">
+          VALOR INDIVIDUAL SER.
+        </div>
         <div class="col-lg-2 col-md-2 font-weight-bold">VALOR TOTAL</div>
         <div class="col-lg-2 col-md-2 font-weight-bold"></div>
         <ng-container *ngFor="let service of services">
@@ -124,15 +126,13 @@
             </div>
             <div class="col-lg-2 col-md-2"></div>
           </ng-container>
-          
-        
         </ng-container>
         <div class="col-lg-5 col-md-5 font-weight-bold"></div>
         <div class="col-lg-3 col-md-3 font-weight-bold">
           TOTAL PAGO EFECTIVO
         </div>
         <div class="col-lg-4 col-md-4 font-weight-bold">
-          ${{ calcTypePay('cash') + calcMixed('efectivo') | number }}
+          ${{ calcTypePay("cash") + calcMixed("efectivo") | number }}
         </div>
         <div class="col-lg-5 col-md-5 font-weight-bold"></div>
         <div class="col-lg-3 col-md-3 font-weight-bold">TOTAL PAGO CRÉDITO</div>
@@ -142,7 +142,7 @@
         <div class="col-lg-5 col-md-5 font-weight-bold"></div>
         <div class="col-lg-3 col-md-3 font-weight-bold">TOTAL PAGO TARJETA</div>
         <div class="col-lg-4 col-md-4 font-weight-bold">
-          ${{ calcTypePay('card') + calcMixed('tarjeta') | number }}
+          ${{ calcTypePay("card") + calcMixed("tarjeta") | number }}
         </div>
         <div class="col-lg-5 col-md-5 font-weight-bold"></div>
         <div class="col-lg-3 col-md-3 font-weight-bold">TOTAL VAUCHES</div>
@@ -155,33 +155,78 @@
           ${{ total | number }}
         </div>
         <div class="col-lg-5 col-md-5 font-weight-bold"></div>
-
-       
+        <div class="col-lg-3 col-md-3 font-weight-bold">TOTAL PAGO COMISIONES</div>
+        <div class="col-lg-4 col-md-4 font-weight-bold">
+          ${{ 0 | number }}
+        </div>
+        <div class="col-lg-5 col-md-5 font-weight-bold"></div>
+        <div class="col-lg-3 col-md-3 font-weight-bold">TOTAL ENTREGA</div>
+        <div class="col-lg-4 col-md-4 font-weight-bold">
+          ${{ total -  (calcTypePay("card") + calcMixed("tarjeta")) - totalVauches| number }}
+        </div>
+        <div class="col-lg-5 col-md-5 font-weight-bold"></div>
       </div>
-      <hr>
-      <div  class="row details">
-        <div class="col-lg-5 col-md-5 font-weight-bold">CANTIDAD {{ calcDepartamentCant('Acuario') }}</div>
-
+      <hr />
+      <div class="row details">
+        <div class="col-lg-5 col-md-5 font-weight-bold">
+          CANTIDAD {{ calcDepartamentCant("Acuario") }}
+        </div>
         <div class="col-lg-3 col-md-3 font-weight-bold">VENTAS ACUARIO</div>
         <div class="col-lg-4 col-md-4 font-weight-bold">
-          ${{ calcDepartament('Acuario') | number }}
+          ${{ calcDepartament("Acuario") | number }}
         </div>
-  
         <div class="col-lg-5 col-md-5 font-weight-bold"></div>
-        
       </div>
-      <div  class="row details">
-        <div class="col-lg-5 col-md-5 font-weight-bold">CANTIDAD {{ calcDepartamentCant('Taximarino') }}</div>
-
+      <div class="row details">
+        <div class="col-lg-5 col-md-5 font-weight-bold">
+          CANTIDAD {{ calcDepartamentCant("TaxiMarino") }}
+        </div>
         <div class="col-lg-3 col-md-3 font-weight-bold">VENTAS TAXI</div>
         <div class="col-lg-4 col-md-4 font-weight-bold">
-          ${{ calcDepartament('Taximarino') | number }}
+          ${{ calcDepartament("TaxiMarino") | number }}
         </div>
-  
         <div class="col-lg-5 col-md-5 font-weight-bold"></div>
-        
       </div>
-    
+      <div class="row details">
+        <div class="col-lg-5 col-md-5 font-weight-bold">
+          CANTIDAD {{ calcDepartamentCant("Pikua") }}
+        </div>
+        <div class="col-lg-3 col-md-3 font-weight-bold">VENTAS PIKUA</div>
+        <div class="col-lg-4 col-md-4 font-weight-bold">
+          ${{ calcDepartament("Pikua") | number }}
+        </div>
+        <div class="col-lg-5 col-md-5 font-weight-bold"></div>
+      </div>
+      <div class="row details">
+        <div class="col-lg-5 col-md-5 font-weight-bold">
+          CANTIDAD {{ calcDepartamentCant("Canopy") }}
+        </div>
+        <div class="col-lg-3 col-md-3 font-weight-bold">VENTAS CANOPY</div>
+        <div class="col-lg-4 col-md-4 font-weight-bold">
+          ${{ calcDepartament("Canopy") | number }}
+        </div>
+        <div class="col-lg-5 col-md-5 font-weight-bold"></div>
+      </div>
+      <div class="row details">
+        <div class="col-lg-5 col-md-5 font-weight-bold">
+          CANTIDAD {{ calcDepartamentCant("Katamaran") }}
+        </div>
+        <div class="col-lg-3 col-md-3 font-weight-bold">VENTAS KATAMARAN</div>
+        <div class="col-lg-4 col-md-4 font-weight-bold">
+          ${{ calcDepartament("Katamaran") | number }}
+        </div>
+        <div class="col-lg-5 col-md-5 font-weight-bold"></div>
+      </div>
+      <div class="row details">
+        <div class="col-lg-5 col-md-5 font-weight-bold">
+          CANTIDAD {{ calcDepartamentCant("InkaInka") }}
+        </div>
+        <div class="col-lg-3 col-md-3 font-weight-bold">VENTAS INKA INKA</div>
+        <div class="col-lg-4 col-md-4 font-weight-bold">
+          ${{ calcDepartament("InkaInka") | number }}
+        </div>
+        <div class="col-lg-5 col-md-5 font-weight-bold"></div>
+      </div>
     </div>
   </div>
 </div>
