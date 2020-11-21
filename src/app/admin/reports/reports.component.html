@@ -39,6 +39,15 @@
           >
             Generar Reporte
           </button>
+          &nbsp;
+          <button
+          style="margin-top: 8px"
+          [disabled]="!seller && !date"
+          class="btn-success btn"
+          (click)="generateReportExcel()"
+        >
+          Generar Excel
+        </button>
         </div>
       </div>
 

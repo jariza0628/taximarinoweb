@@ -20,6 +20,7 @@ import { CodebarComponent } from "./codebar/codebar.component";
 import { ReportAdminComponent } from "../report-admin/report-admin.component";
 import { HistoryReportComponent } from './history-report/history-report.component';
 import { InventoryComponent } from './inventory/inventory.component';
+import { ComisionComponent } from './comision/comision.component';
 
 const routes: Routes = [
   {
@@ -65,6 +66,11 @@ const routes: Routes = [
       {
         path: "plans",
         component: PlansComponent,
+        canActivate: [AdminGuard],
+      },
+      {
+        path: "comision",
+        component: ComisionComponent,
         canActivate: [AdminGuard],
       },
       {

@@ -1,0 +1,118 @@
+<div class="container">
+  <div class="row">
+    <br />
+    <br />
+    <h3 style="padding: 20px 10px">Gestionar Comisionistas</h3>
+    <hr style="padding: 0px 10px; border: 1px solid #777777; width: 100%" />
+  </div>
+  <form [formGroup]="_formEntity">
+    <input
+      type="text"
+      class="form-control"
+      formControlName="id"
+      *ngIf="editUser"
+      style="display: none ;"
+    />
+    <div class="row">
+      <div class="col-sm">
+        <div class="form-group">
+          <label>Cedula</label>
+          <input
+            type="number"
+            class="form-control"
+            formControlName="dni"
+            placeholder="ej: 33198556"
+          />
+        </div>
+      </div>
+      <div class="col-sm">
+        <div class="form-group">
+          <label>Nombre</label>
+          <input
+            type="text"
+            class="form-control"
+            formControlName="name"
+            placeholder="Pedro Perez"
+          />
+        </div>
+      </div>
+      <div class="col-sm">
+        <div class="form-group">
+          <label>Descripcion</label>
+          <input
+            type="text"
+            class="form-control"
+            formControlName="description"
+            placeholder="Datos adicionales"
+          />
+        </div>
+      </div>
+    </div>
+
+    <div class="col-sm" *ngIf="!edit">
+      <button
+        type="submit"
+        (click)="save()"
+        [disabled]="_formEntity.invalid"
+        class="btn btn-primary"
+      >
+        Guardar
+      </button>
+    </div>
+    <div class="col-sm" *ngIf="edit">
+      <button
+        type="submit"
+        (click)="updateUser()"
+        [disabled]="_formEntity.invalid"
+        class="btn btn-primary"
+      >
+        Actualizar
+      </button>
+      &nbsp;
+      <button type="reset" (click)="cancelUpdate()" class="btn btn-primary">
+        Cancelar
+      </button>
+    </div>
+  </form>
+
+  <div class="row">
+    <div class="col-sm">
+      <br />
+      <h4>Comisionistas Registrados</h4>
+      <br />
+      <table class="table table-hover">
+        <thead>
+          <tr>
+            <th scope="col">Nombre</th>
+            <th scope="col">Descripción</th>
+            <th scope="col">Cedula</th>
+            <th scope="col">Opciones</th>
+
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of data">
+            <th>{{ item.name | titlecase }}</th>
+            <td>{{ item.description | titlecase }}</td>
+            <td>{{ item.dni }}</td>
+            <td>
+              <a
+                style="color: white"
+                class="hover-a btn btn-danger"
+                (click)="deleteUser(item.id)"
+                >Eliminar</a
+              >
+              &nbsp;
+              <a
+                style="color: white"
+                class="hover-a btn btn-warning"
+                (click)="updateUserAct(item)"
+                >Editar</a
+              >
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

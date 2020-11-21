@@ -25,13 +25,15 @@ import { CodebarComponent } from './codebar/codebar.component';
 import { ReportAdminComponent } from '../report-admin/report-admin.component';
 import { HistoryReportComponent } from './history-report/history-report.component';
 import { InventoryComponent } from './inventory/inventory.component';
-
+import { ComisionComponent } from './comision/comision.component';
+import { ExcelService } from './services/excel.service';
+ 
 
 @NgModule({
   declarations: [
     ProjectListComponent, ProjectCreateComponent, ProjectUpdateComponent,
     ProjectComponent, LoginComponent, ReportAdminComponent, PointSaleComponent, AgencyComponent, SalesComponent,
-    IndividualServicesComponent, PlansComponent, NewSalesComponent, ReceiptComponent, ReportComponent, DetailComponent, CodebarComponent, HistoryReportComponent, InventoryComponent],
+    IndividualServicesComponent, PlansComponent, NewSalesComponent, ReceiptComponent, ReportComponent, DetailComponent, CodebarComponent, HistoryReportComponent, InventoryComponent, ComisionComponent],
   imports: [
     CommonModule,
     AdminRoutingModule,
@@ -41,7 +43,10 @@ import { InventoryComponent } from './inventory/inventory.component';
     FormsModule,
     ReactiveFormsModule,
   ],
-  providers: [AngularFirestore],
+  providers: [
+    ExcelService,
+     AngularFirestore
+  ],
 
 })
 export class AdminModule {

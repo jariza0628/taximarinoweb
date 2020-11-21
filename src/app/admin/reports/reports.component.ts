@@ -5,7 +5,8 @@ import { Service } from "../models/service.model";
 import { paymentType } from "../new-sales/new-sales.component";
 import html2canvas from "html2canvas";
 import * as jsPDF from "jspdf";
-
+import { ExcelService } from 'src/app/admin/services/excel.service';
+ 
 @Component({
   selector: "app-reports",
   templateUrl: "./reports.component.html",
@@ -21,7 +22,10 @@ export class ReportsComponent implements OnInit {
   totalVauches: number;
   @ViewChild("report") report: ElementRef;
 
-  constructor(private GN: GeneralServiceService) {}
+  constructor(
+    private GN: GeneralServiceService,
+    private _ExcelService: ExcelService
+    ) {}
 
   ngOnInit() {
     this.getsellers();
@@ -47,7 +51,7 @@ export class ReportsComponent implements OnInit {
    * */
   search() {
     if (this.seller && this.date) {
-      this.GN.getSalesByDateAndSeller(
+      let subscription = this.GN.getSalesByDateAndSeller(
         "sales",
         this.seller,
         this.date
@@ -55,13 +59,18 @@ export class ReportsComponent implements OnInit {
         // console.log('dara', data);
         this.data = data.map((e) => {
           console.log("result", e.payload.doc.data());
-
+          this.ordenar();
           return {
             id: e.payload.doc.id,
             ...e.payload.doc.data(),
           } as Sales;
+          
         });
       });
+      setTimeout(() => {
+        subscription.unsubscribe();
+
+      }, 1800);
     }
   }
 
@@ -335,6 +344,9 @@ export class ReportsComponent implements OnInit {
     console.log(
       this.data.sort((a, b) => parseInt(a.codebar) - parseInt(b.codebar))
     );
+  }
+  generateReportExcel(){
+    this._ExcelService.exportToExcel(this.data, 'report');
   }
 }
 
