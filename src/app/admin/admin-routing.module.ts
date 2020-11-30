@@ -21,6 +21,7 @@ import { ReportAdminComponent } from "../report-admin/report-admin.component";
 import { HistoryReportComponent } from './history-report/history-report.component';
 import { InventoryComponent } from './inventory/inventory.component';
 import { ComisionComponent } from './comision/comision.component';
+import { ReporstGeneralComponent } from './reporst-general/reporst-general.component';
 
 const routes: Routes = [
   {
@@ -113,6 +114,11 @@ const routes: Routes = [
       {
         path: "history",
         component: HistoryReportComponent,
+        canActivate: [AdminGuard],
+      },
+      {
+        path: "general",
+        component: ReporstGeneralComponent,
         canActivate: [AdminGuard],
       },
     ],

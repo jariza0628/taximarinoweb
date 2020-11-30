@@ -122,6 +122,7 @@
         </div>
         <div class="col-lg-2 col-md-2 font-weight-bold">VALOR TOTAL</div>
         <div class="col-lg-2 col-md-2 font-weight-bold"></div>
+        <!-- Datos generales-->
         <ng-container *ngFor="let service of services">
           <ng-container *ngIf="countByService(service) > 0">
             <div class="col-lg-2 col-md-2">{{ service.name }}</div>
@@ -136,6 +137,30 @@
             <div class="col-lg-2 col-md-2"></div>
           </ng-container>
         </ng-container>
+        <div class="col-lg-12 col-md-12 font-weight-bold">VENTA SIN VAUCHER</div>
+
+        <!-- Ventas sin vaucher -->
+         <ng-container *ngFor="let service of services">
+          
+            <ng-container *ngIf="countByServiceNoVaucher(service) > 0">
+              <div class="col-lg-2 col-md-2">{{ service.name }}</div>
+              <div class="col-lg-1 col-md-1">{{ countByService(service) - countByServiceNoVaucher(service)  }}</div>
+              <div class="col-lg-2 col-md-2"></div>
+              <div class="col-lg-3 col-md-3">
+                ${{ service.publicvalue | number }}
+              </div>
+              <div class="col-lg-2 col-md-2">
+                ${{ (countByService(service) - countByServiceNoVaucher(service) )  * service.publicvalue | number }}
+              </div>
+              <div class="col-lg-2 col-md-2"></div>
+             
+          </ng-container>
+        </ng-container>
+        <!--
+        <div class="col-lg-10 col-md-10 font-weight-bold"> </div>
+        <div class="col-lg-2 col-md-2 font-weight-bold"> {{ totalNoVauches }}</div>
+         -->
+        
         <div class="col-lg-5 col-md-5 font-weight-bold"></div>
         <div class="col-lg-3 col-md-3 font-weight-bold">
           TOTAL PAGO EFECTIVO

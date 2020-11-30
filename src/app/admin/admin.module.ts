@@ -27,13 +27,14 @@ import { HistoryReportComponent } from './history-report/history-report.componen
 import { InventoryComponent } from './inventory/inventory.component';
 import { ComisionComponent } from './comision/comision.component';
 import { ExcelService } from './services/excel.service';
+import { ReporstGeneralComponent } from './reporst-general/reporst-general.component';
  
 
 @NgModule({
   declarations: [
     ProjectListComponent, ProjectCreateComponent, ProjectUpdateComponent,
     ProjectComponent, LoginComponent, ReportAdminComponent, PointSaleComponent, AgencyComponent, SalesComponent,
-    IndividualServicesComponent, PlansComponent, NewSalesComponent, ReceiptComponent, ReportComponent, DetailComponent, CodebarComponent, HistoryReportComponent, InventoryComponent, ComisionComponent],
+    IndividualServicesComponent, PlansComponent, NewSalesComponent, ReceiptComponent, ReportComponent, DetailComponent, CodebarComponent, HistoryReportComponent, InventoryComponent, ComisionComponent, ReporstGeneralComponent],
   imports: [
     CommonModule,
     AdminRoutingModule,

@@ -18,8 +18,10 @@ export class ReportsComponent implements OnInit {
   data: Array<Sales> = [];
   users: Array<any> = [];
   services: Array<Service> = [];
+  servicesNovauche: Array<Service> = [];
   paymentType = paymentType;
   totalVauches: number;
+  totalNoVauches: any;
   @ViewChild("report") report: ElementRef;
 
   constructor(
@@ -30,6 +32,7 @@ export class ReportsComponent implements OnInit {
   ngOnInit() {
     this.getsellers();
     this.getServices();
+    this.totalNoVauches = 0;
   }
 
   servicesSale(sale: Sales) {
@@ -50,6 +53,7 @@ export class ReportsComponent implements OnInit {
    * @method filter sale by date and seller
    * */
   search() {
+    this.totalNoVauches = 0;
     if (this.seller && this.date) {
       let subscription = this.GN.getSalesByDateAndSeller(
         "sales",
@@ -59,7 +63,6 @@ export class ReportsComponent implements OnInit {
         // console.log('dara', data);
         this.data = data.map((e) => {
           console.log("result", e.payload.doc.data());
-          this.ordenar();
           return {
             id: e.payload.doc.id,
             ...e.payload.doc.data(),
@@ -69,6 +72,7 @@ export class ReportsComponent implements OnInit {
       });
       setTimeout(() => {
         subscription.unsubscribe();
+        this.ordenar();
 
       }, 1800);
     }
@@ -175,6 +179,33 @@ export class ReportsComponent implements OnInit {
         sale.detail.forEach((serviceItem) => {
           total += serviceItem.name === service.name ? 1 : 0;
         });
+      });
+      return total;
+    } else {
+      return 0;
+    }
+  }
+  /**
+   * Contrar servicios sin vauches
+   * @param service 
+   */
+  countByServiceNoVaucher(service: Service) {
+    if (this.services.length > 0) {
+      let total = 0;
+      console.log('countByServiceNoVaucher data', this.data);    
+      this.data.forEach((sale) => {
+        if(sale.vaucher > 0){
+          sale.plans.forEach((plan) => {
+            plan.services.forEach((serviceItem) => {
+              total += serviceItem.name === service.name ? 1 : 0;
+              // this.totalNoVauches = this.totalNoVauches + serviceItem.publicvalue;
+            });
+          });
+          sale.detail.forEach((serviceItem) => {
+            total += serviceItem.name === service.name ? 1 : 0;
+            // this.totalNoVauches = this.totalNoVauches +  serviceItem.publicvalue;
+          });
+        }
       });
       return total;
     } else {
@@ -346,7 +377,13 @@ export class ReportsComponent implements OnInit {
     );
   }
   generateReportExcel(){
-    this._ExcelService.exportToExcel(this.data, 'report');
+    let JSON:any;
+    JSON = [];
+    debugger
+    this.data.forEach(element => {
+      JSON.push({service: this.servicesSale(element), ... element})
+    });
+    this._ExcelService.exportToExcel(JSON, 'report');
   }
 }
 

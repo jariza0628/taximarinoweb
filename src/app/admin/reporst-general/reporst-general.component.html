@@ -1,0 +1,126 @@
+<div class="container">
+  <div class="row">
+    <br />
+    <br />
+    <h3 style="padding: 20px 10px">Reportes Generales</h3>
+    <hr style="padding: 0px 10px; border: 1px solid #777777; width: 100%" />
+  </div>
+  <form>
+    <input
+      type="text"
+      class="form-control"
+      formControlName="id"
+      *ngIf="editUser"
+      style="display: none"
+    />
+    <div class="row">
+      <div class="col-sm">
+        <label for="date">Desde</label>
+        <input
+          id="date"
+          class="form-control"
+          type="date"
+          #dates
+          [(ngModel)]="date1"
+          (change)="getDataByRangeDate()"
+          [ngModelOptions]="{ standalone: true }"
+        />
+      </div>
+      <div class="col-sm">
+        <label for="date">Hasta</label>
+        <input
+          id="date"
+          class="form-control"
+          type="date"
+          #dates
+          [(ngModel)]="date2"
+          (change)="getDataByRangeDate()"
+          [ngModelOptions]="{ standalone: true }"
+        />
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm">
+        <label for="exampleFormControlSelect2">Seleccionar servicio</label>
+        <select
+          multiple
+          class="form-control"
+          id="exampleFormControlSelect2"
+          [ngModelOptions]="{ standalone: true }"
+          [(ngModel)]="selectService"
+        >
+          <option *ngFor="let item of service" value="{{ item.name }}">
+            {{ item.name | titlecase }}
+          </option>
+        </select>
+      </div>
+      <div class="col-sm">
+        <label for="exampleFormControlSelect2">Seleccionar vendedor</label>
+        <select
+          multiple
+          class="form-control"
+          id="exampleFormControlSelect2"
+          [ngModelOptions]="{ standalone: true }"
+          [(ngModel)]="seletcSellers"
+        >
+          <ng-container *ngFor="let item of sellers">
+            <option *ngIf="item.type === 'Vendedor'" value="{{ item.user }}">
+              {{ item.user | titlecase }}
+            </option>
+          </ng-container>
+        </select>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm">
+        <button
+          style="margin-top: 8px"
+           class="btn-success btn"
+          (click)="reportData()"
+        >
+          Reporte
+        </button>
+        <button
+          style="margin-top: 8px"
+           class="btn-success btn"
+          (click)="reportData()"
+        >
+          limpiar resulados
+        </button>
+      </div>
+      <div class="col-sm"></div>
+    </div>
+  </form>
+  <div class="row">
+    <div class="col-sm">
+      <h3>Total: $ {{ total | number }}</h3>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm">
+      <br />
+      <h4>Planes o combos Registrados</h4>
+      <br />
+      <table class="table table-hover">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Codigo Barra</th>
+            <th scope="col">Cliente</th>
+            <th scope="col">Fecha</th>
+            <th scope="col">Vendedor</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of dataFilter; let i = index">
+            <th scope="col">{{ i + 1 }}</th>
+            <th>{{ item.codebar | titlecase }}</th>
+            <td>{{ item.name | titlecase }}</td>
+            <td>{{ item.date }}</td>
+            <td>{{ item.seller }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

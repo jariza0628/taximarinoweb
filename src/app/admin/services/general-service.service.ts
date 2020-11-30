@@ -77,6 +77,14 @@ export class GeneralServiceService {
       .snapshotChanges();
   }
 
+  getSalesByDateRange(entiti, data, data2) {
+    return this.firestore
+      .collection(entiti, (ref) =>
+        ref.where("date", ">=", data).where("date", "<=", data2)
+      )
+      .snapshotChanges();
+  }
+
   getSalesBydate(entiti, data: string) {
     return this.firestore
       .collection(entiti, (ref) => ref.where("date", "==", data))
