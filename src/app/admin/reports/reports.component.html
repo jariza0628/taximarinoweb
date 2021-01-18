@@ -65,7 +65,7 @@
         <div class="col-lg-3 col-md-3 font-weight-bold">SERVICIO</div>
         <div class="col-lg-2 col-md-2 font-weight-bold">TOTAL SERVICIO</div>
         <div class="col-lg-2 col-md-2 font-weight-bold">TIPO DE PAGO</div>
-        <div class="col-lg-2 col-md-2 font-weight-bold">VAUCHER</div>
+        <div class="col-lg-2 col-md-2 font-weight-bold">VOUCHER</div>
 
         <ng-container *ngFor="let sale of data; let i = index">
           <div
@@ -137,7 +137,8 @@
             <div class="col-lg-2 col-md-2"></div>
           </ng-container>
         </ng-container>
-        <div class="col-lg-12 col-md-12 font-weight-bold">VENTA SIN VAUCHER</div>
+        
+        <div class="col-lg-12 col-md-12 font-weight-bold"><HR >VENTAS EFECTIVOS</div>
 
         <!-- Ventas sin vaucher -->
          <ng-container *ngFor="let service of services">
@@ -151,11 +152,12 @@
               </div>
               <div class="col-lg-2 col-md-2">
                 ${{ (countByService(service) - countByServiceNoVaucher(service) )  * service.publicvalue | number }}
+              
               </div>
               <div class="col-lg-2 col-md-2"></div>
-             
           </ng-container>
         </ng-container>
+        <div class="col-lg-12 col-md-12 font-weight-bold"><HR ></div>
         <!--
         <div class="col-lg-10 col-md-10 font-weight-bold"> </div>
         <div class="col-lg-2 col-md-2 font-weight-bold"> {{ totalNoVauches }}</div>
@@ -168,18 +170,18 @@
         <div class="col-lg-4 col-md-4 font-weight-bold">
           ${{ calcTypePay("cash") + calcMixed("efectivo") | number }}
         </div>
-        <div class="col-lg-5 col-md-5 font-weight-bold"></div>
+      <!--  <div class="col-lg-5 col-md-5 font-weight-bold"></div>
         <div class="col-lg-3 col-md-3 font-weight-bold">TOTAL PAGO CRÉDITO</div>
         <div class="col-lg-4 col-md-4 font-weight-bold">
           ${{ totalByTypePayment(paymentType.credit) | number }}
-        </div>
+        </div>-->
         <div class="col-lg-5 col-md-5 font-weight-bold"></div>
-        <div class="col-lg-3 col-md-3 font-weight-bold">TOTAL PAGO TARJETA</div>
+        <div class="col-lg-3 col-md-3 font-weight-bold">TOTAL PAGO BANCO</div>
         <div class="col-lg-4 col-md-4 font-weight-bold">
           ${{ calcTypePay("card") + calcMixed("tarjeta") | number }}
         </div>
         <div class="col-lg-5 col-md-5 font-weight-bold"></div>
-        <div class="col-lg-3 col-md-3 font-weight-bold">TOTAL VAUCHES</div>
+        <div class="col-lg-3 col-md-3 font-weight-bold">TOTAL VOUCHER CREDITO</div>
         <div class="col-lg-4 col-md-4 font-weight-bold">
           ${{ totalVauches | number }}
         </div>

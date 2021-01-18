@@ -36,7 +36,13 @@ export class IndividualServicesComponent implements OnInit {
       ]),
       department: new FormControl(null, [
         Validators.required
+      ]),
+      code: new FormControl(null, [
+        Validators.required,
+        Validators.maxLength(3),
+        Validators.minLength(2)
       ])
+      
       
     });
   }
@@ -109,6 +115,11 @@ export class IndividualServicesComponent implements OnInit {
       ]),
       department: new FormControl(dataToEdit.department, [
         Validators.required
+      ]),
+      code: new FormControl(null, [
+        Validators.required,
+        Validators.maxLength(3),
+        Validators.minLength(2)
       ])
 
 

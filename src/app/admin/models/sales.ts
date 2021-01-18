@@ -11,10 +11,17 @@ export interface Sales {
   plans?: Array<Plan>;
   seller?: string;
   state?: 'Aprobada' | 'Denegada' | 'Cancelada' | 'Activa';
-  total?: any;
+  total?: number;
   date?: Date;
   vaucher?: any;
   typepay?: any;
   efecty?: any;
   tarjeta?: any;
+  commission?: any;
+  idGeneralSale?: any;
+  hour?: any;
+  zone?: any;
+  description?: any;
 }
+
+ 

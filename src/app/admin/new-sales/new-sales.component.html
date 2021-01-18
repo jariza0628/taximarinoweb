@@ -4,6 +4,19 @@
       <br />
       <br />
       <h3 style="padding: 20px 10px">Nueva venta</h3>
+      <!-- Button trigger modal -->
+      <button
+        style="height: 42px; margin-top: 22px; position: absolute; right: 23px"
+        id="btnmodal"
+        type="button"
+        class="btn btn-danger"
+        data-toggle="modal"
+        data-target="#exampleModaluser"
+        data-backdrop="static"
+        data-keyboard="false"
+      >
+        Cambiar usuario de venta
+      </button>
       <hr style="padding: 0px 10px; border: 1px solid #777777; width: 100%" />
     </div>
     <form [formGroup]="_formEntity">
@@ -11,7 +24,11 @@
         <div class="col-sm">
           <div class="form-group">
             <label>Nombre Vendedor</label>
-            <select class="form-control" formControlName="seller">
+            <select
+              class="form-control"
+              formControlName="seller"
+              style="pointer-events: none"
+            >
               <option *ngFor="let item of sellers" value="{{ item.user }}">
                 {{ item.user }}
               </option>
@@ -22,7 +39,7 @@
           <div class="col-sm">
             <div class="form-group">
               <label></label>
-             <!------ <button
+              <!------ <button
                 type="button"
                 class="btn btn-primary"
                 data-toggle="modal"
@@ -78,8 +95,11 @@
             (change)="onChangeServ($event?.target?.value)"
           >
             <option>Seleccionar</option>
-            <option *ngFor="let item of services" value="{{ item.id }}">
-              {{ item.name }}
+            <option
+              *ngFor="let item of services; let i = index"
+              value="{{ item.id }}"
+            >
+              {{ i }} - {{ item.name }}
             </option>
           </select>
         </div>
@@ -114,6 +134,102 @@
           >
             Ver todos los planes
           </button>
+          <div class="row" style="margin-top: 10px; margin-bottom: 10px">
+            <div class="col-sm">
+              <div class="card">
+                <div class="card-body">
+                  <ng-container *ngFor="let item of services; let i = index">
+                    <ng-container *ngIf="sellerSelected === 'taquillaAcuario'">
+                      <ng-container
+                        *ngIf="
+                          i === 0 ||
+                          i === 1 ||
+                          i === 3 ||
+                          i === 11 ||
+                          i === 15 ||
+                          i === 21 ||
+                          i === 34 ||
+                          i === 35 ||
+                          i === 41 ||
+                          i === 52
+                        "
+                      >
+                        <button
+                          style="margin-right: 5px; margin-bottom: 5px"
+                          type="button"
+                          (click)="onChangeServ(item.id)"
+                          class="btn btn-secondary btn-sm"
+                        >
+                          {{ item.name | titlecase }}
+                        </button>
+                      </ng-container>
+                    </ng-container>
+                    <ng-container
+                      *ngIf="
+                        sellerSelected !== 'Oficina Agencias' &&
+                        sellerSelected !== 'taquillaAcuario'
+                      "
+                    >
+                      <ng-container
+                        *ngIf="
+                          i === 15 ||
+                          i === 58 ||
+                          i === 33 ||
+                          i === 21 ||
+                          i === 34 ||
+                          i === 35 ||
+                          i === 41 ||
+                          i === 60 ||
+                          i === 50 ||
+                          i === 37 ||
+                          i === 23 ||
+                          i === 16
+                        "
+                      >
+                        <button
+                          style="margin-right: 5px; margin-bottom: 5px"
+                          type="button"
+                          (click)="onChangeServ(item.id)"
+                          class="btn btn-secondary btn-sm"
+                        >
+                          {{ item.name | titlecase }}
+                        </button>
+                      </ng-container>
+                    </ng-container>
+
+                    <ng-container *ngIf="sellerSelected === 'Oficina Agencias'">
+                      <ng-container
+                        *ngIf="
+                          i === 3 ||
+                          i === 7 ||
+                          i === 0 ||
+                          i === 44 ||
+                          i === 46 ||
+                          i === 54 ||
+                          i === 30 ||
+                          i === 25 ||
+                          i === 31 ||
+                          i === 36 ||
+                          i === 49 ||
+                          i === 29
+                        "
+                      >
+                        <button
+                          style="margin-right: 5px; margin-bottom: 5px"
+                          type="button"
+                          (click)="onChangeServ(item.id)"
+                          class="btn btn-secondary btn-sm"
+                        >
+                          {{ item.name | titlecase }}
+                        </button>
+                      </ng-container>
+                    </ng-container>
+                  </ng-container>
+                </div>
+              </div>
+            </div>
+          </div>
+
           <h5 class="card-title">Detalle de venta</h5>
 
           <div class="card">
@@ -241,11 +357,7 @@
         <div class="col-sm-2" *ngIf="generalSale.paymentType === 'credit'">
           <div class="form-group">
             <label>Voucher</label>
-            <input
-              type="number"
-              [(ngModel)]="vaucher"
-              class="form-control"
-            />
+            <input type="number" [(ngModel)]="vaucher" class="form-control" />
           </div>
         </div>
 
@@ -254,7 +366,7 @@
           <!--- <button class="btn btn-primary" (click)="showmixprice = fasle">Cerrar</button>-->
         </div>
       </div>
-    <!--  <label>&nbsp;</label>
+      <!--  <label>&nbsp;</label>
       <button class="btn btn-primary" (click)="showmixprice = fasle">
         Generar Consecutivos
       </button>--->
@@ -316,7 +428,7 @@
               <label style="color: green; font-size: 18px"
                 >Total de venta por código</label
               >
-              <h5>$ {{ totalValue + total | currency: "USD" }}</h5>
+              <h5>{{ totalValue + total | currency: "USD" }}</h5>
             </div>
           </div>
           <div class="col-sm-12">
@@ -331,9 +443,13 @@
           </div>
           <div class="col-sm-12">
             <div class="form-group">
-              <div class="btn btn-primary" (click)="onSubmit1()">
+              <button
+                class="btn btn-success"
+                (click)="onSubmit1()"
+                [disabled]="!_formEntity.valid"
+              >
                 Crear Venta
-              </div>
+              </button>
             </div>
           </div>
         </div>
@@ -375,7 +491,9 @@
               placeholder="Buscar"
             />
           </div>
-          <button (click)="serach(dataSeacrh.value)" type="button">Buscar</button>
+          <button (click)="serach(dataSeacrh.value)" type="button">
+            Buscar
+          </button>
         </div>
         <div class="row">
           <button
@@ -439,6 +557,67 @@
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">
           Cerrar
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal -->
+<div
+  class="modal fade"
+  id="exampleModaluser"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Inidica el vendedor</h5>
+        <!--  
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button> -->
+      </div>
+      <div class="modal-body">
+        <ng-container *ngIf="!sellers; else userComp">
+          <div style="width: 100%; text-align: center">
+            <div class="spinner-border" role="status">
+              <span class="sr-only">Cargando datos...</span>
+            </div>
+            <p class="sr-only">Cargando datos...</p>
+          </div>
+        </ng-container>
+        <ng-template #userComp>
+          <select #seller (click)="selectSeller(seller.value)">
+            <option *ngFor="let item of sellers" value="{{ item.user }}">
+              {{ item.user }}
+            </option>
+          </select>
+          <br />
+          <p>Usuario Selecionado: {{ sellerSelected }}</p>
+        </ng-template>
+      </div>
+      <div class="modal-footer">
+        <!-- 
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">
+          Close
+        </button> -->
+        <button
+          (click)="saveSelect()"
+          *ngIf="sellerSelected"
+          type="button"
+          class="btn btn-primary"
+          data-dismiss="modal"
+        >
+          Guardar
         </button>
       </div>
     </div>

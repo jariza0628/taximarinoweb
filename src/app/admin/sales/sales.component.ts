@@ -5,6 +5,7 @@ import { GeneralServiceService } from "../services/general-service.service";
 import { Sales } from "../models/sales";
 import { Sale } from "../models/sale.model";
 import { Service } from "../models/service.model";
+import { Router } from '@angular/router';
 
 @Component({
   selector: "app-sales",
@@ -30,17 +31,20 @@ export class SalesComponent implements OnInit {
   totalFilter: any;
 
   sellers: any;
+  sellerSelected: any;
 
   totalVenta: any;
   totalVentaHistorico: any;
-  constructor(private _GeneralServiceService: GeneralServiceService) {
+  constructor(public router: Router, private _GeneralServiceService: GeneralServiceService) {
     this.showdeatil = false;
     this.AllSales = [];
     this.sellers = [];
   }
 
   ngOnInit() {
-    // document.getElementById("btnmodal").click();
+    if(localStorage.getItem('sellerSelected') || localStorage.getItem('sellerSelected') === ''){
+      document.getElementById("btnmodal").click();
+    }
 
     this.initForm();
     let f = new Date();
@@ -54,10 +58,10 @@ export class SalesComponent implements OnInit {
 
     this.dateToday = f.getFullYear() + "-" + mes + "-" + f.getDate();
     console.log("Fecha de hoy", this.dateToday);
-    this.getData();
     this.getseller();
+    // this.getData();
     this.getAllSales();
-    this.calcVentaTotal();
+    // this.calcVentaTotal();
     this.getDataServices();
     this.getSellers();
   }
@@ -160,7 +164,7 @@ export class SalesComponent implements OnInit {
       .subscribe((data) => {
         // console.log('dara', data);
         this.data = data.map((e) => {
-          console.log("result dara", e.payload.doc.data());
+          // console.log("result dara", e.payload.doc.data());
 
           return {
             id: e.payload.doc.id,
@@ -195,7 +199,7 @@ export class SalesComponent implements OnInit {
       console.log("data", data);
 
       allDataSales = data.map((e) => {
-        console.log("result dara", e.payload.doc.data());
+        // console.log("result dara", e.payload.doc.data());
 
         return {
           id: e.payload.doc.id,
@@ -283,7 +287,12 @@ export class SalesComponent implements OnInit {
     });
   }
   selectSeller(e) {
+    this.sellerSelected = e
     console.log(e);
+  }
+  saveSelect(){
+    localStorage.setItem('sellerSelected', this.sellerSelected)
+    this.router.navigate(['admin/new-sales']);
   }
   compare(attr, obj1, obj2) {
     return obj1[attr].localeCompare(obj2[attr]);

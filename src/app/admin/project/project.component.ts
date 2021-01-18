@@ -87,6 +87,12 @@ export class ProjectComponent implements OnInit {
         rol: "user",
         icon: "fa fa-bell",
       },
+      {
+        name: "Cod. Sin resultados (App Verficador)",
+        link: "codebarnovelty",
+        rol: "user",
+        icon: "fa fa-bell",
+      },
     ];
   }
 

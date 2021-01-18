@@ -39,7 +39,7 @@
       </div>
       <div class="col-sm">
         <div class="form-group">
-          <label>Valor Agencia</label>
+          <label>Valor Comision</label>
           <input
             type="number"
             class="form-control"
@@ -70,6 +70,17 @@
             <option>Transporte</option>
             <option>Almuerzos</option>
           </select>
+        </div>
+      </div>
+      <div class="col-sm">
+        <div class="form-group">
+          <label for="">Codigo abreviado</label>
+          <input
+            type="text"
+            class="form-control"
+            formControlName="code"
+            placeholder="210"
+          />
         </div>
       </div>
       <div class="col-sm">
@@ -127,6 +138,7 @@
             <th scope="col">Valor</th>
             <th scope="col">Tipo verificador</th>
             <th scope="col">Departamento</th>
+            <th scope="col">Código</th>
             <th scope="col">Opciones</th>
           </tr>
         </thead>
@@ -137,7 +149,7 @@
             <td>{{ item.publicvalue | currency: "$ ":"symbol":"4.0-0" }}</td>
             <td>{{ item.typeverify }}</td>
             <td>{{ item.department }}</td>
-
+            <td>{{ item.code }}</td>
             <td>
               <a style="color: white;" class="hover-a btn btn-danger" (click)="deleteUser(item.id)">Eliminar</a>
               &nbsp; <a style="color: white;" class="hover-a btn btn-warning" (click)="updateUserAct(item)">Editar</a>

@@ -22,6 +22,8 @@ import { HistoryReportComponent } from './history-report/history-report.componen
 import { InventoryComponent } from './inventory/inventory.component';
 import { ComisionComponent } from './comision/comision.component';
 import { ReporstGeneralComponent } from './reporst-general/reporst-general.component';
+import { CodebarNoveltiesComponent } from "./codebar-novelties/codebar-novelties.component";
+import { ReportUsedComponent } from "./report-used/report-used.component";
 
 const routes: Routes = [
   {
@@ -119,6 +121,16 @@ const routes: Routes = [
       {
         path: "general",
         component: ReporstGeneralComponent,
+        canActivate: [AdminGuard],
+      },
+      {
+        path: "codebarnovelty",
+        component: CodebarNoveltiesComponent,
+        canActivate: [AdminGuard],
+      },
+      {
+        path: "used",
+        component: ReportUsedComponent,
         canActivate: [AdminGuard],
       },
     ],

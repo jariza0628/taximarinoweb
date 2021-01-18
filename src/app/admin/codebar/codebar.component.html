@@ -4,106 +4,295 @@
       <br />
       <h4>Buscar Codigos de barra</h4>
       <br />
-      <div class="row">
-        <form [formGroup]="_formEntity">
-          <div class="col-sm">
+
+      <form [formGroup]="_formEntity">
+        <div class="row">
+          <div class="col-sm-2">
             <label for="exampleInputPassword1">Codigo de barra</label>
             <input class="form-control" type="text" formControlName="codebar" />
           </div>
-        </form>
-      </div>
-      <div class="row">
-        <div class="col-sm">
-          <div class="form-group">
-            <br />
-            <button class="btn btn-primary" (click)="submitFilter()">
-              Consultar
-            </button>
+          <div class="col-sm">
+            <div class="form-group">
+              <br />
+              <button
+                class="btn btn-primary"
+                (click)="submitFilter()"
+                style="margin-top: 8px"
+              >
+                Consultar
+              </button>
+            </div>
           </div>
         </div>
-      </div>
-      <div  >
-        <table class="table table-hover">
-          <thead>
-            <tr>
-              <th scope="col">Codigo</th>
-              <th scope="col">Fecha</th>
-              <th scope="col">Cliente</th>
-              <th scope="col">Descuento</th>
-              <th scope="col">Vendedor</th>
-              <th scope="col">Estado</th>
-              <th scope="col">Cantidad</th>
-             </tr>
-          </thead>
-          <tbody *ngIf="data">
-            <tr
-              *ngFor="let item of data"
-            >
-              <th>{{ item.codebar }}</th>
-              <td>{{ item.date + " " + item.hour }}</td>
-              <td>{{ item.name }}</td>
-              <td>{{ item.dicount }}</td>
-              <td>{{ item.seller }}</td>
-              <td>{{ item.state }}</td>
-              <td>1</td>
-             </tr>
-          </tbody>
-          <tbody>
-            <tr *ngIf="!data">
-              No result
-            </tr>
-          </tbody>
-        </table>
-        <div class="total"></div>
-      </div>
+        <div class="row">
+          <div class="col-sm">
+            <label for="exampleInputPassword1">Fecha</label>
+            <input
+              class="form-control"
+              style="pointer-events: none"
+              type="text"
+              formControlName="date"
+            />
+          </div>
+          <div class="col-sm">
+            <label for="exampleInputPassword1">Hora</label>
+            <input
+              class="form-control"
+              style="pointer-events: none"
+              type="text"
+              formControlName="hour"
+            />
+          </div>
+          <div class="col-sm">
+            <label for="exampleInputPassword1">Tipo de pago</label>
+            <input class="form-control" type="text" formControlName="typepay" />
+          </div>
+          <div class="col-sm">
+            <label for="exampleInputPassword1">Valor Tarjeta</label>
+            <input class="form-control" type="text" formControlName="tarjeta" />
+          </div>
+          <div class="col-sm">
+            <label for="exampleInputPassword1">Valor Efectivo</label>
+            <input class="form-control" type="text" formControlName="efecty" />
+          </div>
+          <div class="col-sm">
+            <label for="exampleInputPassword1">total</label>
+            <input class="form-control" type="text" formControlName="total" />
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-sm">
+            <label for="exampleInputPassword1">Vendedor</label>
+            <input class="form-control" type="text" formControlName="seller" />
+          </div>
+          <div class="col-sm">
+            <label for="exampleInputPassword1">Zona</label>
+            <input class="form-control" type="text" formControlName="zone" />
+          </div>
+          <div class="col-sm">
+            <label for="exampleInputPassword1">Vaucher</label>
+            <input class="form-control" type="text" formControlName="vaucher" />
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-sm">
+            <label for="exampleInputPassword1">Identificacion</label>
+            <input class="form-control" type="text" formControlName="dni" />
+          </div>
+          <div class="col-sm">
+            <label for="exampleInputPassword1">Cliente o Agencia</label>
+            <input class="form-control" type="text" formControlName="name" />
+          </div>
+          <div class="col-sm">
+            <label for="exampleInputPassword1">Descripcion Promos</label>
+            <input
+              class="form-control"
+              type="text"
+              formControlName="description"
+            />
+          </div>
+        </div>
+      </form>
+      <div class="row"></div>
+
       <br />
-       <div class="card" *ngIf="data">
+      <div class="card" *ngIf="data">
         <h6 style="padding-left: 10px; padding-top: 10px">
           Detalle de la venta
         </h6>
         <div id="details " class="card-body" style="position: relative">
-         
+          <!-- SELECT SERVICES -->
+          <div class="row">
+            <div class="col-sm">
+              <div class="form-group">
+                <label>Selecciona un servicio</label>
+                <select
+                  class="form-control"
+                  (change)="onChangeServ($event.target.value)"
+                >
+                  <option>Seleccionar</option>
+                  <option *ngFor="let item of services" value="{{ item.id }}">
+                    {{ item.name }}
+                  </option>
+                </select>
+              </div>
+            </div>
+          </div>
           <table class="table table-hover" *ngIf="data[0].detail">
             <thead>
               <tr>
                 <th scope="col">Nombre</th>
                 <th scope="col">Descripción</th>
-                <th scope="col">Valor</th>
                 <th scope="col">Estado Serv.</th>
                 <th scope="col">Verificador</th>
                 <th scope="col">Fecha Verif.</th>
                 <th scope="col">Valor</th>
-                <th scope="col">Valor Agencia</th>
+                <th scope="col">Opciones</th>
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let service of data[0].detail">
-                <td>{{ service.name | titlecase}}</td>
-                <td>{{ service.description | titlecase}}</td>
-                <td>{{ service.status }}</td>
-                <td>{{ service.verificador }}</td>
-                <td>{{ service.fecha }}</td>
-                <td>{{ service.publicvalue }}</td>
-                <td>{{ service.agencyvalue }}</td>
-              </tr>
+              <ng-container
+                *ngFor="let service of data[0].detail; let i = index"
+              >
+                <tr>
+                  <ng-container *ngIf="i !== itemToedit; else editRow">
+                    <td>{{ service.name | titlecase }}</td>
+                    <td>{{ service.description | titlecase }}</td>
+                    <td>{{ service.status }}</td>
+                    <td>{{ service.verificador }}</td>
+                    <td>{{ service.fecha }} {{ service.hour }}</td>
+                    <td>{{ service.publicvalue }}</td>
+                    <td>
+                      <button
+                        (click)="removeItemFromArr(service)"
+                        type="button"
+                        class="btn btn-danger"
+                      >
+                        Eliminar
+                      </button>
+                      <button
+                        (click)="changeToEdit(i)"
+                        type="button"
+                        class="btn btn-warning"
+                      >
+                        Editar
+                      </button>
+                    </td>
+                  </ng-container>
+                  <ng-template #editRow>
+                    <td>{{ service.name | titlecase }}</td>
+
+                    <td>
+                      <input
+                        class="form-control"
+                        type="text"
+                        [(ngModel)]="service.description"
+                      />
+                    </td>
+
+                    <td>{{ service.status }}</td>
+                    <td>{{ service.verificador }}</td>
+                    <td>{{ service.fecha }}</td>
+                    <td>
+                      <input
+                        class="form-control"
+                        type="text"
+                        [(ngModel)]="service.publicvalue"
+                      />
+                    </td>
+
+                    <td>
+                      <button
+                        (click)="itemToedit = -1"
+                        type="button"
+                        class="btn btn-secondary"
+                      >
+                        Cancelar
+                      </button>
+                      <button
+                        (click)="saveRowEdit(item)"
+                        type="button"
+                        class="btn btn-success"
+                      >
+                        Guardar
+                      </button>
+                    </td>
+                  </ng-template>
+                </tr>
+              </ng-container>
             </tbody>
           </table>
+          <!-- SELECT PLANS -->
+          <div class="row">
+            <div class="col-sm">
+              <div class="form-group">
+                <label>Selecciona un plan</label>
+                <select
+                  class="form-control"
+                  (change)="loadPlan($event.target.value)"
+                >
+                  <option>Seleccionar</option>
+                  <option *ngFor="let item of plans" value="{{ item.id }}">
+                    {{ item.name }}
+                  </option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <!-- PLANS  TABLE-->
           <table class="table table-hover" *ngIf="data[0].plans">
             <thead>
               <tr>
                 <th scope="col">Nombre Plan</th>
                 <th scope="col">Descripción</th>
                 <th scope="col">Valor</th>
+                <th scope="col">Opciones</th>
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let plans of data[0].plans">
-                <td>{{ plans.name | titlecase}}</td>
-                <td>{{ plans.description | titlecase}}</td>
-                <td>{{ plans.totalvalue }}</td>
-              </tr>
+              <ng-container *ngFor="let plans of data[0].plans; let i = index">
+                <tr>
+                  <ng-container
+                    *ngIf="i !== itemToeditPlans; else editRowPlans"
+                  >
+                    <td>{{ plans.name | titlecase }}</td>
+                    <td>{{ plans.description | titlecase }}</td>
+                    <td>{{ plans.totalvalue }}</td>
+                    <td>
+                      <button
+                        (click)="removeItemFromArrPlan(plans)"
+                        type="button"
+                        class="btn btn-danger"
+                      >
+                        Eliminar
+                      </button>
+                      <button
+                        (click)="changeToEditPlns(i)"
+                        type="button"
+                        class="btn btn-danger"
+                      >
+                        Editar
+                      </button>
+                    </td>
+                  </ng-container>
+                  <ng-template #editRowPlans>
+                    <td>{{ plans.name | titlecase }}</td>
+                    <td>{{ plans.description | titlecase }}</td>
+                    <td>
+                      <input
+                        class="form-control"
+                        type="text"
+                        [(ngModel)]="plans.totalvalue"
+                      />
+                    </td>
+                    <td>
+                      <button
+                        (click)="itemToeditPlans = -1"
+                        type="button"
+                        class="btn btn-secondary"
+                      >
+                        Cancelar
+                      </button>
+                      <button
+                        (click)="saveRowEditPlans(item)"
+                        type="button"
+                        class="btn btn-success"
+                      >
+                        Guardar
+                      </button>
+                    </td>
+                  </ng-template>
+                </tr>
+              </ng-container>
             </tbody>
           </table>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm">
+          <button (click)="editSale()" type="button" class="btn btn-success">
+            Guardar
+          </button>
         </div>
       </div>
     </div>

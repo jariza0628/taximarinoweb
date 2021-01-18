@@ -1,0 +1,97 @@
+<div class="container">
+  <div class="row" style="padding-top: 20px">
+    <div class="col-sm"><h4>Códigos usados</h4></div>
+  </div>
+  <div class="form-group">
+    <form [formGroup]="_formEntity">
+      <div class="card" style="width: 100%">
+        <div class="card-body">
+          <div class="row">
+            <div class="col-sm">
+              <div class="form-group">
+                <label for="exampleFormControlInput1">Fecha inicio</label>
+                <input
+                  formControlName="date"
+                  type="date"
+                  class="form-control"
+                  id="exampleFormControlInput1"
+                  placeholder="name@example.com"
+                />
+              </div>
+            </div>
+            <div class="col-sm">
+              <div class="form-group">
+                <label for="exampleFormControlInput1">Fecha fin</label>
+                <input
+                  formControlName="date2"
+                  type="date"
+                  class="form-control"
+                  id="exampleFormControlInput1"
+                  placeholder="name@example.com"
+                />
+              </div>
+            </div>
+            <div class="col-sm">
+              <div class="form-group">
+                <label for="exampleFormControlInput1">Agencia</label>
+                <select  class="form-control" formControlName="client">
+                  <option>Seleccionar</option>
+                  <option *ngFor="let item of agency" value="{{ item.name }}">{{ item.name }}</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <button type="button" (click)="submit()" class="btn btn-success">
+            Buscar
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+
+  <div class="row">
+    <div id="accordion">
+      <ng-container *ngFor="let item of result; let i = index">
+        <div class="card">
+          <div class="card-header" id="headingOne">
+            <h5 class="mb-0">
+              <button
+                class="btn btn-link"
+                data-toggle="collapse"
+                data-target="#collapseOne"
+                aria-expanded="false"
+                aria-controls="collapseOne"
+              >
+                Código: {{ item.codebar }} - Servicios Usados:
+                {{ item.serviceUsed }} - Activos: {{ item.serviceActived }} -
+                Cliente: {{ item.name }} - Vendedor: {{ item.seller }}
+              </button>
+            </h5>
+          </div>
+
+          <div
+            id="collapseOne"
+            class="collapse show"
+            aria-labelledby="headingOne"
+            data-parent="#accordion"
+          >
+            <div class="card-body">
+              <ng-container *ngFor="let item of item.detail">
+                <h6>
+                  {{ item.name
+                  }}<span class="badge badge-secondary">{{ item.status }}</span>
+                </h6>
+              </ng-container>
+              <ng-container *ngFor="let item of item.plans.services">
+                <h6>
+                  {{ item.name }}
+                  <span class="badge badge-secondary">{{ item.status }}</span>
+                </h6>
+              </ng-container>
+            </div>
+          </div>
+        </div>
+      </ng-container>
+    </div>
+  </div>
+</div>

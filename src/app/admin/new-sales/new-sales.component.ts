@@ -40,7 +40,8 @@ export class NewSalesComponent implements OnInit {
   generalSale: GeneralSale = {};
 
   ticke = new Tickets();
-
+  user: any;
+  sellerSelected: any;
   constructor(private _GeneralServiceService: GeneralServiceService) {
     this.receipt = false;
     this.arraySelectPlan = [];
@@ -53,21 +54,10 @@ export class NewSalesComponent implements OnInit {
     this.typepay = "Efectivo";
 
     this.code = "";
+ 
+    this.initFomr();
+    this.sellerSelected = localStorage.getItem('sellerSelected');
 
-    this._formEntity = new FormGroup({
-      name: new FormControl("", [
-        Validators.required,
-        Validators.maxLength(100),
-      ]),
-      seller: new FormControl("yajaira oficina", [
-        Validators.required,
-        Validators.maxLength(100),
-      ]),
-      dni: new FormControl("", [
-        Validators.required,
-        Validators.maxLength(100),
-      ]),
-    });
   }
 
   ngOnInit() {
@@ -75,6 +65,29 @@ export class NewSalesComponent implements OnInit {
     this.getData();
     this.getDataPlans();
     this.getSellers();
+  }
+
+
+  initFomr(){
+    let usuaerSelect;
+    if(localStorage.getItem('sellerSelected')){
+
+    }else{
+      usuaerSelect = "Williamventa4"
+    }
+    usuaerSelect = localStorage.getItem('sellerSelected')
+    this._formEntity = new FormGroup({
+      name: new FormControl("", [
+        Validators.maxLength(100),
+      ]),
+      seller: new FormControl(usuaerSelect, [
+        Validators.required,
+        Validators.maxLength(100),
+      ]),
+      dni: new FormControl("", [
+        Validators.maxLength(100),
+      ]),
+    });
   }
 
   getData() {
@@ -90,8 +103,18 @@ export class NewSalesComponent implements OnInit {
       this.arryTMP = this.services;
     });
   }
+
+  selectSeller(e) {
+    this.sellerSelected = e
+    console.log(e);
+  }
+  saveSelect(){
+    localStorage.setItem('sellerSelected', this.sellerSelected);
+    // this.router.navigate(['admin/new-sales']);
+    this.initFomr();
+  }
+
   restDate() {
-    debugger;
     this.arryTMP = this.services;
   }
   serach(dataToSearch) {
@@ -289,9 +312,19 @@ export class NewSalesComponent implements OnInit {
 
     let ventas;
     ventas = false;
-
+    if(!this.generalSale.paymentType){
+      alert('Indica el metodo de pago');
+      return null
+    }
     if (this.arraySelectPlan.length > 0 || this.arraySelect.length > 0) {
       if (this.barcodes.length > 0) {
+        if(this.generalSale.paymentType === 'credit'){
+          if(this.vaucher === null || this.vaucher === '' || formValue.name === null || formValue.name === ''){
+            alert('Indica un codigo de vaucher y/o nombre de cliente')
+            return false
+          }
+        }
+     
         // id of sale general
         const saleIdentifier = uuidv4();
         // set object for creted general sale
@@ -415,6 +448,7 @@ export class NewSalesComponent implements OnInit {
           this.arraySelect = [];
           this.barcodes = [];
           this._formEntity.reset();
+          this.initFomr();
           this.showmixprice = false;
         }
       } else {

@@ -131,14 +131,14 @@ export class ReportsComponent implements OnInit {
     let total = 0;
     this.data.forEach((sale) => {
       sale.plans.forEach((plan) => {
-        total += plan.totalvalue;
+        total += Number(plan.totalvalue);
         /*
         plan.services.forEach(serviceItem => {
           total += serviceItem.publicvalue;
         });*/
       });
       sale.detail.forEach((serviceItem) => {
-        total += serviceItem.publicvalue;
+        total += Number(serviceItem.publicvalue);
       });
     });
     return total;
@@ -151,14 +151,14 @@ export class ReportsComponent implements OnInit {
   totalbySale(sale: Sales) {
     let total = 0;
     sale.plans.forEach((plan) => {
-      total += plan.totalvalue;
+      total += Number(plan.totalvalue);
 
       /*plan.services.forEach(serviceItem => {
         total += serviceItem.publicvalue;
       });*/
     });
     sale.detail.forEach((serviceItem) => {
-      total += serviceItem.publicvalue;
+      total += Number(serviceItem.publicvalue);
     });
     return total;
   }
@@ -218,7 +218,7 @@ export class ReportsComponent implements OnInit {
     this.data.forEach((sale: Sales | any) => {
       const getvalue = () => {
         sale.plans.forEach((plan) => {
-          total += plan.totalvalue;
+          total += Number(plan.totalvalue);
 
           /*
           plan.services.forEach(serviceItem => {
@@ -226,7 +226,7 @@ export class ReportsComponent implements OnInit {
           });*/
         });
         sale.detail.forEach((serviceItem) => {
-          total += serviceItem.publicvalue;
+          total += Number(serviceItem.publicvalue);
         });
       };
       if (!sale.typepay && paymentype === paymentType.cash) {
@@ -251,14 +251,14 @@ export class ReportsComponent implements OnInit {
     this.data.forEach((sale) => {
       if (sale.vaucher) {
         sale.plans.forEach((plan) => {
-          this.totalVauches += plan.totalvalue;
+          this.totalVauches += Number(plan.totalvalue);
           /*
           plan.services.forEach(serviceItem => {
             total += serviceItem.publicvalue;
           });*/
         });
         sale.detail.forEach((serviceItem) => {
-          this.totalVauches += serviceItem.publicvalue;
+          this.totalVauches += Number(serviceItem.publicvalue);
         });
       }
     });
@@ -269,14 +269,14 @@ export class ReportsComponent implements OnInit {
     this.data.forEach((sale) => {
       if (sale.typepay === typepay) {
         sale.plans.forEach((plan) => {
-          total += plan.totalvalue;
+          total += Number(plan.totalvalue);
           /*
           plan.services.forEach(serviceItem => {
             total += serviceItem.publicvalue;
           });*/
         });
         sale.detail.forEach((serviceItem) => {
-          total += serviceItem.publicvalue;
+          total += Number(serviceItem.publicvalue);
         });
       }
     });
@@ -301,7 +301,7 @@ export class ReportsComponent implements OnInit {
           });*/
         });
         sale.detail.forEach((serviceItem) => {
-          total += serviceItem.publicvalue;
+          total += Number(serviceItem.publicvalue);
         });
       }
     });
@@ -314,13 +314,13 @@ export class ReportsComponent implements OnInit {
         // totalDep += plan.totalvalue;
         plan.services.forEach((serviceItem) => {
           if (dept === serviceItem.department) {
-            totalDep += serviceItem.publicvalue;
+            totalDep += Number(serviceItem.publicvalue);
           }
         });
       });
       sale.detail.forEach((serviceItem) => {
         if (dept === serviceItem.department) {
-          totalDep += serviceItem.publicvalue;
+          totalDep += Number(serviceItem.publicvalue);
         }
       });
     });

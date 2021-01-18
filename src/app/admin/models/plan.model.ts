@@ -5,8 +5,9 @@ export class Plan {
     id?: any;
     name: string;
     description?: string;
-    totalvalue?: any;
+    totalvalue?: number;
     discount?: any;
     agency?: any;
     services: Service[];
+    code?: string;
 }
