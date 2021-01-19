@@ -379,7 +379,7 @@ export class NewSalesComponent implements OnInit {
               ...formValue,
               plans: this.arraySelectPlan,
               detail: this.arraySelect,
-              date: dateString,
+              date: "2021-01-12"  /*dateString*/,
               hour: hour,
               total: total,
               state: "Activo",

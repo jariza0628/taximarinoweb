@@ -278,6 +278,10 @@ export class CodebarComponent implements OnInit {
   editSale(){
     let formValue: Sales = this._formEntity.value;
     this.data[0].name = formValue.name;
+    this.data[0].typepay = formValue.typepay;
+    this.data[0].date = formValue.date;
+    this.data[0].seller = formValue.seller;
+    this.data[0].dni = formValue.dni;
     this.data[0].tarjeta = formValue.tarjeta;
     this.data[0].total = formValue.total;
     this.data[0].efecty = formValue.efecty;
