@@ -339,7 +339,19 @@ export class ReportSalesComponent implements OnInit {
         this._ExcelService.exportToExcel(this.generalReport, "General");
         break;
       case "AllServices":
-        this._ExcelService.exportToExcel(this.individualService, "General");
+        let array = [];
+        this.individualService.forEach(element => {
+          array.push({
+            codigo: element.codebar,
+            servicio: element.name,
+            cliente: element.nameClient,
+            vendedor: element.seller,
+            precio: element.publicvalue,
+            estado: element.status,
+            voucher: element.vaucher
+          })
+        });
+        this._ExcelService.exportToExcel(array, "Todos los servicios-" + this.date1 );
         break;
       default:
         this._ExcelService.exportToExcel(this.generalReport, "General");
