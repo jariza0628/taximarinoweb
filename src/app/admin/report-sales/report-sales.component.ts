@@ -106,7 +106,7 @@ export class ReportSalesComponent implements OnInit {
         });
       setTimeout(() => {
         subscription.unsubscribe();
-      }, 700);
+      }, 1300);
     } else {
     }
   }
