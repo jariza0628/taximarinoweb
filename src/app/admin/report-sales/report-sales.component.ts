@@ -104,7 +104,7 @@ export class ReportSalesComponent implements OnInit {
         setTimeout(() => {
           subscription.unsubscribe();
    
-        }, 1200);
+        }, 700);
     } else {
     }
   }
@@ -335,8 +335,31 @@ export class ReportSalesComponent implements OnInit {
   reportData() {
     if(this.btnreport === 'Filtrar'){
       this.btnreport = 'Realizar otro filtro';
+      let resultData;
+      resultData = [];
+      console.log("selectService", this.selectService);
+      console.log("selectSellers", this.seletcSellers);
+      this.dataFilter = [];
+      this.dataFilter2 = [];
+      // filtar las ventas por vendedor
+      this.seletcSellers.forEach((sellers) => {
+        this.filter(sellers);
+      });
+      if (this.selectService && this.selectService.length > 0) {
+        this.total = 0;
+        this.selectService.forEach((service) => {
+          this.filterforServices(service);
+        });
+        this.dataFilter = this.dataFilter2;
+      }
+      this.selectService = null;
+      this.seletcSellers = null;
+      console.log("Conut sales", this.dataFilter.length);
+      this.data = this.dataFilter;
+      this.reportGeneral();
     }else{
-      this.getDataByRangeDate();
+      this.btnreport = 'Filtrar'
+      this.generalReport = [];
       this.depAcuario = [];
       this.depPikua = [];
       this.depInkaInka = [];
@@ -352,30 +375,9 @@ export class ReportSalesComponent implements OnInit {
       this.totalBank = 0;
       this.totalefecty = 0;
       this.totalVaoucher = 0;
-      this.btnreport === 'Filtrar'
+      this.getDataByRangeDate();
     }
-    let resultData;
-    resultData = [];
-    console.log("selectService", this.selectService);
-    console.log("selectSellers", this.seletcSellers);
-    this.dataFilter = [];
-    this.dataFilter2 = [];
-    // filtar las ventas por vendedor
-    this.seletcSellers.forEach((sellers) => {
-      this.filter(sellers);
-    });
-    if (this.selectService && this.selectService.length > 0) {
-      this.total = 0;
-      this.selectService.forEach((service) => {
-        this.filterforServices(service);
-      });
-      this.dataFilter = this.dataFilter2;
-    }
-    this.selectService = null;
-    this.seletcSellers = null;
-    console.log("Conut sales", this.dataFilter.length);
-    this.data = this.dataFilter;
-    this.reportGeneral();
+
   }
 
   filter(seller) {
