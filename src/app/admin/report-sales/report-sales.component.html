@@ -104,7 +104,7 @@
         class="btn-success btn"
         (click)="exportExcel('General')"
       >
-        Generar Excel x vendedor
+        Generar Excel por vendedor
       </button>
     </div>
   </div>
@@ -175,6 +175,17 @@
       </table>
     </div>
   </div>
+  <div class="row">
+    <div class="col-sm">
+      <button
+        style="margin-top: 8px"
+        class="btn-success btn"
+        (click)="exportExcel('AllServices')"
+      >
+        Exportar Servicios vendidos Excel
+      </button>
+    </div>
+  </div>
   <div class="row" *ngIf="depTaxiMarino.length > 0">
     <div class="col-sm">
       <h4>Ventas taxi marino</h4>
@@ -184,7 +195,9 @@
             <th scope="col">#</th>
             <th scope="col">Cod</th>
             <th scope="col">Servicio</th>
-            <th scope="col">Descripcion</th>
+            <th scope="col">Cliente</th>
+            <th scope="col"># Vochuer</th>
+            <th scope="col">Vendedor</th>
             <th scope="col">Estado</th>
             <th scope="col">Valor</th>
           </tr>
@@ -194,7 +207,9 @@
             <th scope="row">{{ i + 1 }}</th>
             <td>{{ item.codebar }}</td>
             <td>{{ item.name }}</td>
-            <td>{{ item.description }}</td>
+            <td>{{ item.nameClient }}</td>
+            <td>{{ item.vaucher }}</td>
+            <td>{{ item.seller }}</td>
             <td>{{ item.status }}</td>
             <td>${{ item.publicvalue | number }}</td>
           </tr>
@@ -211,7 +226,9 @@
             <th scope="col">#</th>
             <th scope="col">Cod</th>
             <th scope="col">Servicio</th>
-            <th scope="col">Descripcion</th>
+            <th scope="col">Cliente</th>
+            <th scope="col"># Vochuer</th>
+            <th scope="col">Vendedor</th>
             <th scope="col">Estado</th>
             <th scope="col">Valor</th>
           </tr>
@@ -221,7 +238,9 @@
             <th scope="row">{{ i + 1 }}</th>
             <td>{{ item.codebar }}</td>
             <td>{{ item.name }}</td>
-            <td>{{ item.description }}</td>
+            <td>{{ item.nameClient }}</td>
+            <td>{{ item.vaucher }}</td>
+            <td>{{ item.seller }}</td>
             <td>{{ item.status }}</td>
             <td>${{ item.publicvalue | number }}</td>
           </tr>
@@ -238,7 +257,9 @@
             <th scope="col">#</th>
             <th scope="col">Cod</th>
             <th scope="col">Servicio</th>
-            <th scope="col">Descripcion</th>
+            <th scope="col">Cliente</th>
+            <th scope="col"># Vochuer</th>
+            <th scope="col">Vendedor</th>
             <th scope="col">Estado</th>
             <th scope="col">Valor</th>
           </tr>
@@ -248,7 +269,9 @@
             <th scope="row">{{ i + 1 }}</th>
             <td>{{ item.codebar }}</td>
             <td>{{ item.name }}</td>
-            <td>{{ item.description }}</td>
+            <td>{{ item.nameClient }}</td>
+            <td>{{ item.vaucher }}</td>
+            <td>{{ item.seller }}</td>
             <td>{{ item.status }}</td>
             <td>${{ item.publicvalue | number }}</td>
           </tr>
@@ -265,7 +288,9 @@
             <th scope="col">#</th>
             <th scope="col">Cod</th>
             <th scope="col">Servicio</th>
-            <th scope="col">Descripcion</th>
+            <th scope="col">Cliente</th>
+            <th scope="col"># Vochuer</th>
+            <th scope="col">Vendedor</th>
             <th scope="col">Estado</th>
             <th scope="col">Valor</th>
           </tr>
@@ -275,7 +300,9 @@
             <th scope="row">{{ i + 1 }}</th>
             <td>{{ item.codebar }}</td>
             <td>{{ item.name }}</td>
-            <td>{{ item.description }}</td>
+            <td>{{ item.nameClient }}</td>
+            <td>{{ item.vaucher }}</td>
+            <td>{{ item.seller }}</td>
             <td>{{ item.status }}</td>
             <td>${{ item.publicvalue | number }}</td>
           </tr>
@@ -292,7 +319,9 @@
             <th scope="col">#</th>
             <th scope="col">Cod</th>
             <th scope="col">Servicio</th>
-            <th scope="col">Descripcion</th>
+            <th scope="col">Cliente</th>
+            <th scope="col"># Vochuer</th>
+            <th scope="col">Vendedor</th>
             <th scope="col">Estado</th>
             <th scope="col">Valor</th>
           </tr>
@@ -302,7 +331,9 @@
             <th scope="row">{{ i + 1 }}</th>
             <td>{{ item.codebar }}</td>
             <td>{{ item.name }}</td>
-            <td>{{ item.description }}</td>
+            <td>{{ item.nameClient }}</td>
+            <td>{{ item.vaucher }}</td>
+            <td>{{ item.seller }}</td>
             <td>{{ item.status }}</td>
             <td>${{ item.publicvalue | number }}</td>
           </tr>
@@ -319,7 +350,9 @@
             <th scope="col">#</th>
             <th scope="col">Cod</th>
             <th scope="col">Servicio</th>
-            <th scope="col">Descripcion</th>
+            <th scope="col">Cliente</th>
+            <th scope="col"># Vochuer</th>
+            <th scope="col">Vendedor</th>
             <th scope="col">Estado</th>
             <th scope="col">Valor</th>
           </tr>
@@ -329,7 +362,9 @@
             <th scope="row">{{ i + 1 }}</th>
             <td>{{ item.codebar }}</td>
             <td>{{ item.name }}</td>
-            <td>{{ item.description }}</td>
+            <td>{{ item.nameClient }}</td>
+            <td>{{ item.vaucher }}</td>
+            <td>{{ item.seller }}</td>
             <td>{{ item.status }}</td>
             <td>${{ item.publicvalue | number }}</td>
           </tr>
@@ -337,5 +372,4 @@
       </table>
     </div>
   </div>
- 
 </div>

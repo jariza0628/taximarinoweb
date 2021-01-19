@@ -1,19 +1,21 @@
 import { Component, OnInit } from "@angular/core";
 import { Sales } from "../models/sales";
-import { Service, GeneralReport } from "../models/service.model";
+import { Service, GeneralReport, ServiceCopy } from "../models/service.model";
 import { GeneralServiceService } from "../services/general-service.service";
 import { ExcelService } from "../services/excel.service";
 
 @Component({
-  selector: 'app-report-sales',
-  templateUrl: './report-sales.component.html',
-  styleUrls: ['./report-sales.component.css']
+  selector: "app-report-sales",
+  templateUrl: "./report-sales.component.html",
+  styleUrls: ["./report-sales.component.css"],
 })
 export class ReportSalesComponent implements OnInit {
   data: Array<Sales>;
 
   dataFilter: any;
   dataFilter2: any;
+
+  copyData: any;
 
   seletcSellers: any;
   selectService: any;
@@ -26,7 +28,7 @@ export class ReportSalesComponent implements OnInit {
   sellers: any;
 
   generalReport: Array<GeneralReport>;
-  individualService: Array<Service>;
+  individualService: Array<ServiceCopy>;
 
   depAcuario: Array<any>;
   depPikua: Array<any>;
@@ -35,12 +37,12 @@ export class ReportSalesComponent implements OnInit {
   depTaxiMarino: Array<any>;
   depCanopy: Array<any>;
 
-  totalAcuario:number;
-  totalPikua:number;
-  totalInkaInka:number;
-  totalKatamaran:number;
-  totalTaxiMarino:number;
-  totalCanopy:number;
+  totalAcuario: number;
+  totalPikua: number;
+  totalInkaInka: number;
+  totalKatamaran: number;
+  totalTaxiMarino: number;
+  totalCanopy: number;
 
   totalBank: number;
   totalefecty: number;
@@ -60,12 +62,12 @@ export class ReportSalesComponent implements OnInit {
     this.totalefecty = 0;
     this.totalVaoucher = 0;
 
-    this.totalAcuario= 0;
-    this.totalPikua= 0;
-    this.totalInkaInka= 0;
-    this.totalKatamaran= 0;
-    this.totalTaxiMarino= 0;
-    this.totalCanopy= 0;
+    this.totalAcuario = 0;
+    this.totalPikua = 0;
+    this.totalInkaInka = 0;
+    this.totalKatamaran = 0;
+    this.totalTaxiMarino = 0;
+    this.totalCanopy = 0;
 
     this.depAcuario = [];
     this.depPikua = [];
@@ -74,7 +76,7 @@ export class ReportSalesComponent implements OnInit {
     this.depTaxiMarino = [];
     this.depCanopy = [];
 
-    this.btnreport = 'Filtrar';
+    this.btnreport = "Filtrar";
   }
 
   ngOnInit() {
@@ -98,13 +100,13 @@ export class ReportSalesComponent implements OnInit {
             } as any;
           });
           this.dataFilter = this.data;
+          this.copyData = this.data;
           this.reportGeneral();
           this.calcValue(this.dataFilter);
         });
-        setTimeout(() => {
-          subscription.unsubscribe();
-   
-        }, 700);
+      setTimeout(() => {
+        subscription.unsubscribe();
+      }, 700);
     } else {
     }
   }
@@ -116,11 +118,23 @@ export class ReportSalesComponent implements OnInit {
       //Contar por departamentos
       sale.plans.forEach((plan) => {
         plan.services.forEach((element) => {
-           this.individualService.push({codebar: sale.codebar, ... element});
+          this.individualService.push({
+            codebar: sale.codebar,
+            nameClient: sale.name,
+            vaucher: sale.vaucher,
+            seller: sale.seller,
+            ...element,
+          });
         });
       });
       sale.detail.forEach((serviceItem) => {
-        this.individualService.push({codebar: sale.codebar, ... serviceItem});
+        this.individualService.push({
+          codebar: sale.codebar,
+          nameClient: sale.name,
+          vaucher: sale.vaucher,
+          seller: sale.seller,
+          ...serviceItem,
+        });
       });
 
       // Buscar vendedor y sumar datos
@@ -181,18 +195,17 @@ export class ReportSalesComponent implements OnInit {
         this.generalReport.push(reportTemp);
       }
     });
- 
+
     //Sumar Totales primera tabla
     this.totalBank = 0;
     this.totalefecty = 0;
     this.totalVaoucher = 0;
-     this.generalReport.forEach((element) => {
+    this.generalReport.forEach((element) => {
       this.totalBank += Number(element.bank);
       this.totalVaoucher += Number(element.vaucher);
       this.totalefecty = this.totalefecty + Number(element.efecty);
     });
- 
-    
+
     //Ordenar
     this.depAcuario = [];
     this.depPikua = [];
@@ -200,17 +213,15 @@ export class ReportSalesComponent implements OnInit {
     this.depKatamaran = [];
     this.depTaxiMarino = [];
     this.depCanopy = [];
-    this.totalAcuario= 0;
-    this.totalPikua= 0;
-    this.totalInkaInka= 0;
-    this.totalKatamaran= 0;
-    this.totalTaxiMarino= 0;
-    this.totalCanopy= 0;
+    this.totalAcuario = 0;
+    this.totalPikua = 0;
+    this.totalInkaInka = 0;
+    this.totalKatamaran = 0;
+    this.totalTaxiMarino = 0;
+    this.totalCanopy = 0;
     this.individualService.forEach((element) => {
-      if(element.publicvalue > 0){
-        
-      }else{
-         
+      if (element.publicvalue > 0) {
+      } else {
       }
       switch (element.department) {
         case "Acuario":
@@ -223,18 +234,18 @@ export class ReportSalesComponent implements OnInit {
           break;
         case "InkaInka":
           this.depInkaInka.push(element);
-          this.totalInkaInka += Number(element.publicvalue)
+          this.totalInkaInka += Number(element.publicvalue);
           break;
         case "Katamaran":
-          this.totalKatamaran += Number(element.publicvalue)
+          this.totalKatamaran += Number(element.publicvalue);
           this.depKatamaran.push(element);
           break;
         case "TaxiMarino":
-          this.totalTaxiMarino += Number(element.publicvalue)
+          this.totalTaxiMarino += Number(element.publicvalue);
           this.depTaxiMarino.push(element);
           break;
         case "Canopy":
-          this.totalCanopy += Number(element.publicvalue)
+          this.totalCanopy += Number(element.publicvalue);
           this.depCanopy.push(element);
           break;
         default:
@@ -259,9 +270,9 @@ export class ReportSalesComponent implements OnInit {
     this.depCanopy.sort(function (a, b) {
       return a.name.toLowerCase().localeCompare(b.name.toLowerCase());
     });
- 
+
     console.log("depTaxiMarino", this.depTaxiMarino);
-    console.log('totalefecty', this.totalefecty);
+    console.log("totalefecty", this.totalefecty);
   }
 
   getServices() {
@@ -324,8 +335,23 @@ export class ReportSalesComponent implements OnInit {
   }
   exportExcel(val) {
     switch (val) {
-      case 'generalReport':
+      case "generalReport":
         this._ExcelService.exportToExcel(this.generalReport, "General");
+        break;
+      case "AllServices":
+        let array = [];
+        this.individualService.forEach(element => {
+          array.push({
+            codigo: element.codebar,
+            servicio: element.name,
+            cliente: element.nameClient,
+            vendedor: element.seller,
+            precio: element.publicvalue,
+            estado: element.status,
+            voucher: element.vaucher
+          })
+        });
+        this._ExcelService.exportToExcel(array, "Todos los servicios-" + this.date1 );
         break;
       default:
         this._ExcelService.exportToExcel(this.generalReport, "General");
@@ -333,8 +359,8 @@ export class ReportSalesComponent implements OnInit {
     }
   }
   reportData() {
-    if(this.btnreport === 'Filtrar'){
-      this.btnreport = 'Realizar otro filtro';
+    if (this.btnreport === "Filtrar") {
+      this.btnreport = "Realizar otro filtro";
       let resultData;
       resultData = [];
       console.log("selectService", this.selectService);
@@ -357,8 +383,8 @@ export class ReportSalesComponent implements OnInit {
       console.log("Conut sales", this.dataFilter.length);
       this.data = this.dataFilter;
       this.reportGeneral();
-    }else{
-      this.btnreport = 'Filtrar'
+    } else {
+      this.btnreport = "Filtrar";
       this.generalReport = [];
       this.depAcuario = [];
       this.depPikua = [];
@@ -366,18 +392,19 @@ export class ReportSalesComponent implements OnInit {
       this.depKatamaran = [];
       this.depTaxiMarino = [];
       this.depCanopy = [];
-      this.totalAcuario= 0;
-      this.totalPikua= 0;
-      this.totalInkaInka= 0;
-      this.totalKatamaran= 0;
-      this.totalTaxiMarino= 0;
-      this.totalCanopy= 0;
+      this.totalAcuario = 0;
+      this.totalPikua = 0;
+      this.totalInkaInka = 0;
+      this.totalKatamaran = 0;
+      this.totalTaxiMarino = 0;
+      this.totalCanopy = 0;
       this.totalBank = 0;
       this.totalefecty = 0;
       this.totalVaoucher = 0;
-      this.getDataByRangeDate();
+      this.total = 0;
+      this.data = this.copyData;
+      this.reportGeneral();
     }
-
   }
 
   filter(seller) {
@@ -389,7 +416,7 @@ export class ReportSalesComponent implements OnInit {
       }
     });
     this.dataFilter = this.dataFilter.concat(results);
- 
+
     this.calcValue(this.dataFilter);
   }
   filterforServices(service) {
@@ -433,6 +460,4 @@ export class ReportSalesComponent implements OnInit {
         return 0;
       });
   }
-
- 
 }
