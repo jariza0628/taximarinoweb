@@ -175,6 +175,17 @@
       </table>
     </div>
   </div>
+  <div class="row">
+    <div class="col-sm">
+      <button
+        style="margin-top: 8px"
+        class="btn-success btn"
+        (click)="exportExcel('AllServices')"
+      >
+        Generar Excel x vendedor
+      </button>
+    </div>
+  </div>
   <div class="row" *ngIf="depTaxiMarino.length > 0">
     <div class="col-sm">
       <h4>Ventas taxi marino</h4>
