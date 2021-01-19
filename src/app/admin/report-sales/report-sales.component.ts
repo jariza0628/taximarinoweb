@@ -15,6 +15,8 @@ export class ReportSalesComponent implements OnInit {
   dataFilter: any;
   dataFilter2: any;
 
+  copyData: any;
+
   seletcSellers: any;
   selectService: any;
 
@@ -98,6 +100,7 @@ export class ReportSalesComponent implements OnInit {
             } as any;
           });
           this.dataFilter = this.data;
+          this.copyData = this.data;
           this.reportGeneral();
           this.calcValue(this.dataFilter);
         });
@@ -375,7 +378,9 @@ export class ReportSalesComponent implements OnInit {
       this.totalBank = 0;
       this.totalefecty = 0;
       this.totalVaoucher = 0;
-      this.getDataByRangeDate();
+      this.total = 0;
+      this.data = this.copyData;
+      this.reportGeneral();
     }
 
   }
