@@ -1,6 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { Sales } from "../models/sales";
-import { Service, GeneralReport } from "../models/service.model";
+import { Service, GeneralReport, ServiceCopy } from "../models/service.model";
 import { GeneralServiceService } from "../services/general-service.service";
 import { ExcelService } from "../services/excel.service";
 
@@ -28,7 +28,7 @@ export class ReportSalesComponent implements OnInit {
   sellers: any;
 
   generalReport: Array<GeneralReport>;
-  individualService: Array<Service>;
+  individualService: Array<ServiceCopy>;
 
   depAcuario: Array<any>;
   depPikua: Array<any>;
@@ -119,11 +119,11 @@ export class ReportSalesComponent implements OnInit {
       //Contar por departamentos
       sale.plans.forEach((plan) => {
         plan.services.forEach((element) => {
-           this.individualService.push({codebar: sale.codebar, ... element});
+           this.individualService.push({codebar: sale.codebar, nameClient: sale.name,vaucher: sale.vaucher,seller: sale.seller, ... element});
         });
       });
       sale.detail.forEach((serviceItem) => {
-        this.individualService.push({codebar: sale.codebar, ... serviceItem});
+        this.individualService.push({codebar: sale.codebar, nameClient: sale.name,vaucher: sale.vaucher,seller: sale.seller, ... serviceItem});
       });
 
       // Buscar vendedor y sumar datos
