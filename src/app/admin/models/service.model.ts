@@ -10,6 +10,7 @@ export class Service {
   department?: any;
   code?: string;
   verificador?: any;
+  codebar?: any;
 }
 
 export class GeneralReport {

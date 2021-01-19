@@ -30,13 +30,14 @@ import { ExcelService } from './services/excel.service';
 import { ReporstGeneralComponent } from './reporst-general/reporst-general.component';
 import { CodebarNoveltiesComponent } from './codebar-novelties/codebar-novelties.component';
 import { ReportUsedComponent } from './report-used/report-used.component';
+import { ReportSalesComponent } from './report-sales/report-sales.component';
  
 
 @NgModule({
   declarations: [
     ProjectListComponent, ProjectCreateComponent, ProjectUpdateComponent,
     ProjectComponent, LoginComponent, ReportAdminComponent, PointSaleComponent, AgencyComponent, SalesComponent,
-    IndividualServicesComponent, PlansComponent, NewSalesComponent, ReceiptComponent, ReportComponent, DetailComponent, CodebarComponent, HistoryReportComponent, InventoryComponent, ComisionComponent, ReporstGeneralComponent, CodebarNoveltiesComponent, ReportUsedComponent],
+    IndividualServicesComponent, PlansComponent, NewSalesComponent, ReceiptComponent, ReportComponent, DetailComponent, CodebarComponent, HistoryReportComponent, InventoryComponent, ComisionComponent, ReporstGeneralComponent, CodebarNoveltiesComponent, ReportUsedComponent, ReportSalesComponent],
   imports: [
     CommonModule,
     AdminRoutingModule,

@@ -24,6 +24,7 @@ import { ComisionComponent } from './comision/comision.component';
 import { ReporstGeneralComponent } from './reporst-general/reporst-general.component';
 import { CodebarNoveltiesComponent } from "./codebar-novelties/codebar-novelties.component";
 import { ReportUsedComponent } from "./report-used/report-used.component";
+import { ReportSalesComponent } from "./report-sales/report-sales.component";
 
 const routes: Routes = [
   {
@@ -126,6 +127,11 @@ const routes: Routes = [
       {
         path: "codebarnovelty",
         component: CodebarNoveltiesComponent,
+        canActivate: [AdminGuard],
+      },
+      {
+        path: "reportseller",
+        component: ReportSalesComponent,
         canActivate: [AdminGuard],
       },
       {

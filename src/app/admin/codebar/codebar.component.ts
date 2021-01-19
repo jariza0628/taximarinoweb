@@ -287,6 +287,9 @@ export class CodebarComponent implements OnInit {
     this.data[0].efecty = formValue.efecty;
     this.data[0].vaucher = formValue.vaucher;
     this.data[0].zone = formValue.zone;
+    this.data[0].detail.forEach((element) => {
+      element.publicvalue = Number(element.publicvalue)
+    })
     if(this.data[0].plans.length > 0){
       this.data[0].plans[0].totalvalue = Number(this.data[0].plans[0].totalvalue)
     }
