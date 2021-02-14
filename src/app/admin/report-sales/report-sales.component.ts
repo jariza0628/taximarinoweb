@@ -49,6 +49,10 @@ export class ReportSalesComponent implements OnInit {
   totalVaoucher: number;
 
   btnreport: string;
+
+  subscription1: any;
+
+  useremail: string;
   constructor(
     private _ExcelService: ExcelService,
     private _GeneralServiceService: GeneralServiceService
@@ -82,16 +86,17 @@ export class ReportSalesComponent implements OnInit {
   ngOnInit() {
     this.getServices();
     this.getSellers();
+    this.useremail = localStorage.getItem("userlog");
   }
 
   getDataByRangeDate() {
     console.log("getDataByRangeDate");
 
     if (this.date1 && this.date2) {
-      let subscription = this._GeneralServiceService
+      this.subscription1 = this._GeneralServiceService
         .getSalesByDateRange("sales", this.date1, this.date2)
         .subscribe((data) => {
-          // console.log('dara', data);
+          console.log("dara", data);
           this.data = data.map((e) => {
             console.log(e.payload.doc.data());
             return {
@@ -104,9 +109,6 @@ export class ReportSalesComponent implements OnInit {
           this.reportGeneral();
           this.calcValue(this.dataFilter);
         });
-      setTimeout(() => {
-        subscription.unsubscribe();
-      }, 1300);
     } else {
     }
   }
@@ -116,83 +118,386 @@ export class ReportSalesComponent implements OnInit {
     this.generalReport = [];
     this.data.forEach((sale) => {
       //Contar por departamentos
-      sale.plans.forEach((plan) => {
-        plan.services.forEach((element) => {
-          this.individualService.push({
-            codebar: sale.codebar,
-            nameClient: sale.name,
-            vaucher: sale.vaucher,
-            seller: sale.seller,
-            ...element,
+      switch (this.useremail) {
+        case "taximarino2020@gmail.com":
+          if (
+            sale.seller === "taquillaAcuario" ||
+            sale.seller === "LUIS CANOPY" ||
+            sale.seller === "Andres de la hoz "
+          ) {
+            console.log("Excluye", sale.seller);
+          } else {
+            sale.plans.forEach((plan) => {
+              plan.services.forEach((element) => {
+                this.individualService.push({
+                  codebar: sale.codebar,
+                  nameClient: sale.name,
+                  vaucher: sale.vaucher,
+                  seller: sale.seller,
+                  date: sale.date,
+                  ...element,
+                });
+              });
+            });
+            sale.detail.forEach((serviceItem) => {
+              this.individualService.push({
+                codebar: sale.codebar,
+                nameClient: sale.name,
+                vaucher: sale.vaucher,
+                seller: sale.seller,
+                date: sale.date,
+                ...serviceItem,
+              });
+            });
+          }
+          break;
+        case "canopysistema2020@gmail.com":
+          if (sale.seller === "taquillaAcuario") {
+            console.log("Excluye", sale.seller);
+          } else {
+            sale.plans.forEach((plan) => {
+              plan.services.forEach((element) => {
+                if (element.department === "Canopy") {
+                  this.individualService.push({
+                    codebar: sale.codebar,
+                    nameClient: sale.name,
+                    vaucher: sale.vaucher,
+                    seller: sale.seller,
+                    date: sale.date,
+                    ...element,
+                  });
+                }
+              });
+            });
+            sale.detail.forEach((serviceItem) => {
+              if (serviceItem.department === "Canopy") {
+                this.individualService.push({
+                  codebar: sale.codebar,
+                  nameClient: sale.name,
+                  vaucher: sale.vaucher,
+                  seller: sale.seller,
+                  date: sale.date,
+                  ...serviceItem,
+                });
+              }
+            });
+          }
+          break;
+        case "acuariosistema2020@gmail.com":
+          if (
+            sale.seller === "LUIS CANOPY" ||
+            sale.seller === "Andres de la hoz "
+          ) {
+            console.log("Excluye", sale.seller);
+          } else {
+            sale.plans.forEach((plan) => {
+              plan.services.forEach((element) => {
+                this.individualService.push({
+                  codebar: sale.codebar,
+                  nameClient: sale.name,
+                  vaucher: sale.vaucher,
+                  seller: sale.seller,
+                  date: sale.date,
+                  ...element,
+                });
+              });
+            });
+            sale.detail.forEach((serviceItem) => {
+              this.individualService.push({
+                codebar: sale.codebar,
+                nameClient: sale.name,
+                vaucher: sale.vaucher,
+                seller: sale.seller,
+                date: sale.date,
+                ...serviceItem,
+              });
+            });
+          }
+          break;
+        case "jefferariza@outlook.com":
+          sale.plans.forEach((plan) => {
+            plan.services.forEach((element) => {
+              this.individualService.push({
+                codebar: sale.codebar,
+                nameClient: sale.name,
+                vaucher: sale.vaucher,
+                seller: sale.seller,
+                date: sale.date,
+                ...element,
+              });
+            });
           });
-        });
-      });
-      sale.detail.forEach((serviceItem) => {
-        this.individualService.push({
-          codebar: sale.codebar,
-          nameClient: sale.name,
-          vaucher: sale.vaucher,
-          seller: sale.seller,
-          ...serviceItem,
-        });
-      });
+          sale.detail.forEach((serviceItem) => {
+            this.individualService.push({
+              codebar: sale.codebar,
+              nameClient: sale.name,
+              vaucher: sale.vaucher,
+              seller: sale.seller,
+              date: sale.date,
+              ...serviceItem,
+            });
+          });
+          break;
+        default:
+          break;
+      }
+      // SW Para la suma de Reporte general de vevndedor
+      switch (this.useremail) {
+        case "taximarino2020@gmail.com":
+          if (
+            sale.seller === "taquillaAcuario" ||
+            sale.seller === "LUIS CANOPY" ||
+            sale.seller === "Andres de la hoz "
+          ) {
+            console.log("Excluye", sale.seller);
+          } else {
+            // Buscar vendedor y sumar datos
+            let finReg = false;
+            this.generalReport.forEach((report) => {
+              if (sale.seller === report.seller) {
+                finReg = true;
+                if (sale.typepay === "cash") {
+                  report.efecty += this.calcValueSale(sale);
+                }
+                if (sale.typepay === "credit") {
+                  report.vaucher += this.calcValueSale(sale);
+                }
+                if (sale.typepay === "card") {
+                  report.bank += this.calcValueSale(sale);
+                }
+                if (sale.typepay === "mixted") {
+                  report.efecty += Number(sale.efecty);
+                  report.bank += Number(sale.tarjeta);
+                }
+              }
+            });
+            // Si no lo encuentra añadirlo a generalReport
+            if (finReg === false) {
+              let reportTemp: GeneralReport;
+              if (sale.typepay === "cash") {
+                reportTemp = {
+                  bank: 0,
+                  efecty: this.calcValueSale(sale),
+                  seller: sale.seller,
+                  vaucher: 0,
+                };
+              }
+              if (sale.typepay === "credit") {
+                reportTemp = {
+                  bank: 0,
+                  efecty: 0,
+                  seller: sale.seller,
+                  vaucher: this.calcValueSale(sale),
+                };
+              }
+              if (sale.typepay === "card") {
+                reportTemp = {
+                  bank: this.calcValueSale(sale),
+                  efecty: 0,
+                  seller: sale.seller,
+                  vaucher: 0,
+                };
+              }
+              if (sale.typepay === "mixted") {
+                reportTemp = {
+                  bank: sale.tarjeta,
+                  efecty: sale.efecty,
+                  seller: sale.seller,
+                  vaucher: 0,
+                };
+              }
+              this.generalReport.push(reportTemp);
+            }
+          }
+          break;
+        case "canopysistema2020@gmail.com":
+          if (sale.seller === "taquillaAcuario") {
+            console.log("Excluye", sale.seller);
+          } else {
+            // Buscar vendedor y sumar datos
+            let finReg = false;
+            this.generalReport.forEach((report) => {
+              if (sale.seller === report.seller) {
+                finReg = true;
+                if (sale.typepay === "cash") {
+                  report.efecty += this.calcValueSale(sale);
+                }
+                if (sale.typepay === "credit") {
+                  report.vaucher += this.calcValueSale(sale);
+                }
+                if (sale.typepay === "card") {
+                  report.bank += this.calcValueSale(sale);
+                }
+                if (sale.typepay === "mixted") {
+                  report.efecty += Number(sale.efecty);
+                  report.bank += Number(sale.tarjeta);
+                }
+              }
+            });
+            // Si no lo encuentra añadirlo a generalReport
+            if (finReg === false) {
+              let reportTemp: GeneralReport;
+              if (sale.typepay === "cash") {
+                reportTemp = {
+                  bank: 0,
+                  efecty: this.calcValueSale(sale),
+                  seller: sale.seller,
+                  vaucher: 0,
+                };
+              }
+              if (sale.typepay === "credit") {
+                reportTemp = {
+                  bank: 0,
+                  efecty: 0,
+                  seller: sale.seller,
+                  vaucher: this.calcValueSale(sale),
+                };
+              }
+              if (sale.typepay === "card") {
+                reportTemp = {
+                  bank: this.calcValueSale(sale),
+                  efecty: 0,
+                  seller: sale.seller,
+                  vaucher: 0,
+                };
+              }
+              if (sale.typepay === "mixted") {
+                reportTemp = {
+                  bank: sale.tarjeta,
+                  efecty: sale.efecty,
+                  seller: sale.seller,
+                  vaucher: 0,
+                };
+              }
+              this.generalReport.push(reportTemp);
+            }
+          }
+          break;
+        case "acuariosistema2020@gmail.com":
+          if (
+            sale.seller === "LUIS CANOPY" ||
+            sale.seller === "Andres de la hoz "
+          ) {
+            console.log("excluye");
+          } else {
+            // Buscar vendedor y sumar datos
+            let finReg = false;
+            this.generalReport.forEach((report) => {
+              if (sale.seller === report.seller) {
+                finReg = true;
+                if (sale.typepay === "cash") {
+                  report.efecty += this.calcValueSale(sale);
+                }
+                if (sale.typepay === "credit") {
+                  report.vaucher += this.calcValueSale(sale);
+                }
+                if (sale.typepay === "card") {
+                  report.bank += this.calcValueSale(sale);
+                }
+                if (sale.typepay === "mixted") {
+                  report.efecty += Number(sale.efecty);
+                  report.bank += Number(sale.tarjeta);
+                }
+              }
+            });
+            if (finReg === false) {
+              let reportTemp: GeneralReport;
+              if (sale.typepay === "cash") {
+                reportTemp = {
+                  bank: 0,
+                  efecty: this.calcValueSale(sale),
+                  seller: sale.seller,
+                  vaucher: 0,
+                };
+              }
+              if (sale.typepay === "credit") {
+                reportTemp = {
+                  bank: 0,
+                  efecty: 0,
+                  seller: sale.seller,
+                  vaucher: this.calcValueSale(sale),
+                };
+              }
+              if (sale.typepay === "card") {
+                reportTemp = {
+                  bank: this.calcValueSale(sale),
+                  efecty: 0,
+                  seller: sale.seller,
+                  vaucher: 0,
+                };
+              }
+              if (sale.typepay === "mixted") {
+                reportTemp = {
+                  bank: sale.tarjeta,
+                  efecty: sale.efecty,
+                  seller: sale.seller,
+                  vaucher: 0,
+                };
+              }
+              this.generalReport.push(reportTemp);
+            }
+          }
+          break;
+        case "jefferariza@outlook.com":
+          let finReg = false;
+          this.generalReport.forEach((report) => {
+            if (sale.seller === report.seller) {
+              finReg = true;
+              if (sale.typepay === "cash") {
+                report.efecty += this.calcValueSale(sale);
+              }
+              if (sale.typepay === "credit") {
+                report.vaucher += this.calcValueSale(sale);
+              }
+              if (sale.typepay === "card") {
+                report.bank += this.calcValueSale(sale);
+              }
+              if (sale.typepay === "mixted") {
+                report.efecty += Number(sale.efecty);
+                report.bank += Number(sale.tarjeta);
+              }
+            }
+          });
+          if (finReg === false) {
+            let reportTemp: GeneralReport;
+            if (sale.typepay === "cash") {
+              reportTemp = {
+                bank: 0,
+                efecty: this.calcValueSale(sale),
+                seller: sale.seller,
+                vaucher: 0,
+              };
+            }
+            if (sale.typepay === "credit") {
+              reportTemp = {
+                bank: 0,
+                efecty: 0,
+                seller: sale.seller,
+                vaucher: this.calcValueSale(sale),
+              };
+            }
+            if (sale.typepay === "card") {
+              reportTemp = {
+                bank: this.calcValueSale(sale),
+                efecty: 0,
+                seller: sale.seller,
+                vaucher: 0,
+              };
+            }
+            if (sale.typepay === "mixted") {
+              reportTemp = {
+                bank: sale.tarjeta,
+                efecty: sale.efecty,
+                seller: sale.seller,
+                vaucher: 0,
+              };
+            }
+            this.generalReport.push(reportTemp);
+          }
+          break;
 
-      // Buscar vendedor y sumar datos
-      let finReg = false;
-      this.generalReport.forEach((report) => {
-        if (sale.seller === report.seller) {
-          finReg = true;
-          if (sale.typepay === "cash") {
-            report.efecty += this.calcValueSale(sale);
-          }
-          if (sale.typepay === "credit") {
-            report.vaucher += this.calcValueSale(sale);
-          }
-          if (sale.typepay === "card") {
-            report.bank += this.calcValueSale(sale);
-          }
-          if (sale.typepay === "mixted") {
-            report.efecty += Number(sale.efecty);
-            report.bank += Number(sale.tarjeta);
-          }
-        }
-      });
-      // Si no lo encuentra añadirlo a generalReport
-      if (finReg === false) {
-        let reportTemp: GeneralReport;
-        if (sale.typepay === "cash") {
-          reportTemp = {
-            bank: 0,
-            efecty: this.calcValueSale(sale),
-            seller: sale.seller,
-            vaucher: 0,
-          };
-        }
-        if (sale.typepay === "credit") {
-          reportTemp = {
-            bank: 0,
-            efecty: 0,
-            seller: sale.seller,
-            vaucher: this.calcValueSale(sale),
-          };
-        }
-        if (sale.typepay === "card") {
-          reportTemp = {
-            bank: this.calcValueSale(sale),
-            efecty: 0,
-            seller: sale.seller,
-            vaucher: 0,
-          };
-        }
-        if (sale.typepay === "mixted") {
-          reportTemp = {
-            bank: sale.tarjeta,
-            efecty: sale.efecty,
-            seller: sale.seller,
-            vaucher: 0,
-          };
-        }
-        this.generalReport.push(reportTemp);
+        default:
+          break;
       }
     });
 
@@ -273,6 +578,9 @@ export class ReportSalesComponent implements OnInit {
 
     console.log("depTaxiMarino", this.depTaxiMarino);
     console.log("totalefecty", this.totalefecty);
+    setTimeout(() => {
+      this.subscription1.unsubscribe();
+    }, 6000);
   }
 
   getServices() {
@@ -321,12 +629,63 @@ export class ReportSalesComponent implements OnInit {
 
   calcValueSale(data: any) {
     let total = 0;
-    data.plans.forEach((plan) => {
-      total += Number(plan.totalvalue);
-    });
-    data.detail.forEach((serviceItem) => {
-      total += Number(serviceItem.publicvalue);
-    });
+    switch (this.useremail) {
+      case "canopysistema2020@gmail.com":
+        data.plans.forEach((plan) => {
+          plan.services.forEach((serviceItem) => {
+            if (serviceItem.department === "Canopy") {
+              total += Number(serviceItem.publicvalue);
+            }
+          });
+        });
+        data.detail.forEach((serviceItem: ServiceCopy) => {
+          if (serviceItem.department === "Canopy") {
+            total += Number(serviceItem.publicvalue);
+          }
+        });
+        break;
+      case "taximarino2020@gmail.com":
+        data.plans.forEach((plan) => {
+          plan.services.forEach((serviceItem) => {
+            if (serviceItem.department === "TaxiMarino") {
+              total += Number(serviceItem.publicvalue);
+            }
+          });
+        });
+        data.detail.forEach((serviceItem: ServiceCopy) => {
+          if (serviceItem.department === "TaxiMarino") {
+            total += Number(serviceItem.publicvalue);
+          }
+        });
+        break;
+      case "acuariosistema2020@gmail.com":
+        data.plans.forEach((plan) => {
+          plan.services.forEach((serviceItem) => {
+            if (serviceItem.department === "Acuario") {
+              total += Number(serviceItem.publicvalue);
+            }
+          });
+        });
+        data.detail.forEach((serviceItem: ServiceCopy) => {
+          if (serviceItem.department === "Acuario") {
+            total += Number(serviceItem.publicvalue);
+          }
+        });
+        break;
+      case "jefferariza@outlook.com":
+        data.plans.forEach((plan) => {
+          plan.services.forEach((serviceItem) => {
+            total += Number(serviceItem.publicvalue);
+          });
+        });
+        data.detail.forEach((serviceItem: ServiceCopy) => {
+          total += Number(serviceItem.publicvalue);
+        });
+        break;
+      default:
+        break;
+    }
+
     return total;
   }
 
@@ -338,9 +697,105 @@ export class ReportSalesComponent implements OnInit {
       case "generalReport":
         this._ExcelService.exportToExcel(this.generalReport, "General");
         break;
+      case "depTaxiMarino":
+        let arraydepTaxiMarino = [];
+        this.depTaxiMarino.forEach((element) => {
+          arraydepTaxiMarino.push({
+            codigo: element.codebar,
+            servicio: element.name,
+            cliente: element.nameClient,
+            vendedor: element.seller,
+            precio: element.publicvalue,
+            estado: element.status,
+            voucher: element.vaucher,
+            date: element.date,
+          });
+        });
+        this._ExcelService.exportToExcel(arraydepTaxiMarino, "TaxiMarino");
+        break;
+      case "depAcuario":
+        let arraydepAcuario = [];
+        this.depAcuario.forEach((element) => {
+          arraydepAcuario.push({
+            codigo: element.codebar,
+            servicio: element.name,
+            cliente: element.nameClient,
+            vendedor: element.seller,
+            precio: element.publicvalue,
+            estado: element.status,
+            voucher: element.vaucher,
+            date: element.date,
+          });
+        });
+        this._ExcelService.exportToExcel(arraydepAcuario, "Acuario");
+        break;
+      case "depPikua":
+        let arraydepPikua = [];
+        this.depPikua.forEach((element) => {
+          arraydepPikua.push({
+            codigo: element.codebar,
+            servicio: element.name,
+            cliente: element.nameClient,
+            vendedor: element.seller,
+            precio: element.publicvalue,
+            estado: element.status,
+            voucher: element.vaucher,
+            date: element.date,
+          });
+        });
+        this._ExcelService.exportToExcel(arraydepPikua, "Pikua");
+        break;
+      case "depInkaInka":
+        let arraydepInkaInka = [];
+        this.depInkaInka.forEach((element) => {
+          arraydepInkaInka.push({
+            codigo: element.codebar,
+            servicio: element.name,
+            cliente: element.nameClient,
+            vendedor: element.seller,
+            precio: element.publicvalue,
+            estado: element.status,
+            voucher: element.vaucher,
+            date: element.date,
+          });
+        });
+        this._ExcelService.exportToExcel(arraydepInkaInka, "InkaInka");
+        break;
+      case "depKatamaran":
+        let arraydepKatamaran = [];
+        this.depKatamaran.forEach((element) => {
+          arraydepKatamaran.push({
+            codigo: element.codebar,
+            servicio: element.name,
+            cliente: element.nameClient,
+            vendedor: element.seller,
+            precio: element.publicvalue,
+            estado: element.status,
+            voucher: element.vaucher,
+            date: element.date,
+          });
+        });
+        this._ExcelService.exportToExcel(arraydepKatamaran, "Katamaran");
+        break;
+      case "depCanopy":
+        let arraydepdepCanopy = [];
+        this.depCanopy.forEach((element) => {
+          arraydepdepCanopy.push({
+            codigo: element.codebar,
+            servicio: element.name,
+            cliente: element.nameClient,
+            vendedor: element.seller,
+            precio: element.publicvalue,
+            estado: element.status,
+            voucher: element.vaucher,
+            date: element.date,
+          });
+        });
+        this._ExcelService.exportToExcel(arraydepdepCanopy, "Canopy");
+        break;
       case "AllServices":
         let array = [];
-        this.individualService.forEach(element => {
+        this.individualService.forEach((element) => {
           array.push({
             codigo: element.codebar,
             servicio: element.name,
@@ -348,10 +803,14 @@ export class ReportSalesComponent implements OnInit {
             vendedor: element.seller,
             precio: element.publicvalue,
             estado: element.status,
-            voucher: element.vaucher
-          })
+            voucher: element.vaucher,
+            date: element.date,
+          });
         });
-        this._ExcelService.exportToExcel(array, "Todos los servicios-" + this.date1 );
+        this._ExcelService.exportToExcel(
+          array,
+          "Todos los servicios-" + this.date1
+        );
         break;
       default:
         this._ExcelService.exportToExcel(this.generalReport, "General");

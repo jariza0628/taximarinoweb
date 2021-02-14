@@ -29,6 +29,7 @@ export class ServiceCopy {
   nameClient?: any;
   vaucher?: any;
   seller?: any;
+  date: any;
 }
 
 export class GeneralReport {
