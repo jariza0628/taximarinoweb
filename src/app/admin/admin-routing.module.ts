@@ -25,6 +25,7 @@ import { ReporstGeneralComponent } from './reporst-general/reporst-general.compo
 import { CodebarNoveltiesComponent } from "./codebar-novelties/codebar-novelties.component";
 import { ReportUsedComponent } from "./report-used/report-used.component";
 import { ReportSalesComponent } from "./report-sales/report-sales.component";
+import { BoatComponent } from "./boat/boat.component";
 
 const routes: Routes = [
   {
@@ -137,6 +138,11 @@ const routes: Routes = [
       {
         path: "used",
         component: ReportUsedComponent,
+        canActivate: [AdminGuard],
+      },
+      {
+        path: "boat",
+        component: BoatComponent,
         canActivate: [AdminGuard],
       },
     ],

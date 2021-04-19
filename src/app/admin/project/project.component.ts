@@ -93,6 +93,12 @@ export class ProjectComponent implements OnInit {
         rol: "user",
         icon: "fa fa-bell",
       },
+      {
+        name: "Informe Lanchas",
+        link: "boat",
+        rol: "user",
+        icon: "fa fa-bell",
+      },
     ];
   }
 

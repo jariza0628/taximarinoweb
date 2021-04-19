@@ -94,7 +94,10 @@
   </form>
   <div class="row">
     <div class="col-sm">
-      <h3>Total: $ {{ total | number }}</h3>
+      <ng-container *ngIf="useremail === 'jefferariza@outlook.com'">
+        <h3>Total: $ {{ total | number }} # Manillas: {{ data.length }}</h3>
+      </ng-container>
+      
     </div>
   </div>
   <div class="row">
@@ -145,7 +148,6 @@
           </tr>
         </tbody>
       </table>
-
       Total de servicios vendidos: {{ individualService.length }} <br />
     </div>
   </div>
@@ -154,222 +156,308 @@
       <table class="table table-sm table-hover">
         <thead>
           <tr>
-            <th scope="col">Total TaxiMarino</th>
-            <th scope="col">Total Acuario</th>
-            <th scope="col">Total Pikua</th>
-            <th scope="col">Total InkaInka</th>
-            <th scope="col">Total Katamaran</th>
-            <th scope="col">Total Canopy</th>
+            <th scope="col" *ngIf="useremail === 'jefferariza@outlook.com' || useremail === 'taximarino2020@gmail.com'">Total TaxiMarino</th>
+            <th scope="col" *ngIf="useremail === 'jefferariza@outlook.com' || useremail === 'taximarino2020@gmail.com' || useremail === 'acuariosistema2020@gmail.com'">Total Acuario</th>
+            <th scope="col" *ngIf="useremail === 'jefferariza@outlook.com' || useremail === 'taximarino2020@gmail.com'">Total Pikua</th>
+            <th scope="col" *ngIf="useremail === 'jefferariza@outlook.com' || useremail === 'taximarino2020@gmail.com'">Total InkaInka</th>
+            <th scope="col" *ngIf="useremail === 'jefferariza@outlook.com' || useremail === 'taximarino2020@gmail.com'">Total Katamaran</th>
+            <th scope="col" *ngIf="useremail === 'jefferariza@outlook.com' || useremail === 'taximarino2020@gmail.com' || useremail === 'canopysistema2020@gmail.com'">Total Canopy</th>
           </tr>
         </thead>
         <tbody>
           <tr>
-            <th scope="row">$ {{ totalTaxiMarino | number }}</th>
-            <th scope="row">$ {{ totalAcuario | number }}</th>
-            <th scope="row">$ {{ totalPikua | number }}</th>
-            <th scope="row">$ {{ totalInkaInka | number }}</th>
-            <th scope="row">$ {{ totalKatamaran | number }}</th>
-            <th scope="row">$ {{ totalCanopy | number }}</th>
+            <th scope="row" *ngIf="useremail === 'jefferariza@outlook.com' || useremail === 'taximarino2020@gmail.com'">$ {{ totalTaxiMarino | number }}</th>
+            <th scope="row" *ngIf="useremail === 'jefferariza@outlook.com' || useremail === 'taximarino2020@gmail.com'  || useremail === 'acuariosistema2020@gmail.com'" >$ {{ totalAcuario | number }}</th>
+            <th scope="row" *ngIf="useremail === 'jefferariza@outlook.com' || useremail === 'taximarino2020@gmail.com'">$ {{ totalPikua | number }}</th>
+            <th scope="row" *ngIf="useremail === 'jefferariza@outlook.com' || useremail === 'taximarino2020@gmail.com'">$ {{ totalInkaInka | number }}</th>
+            <th scope="row" *ngIf="useremail === 'jefferariza@outlook.com' || useremail === 'taximarino2020@gmail.com'">$ {{ totalKatamaran | number }}</th>
+            <th scope="row" *ngIf="useremail === 'jefferariza@outlook.com' || useremail === 'taximarino2020@gmail.com' || useremail === 'canopysistema2020@gmail.com'">$ {{ totalCanopy | number }}</th>
           </tr>
         </tbody>
       </table>
     </div>
   </div>
-  <div class="row">
-    <div class="col-sm">
-      <button
-        style="margin-top: 8px"
-        class="btn-success btn"
-        (click)="exportExcel('AllServices')"
-      >
-        Exportar Servicios vendidos Excel
-      </button>
+    <!-- Taximarino -->
+  <ng-container *ngIf="useremail==='taximarino2020@gmail.com' || useremail==='canopysistema2020@gmail.com' || useremail==='jefferariza@outlook.com'">
+    <div class="row">
+      <div class="col-sm">
+        <button
+          style="margin-top: 8px"
+          class="btn-success btn"
+          (click)="exportExcel('depTaxiMarino')"
+        >
+          Exportar Taximarino Servicios vendidos Excel
+        </button>
+      </div>
     </div>
-  </div>
-  <div class="row" *ngIf="depTaxiMarino.length > 0">
-    <div class="col-sm">
-      <h4>Ventas taxi marino</h4>
-      <table class="table table-sm table-hover">
-        <thead>
-          <tr>
-            <th scope="col">#</th>
-            <th scope="col">Cod</th>
-            <th scope="col">Servicio</th>
-            <th scope="col">Cliente</th>
-            <th scope="col"># Vochuer</th>
-            <th scope="col">Vendedor</th>
-            <th scope="col">Estado</th>
-            <th scope="col">Valor</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let item of depTaxiMarino; let i = index">
-            <th scope="row">{{ i + 1 }}</th>
-            <td>{{ item.codebar }}</td>
-            <td>{{ item.name }}</td>
-            <td>{{ item.nameClient }}</td>
-            <td>{{ item.vaucher }}</td>
-            <td>{{ item.seller }}</td>
-            <td>{{ item.status }}</td>
-            <td>${{ item.publicvalue | number }}</td>
-          </tr>
-        </tbody>
-      </table>
+    <div class="row" *ngIf="depTaxiMarino.length > 0">
+      <div class="col-sm">
+        <h4>Ventas taxi marino</h4>
+        <table class="table table-sm table-hover">
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Cod</th>
+              <th scope="col">Fecha</th>
+              <th scope="col">Servicio</th>
+              <th scope="col">Cliente</th>
+              <th scope="col"># Vochuer</th>
+              <th scope="col">Vendedor</th>
+              <th scope="col">Estado</th>
+              <th scope="col">Valor</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of depTaxiMarino; let i = index">
+              <th scope="row">{{ i + 1 }}</th>
+              <td>{{ item.codebar }}</td>
+              <td>{{ item.date }}</td>
+              <td>{{ item.name }}</td>
+              <td>{{ item.nameClient }}</td>
+              <td>{{ item.vaucher }}</td>
+              <td>{{ item.seller }}</td>
+              <td>{{ item.status }}</td>
+              <td>${{ item.publicvalue | number }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
-  </div>
-  <div class="row" *ngIf="depAcuario.length > 0">
-    <div class="col-sm">
-      <h4>Ventas Acuario</h4>
-      <table class="table table-sm table-hover">
-        <thead>
-          <tr>
-            <th scope="col">#</th>
-            <th scope="col">Cod</th>
-            <th scope="col">Servicio</th>
-            <th scope="col">Cliente</th>
-            <th scope="col"># Vochuer</th>
-            <th scope="col">Vendedor</th>
-            <th scope="col">Estado</th>
-            <th scope="col">Valor</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let item of depAcuario; let i = index">
-            <th scope="row">{{ i + 1 }}</th>
-            <td>{{ item.codebar }}</td>
-            <td>{{ item.name }}</td>
-            <td>{{ item.nameClient }}</td>
-            <td>{{ item.vaucher }}</td>
-            <td>{{ item.seller }}</td>
-            <td>{{ item.status }}</td>
-            <td>${{ item.publicvalue | number }}</td>
-          </tr>
-        </tbody>
-      </table>
+  </ng-container>
+  <!-- Acuario -->
+  <ng-container *ngIf="useremail==='acuariosistema2020@gmail.com' || useremail==='jefferariza@outlook.com'">
+    <div class="row" *ngIf="depAcuario.length > 0">
+      <div class="col-sm">
+        <button
+          style="margin-top: 8px"
+          class="btn-success btn"
+          (click)="exportExcel('depAcuario')"
+        >
+          Exportar Acuario Servicios vendidos Excel
+        </button>
+      </div>
     </div>
-  </div>
-  <div class="row" *ngIf="depPikua.length > 0">
-    <div class="col-sm">
-      <h4>Ventas Pikua</h4>
-      <table class="table table-sm table-hover">
-        <thead>
-          <tr>
-            <th scope="col">#</th>
-            <th scope="col">Cod</th>
-            <th scope="col">Servicio</th>
-            <th scope="col">Cliente</th>
-            <th scope="col"># Vochuer</th>
-            <th scope="col">Vendedor</th>
-            <th scope="col">Estado</th>
-            <th scope="col">Valor</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let item of depPikua; let i = index">
-            <th scope="row">{{ i + 1 }}</th>
-            <td>{{ item.codebar }}</td>
-            <td>{{ item.name }}</td>
-            <td>{{ item.nameClient }}</td>
-            <td>{{ item.vaucher }}</td>
-            <td>{{ item.seller }}</td>
-            <td>{{ item.status }}</td>
-            <td>${{ item.publicvalue | number }}</td>
-          </tr>
-        </tbody>
-      </table>
+    <div class="row" *ngIf="depAcuario.length > 0">
+      <div class="col-sm">
+        <h4>Ventas Acuario</h4>
+        <table class="table table-sm table-hover">
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Cod</th>
+              <th scope="col">Fecha</th>
+              <th scope="col">Servicio</th>
+              <th scope="col">Cliente</th>
+              <th scope="col"># Voucher</th>
+              <th scope="col">Vendedor</th>
+              <th scope="col">Estado</th>
+              <th scope="col">Valor</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of depAcuario; let i = index">
+              <th scope="row">{{ i + 1 }}</th>
+              <td>{{ item.codebar }}</td>
+              <td>{{ item.date }}</td>
+              <td>{{ item.name }}</td>
+              <td>{{ item.nameClient }}</td>
+              <td>{{ item.vaucher }}</td>
+              <td>{{ item.seller }}</td>
+              <td>{{ item.status }}</td>
+              <td>${{ item.publicvalue | number }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
-  </div>
-  <div class="row" *ngIf="depInkaInka.length > 0">
-    <div class="col-sm">
-      <h4>Ventas InkaInka</h4>
-      <table class="table table-sm table-hover">
-        <thead>
-          <tr>
-            <th scope="col">#</th>
-            <th scope="col">Cod</th>
-            <th scope="col">Servicio</th>
-            <th scope="col">Cliente</th>
-            <th scope="col"># Vochuer</th>
-            <th scope="col">Vendedor</th>
-            <th scope="col">Estado</th>
-            <th scope="col">Valor</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let item of depInkaInka; let i = index">
-            <th scope="row">{{ i + 1 }}</th>
-            <td>{{ item.codebar }}</td>
-            <td>{{ item.name }}</td>
-            <td>{{ item.nameClient }}</td>
-            <td>{{ item.vaucher }}</td>
-            <td>{{ item.seller }}</td>
-            <td>{{ item.status }}</td>
-            <td>${{ item.publicvalue | number }}</td>
-          </tr>
-        </tbody>
-      </table>
+  </ng-container>
+  <!-- Pikua -->
+  <ng-container *ngIf="useremail==='taximarino2020@gmail.com' || useremail==='jefferariza@outlook.com'">
+    <div class="row" *ngIf="depPikua.length > 0">
+      <div class="col-sm">
+        <button
+          style="margin-top: 8px"
+          class="btn-success btn"
+          (click)="exportExcel('depPikua')"
+        >
+          Exportar Pikua Servicios vendidos Excel
+        </button>
+      </div>
     </div>
-  </div>
-  <div class="row" *ngIf="depKatamaran.length > 0">
-    <div class="col-sm">
-      <h4>Ventas Katamaran</h4>
-      <table class="table table-sm table-hover">
-        <thead>
-          <tr>
-            <th scope="col">#</th>
-            <th scope="col">Cod</th>
-            <th scope="col">Servicio</th>
-            <th scope="col">Cliente</th>
-            <th scope="col"># Vochuer</th>
-            <th scope="col">Vendedor</th>
-            <th scope="col">Estado</th>
-            <th scope="col">Valor</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let item of depKatamaran; let i = index">
-            <th scope="row">{{ i + 1 }}</th>
-            <td>{{ item.codebar }}</td>
-            <td>{{ item.name }}</td>
-            <td>{{ item.nameClient }}</td>
-            <td>{{ item.vaucher }}</td>
-            <td>{{ item.seller }}</td>
-            <td>{{ item.status }}</td>
-            <td>${{ item.publicvalue | number }}</td>
-          </tr>
-        </tbody>
-      </table>
+    <div class="row" *ngIf="depPikua.length > 0">
+      <div class="col-sm">
+        <h4>Ventas Pikua</h4>
+        <table class="table table-sm table-hover">
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Cod</th>
+              <th scope="col">Fecha</th>
+              <th scope="col">Servicio</th>
+              <th scope="col">Cliente</th>
+              <th scope="col"># Vochuer</th>
+              <th scope="col">Vendedor</th>
+              <th scope="col">Estado</th>
+              <th scope="col">Valor</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of depPikua; let i = index">
+              <th scope="row">{{ i + 1 }}</th>
+              <td>{{ item.codebar }}</td>
+              <td>{{ item.date }}</td>
+              <td>{{ item.name }}</td>
+              <td>{{ item.nameClient }}</td>
+              <td>{{ item.vaucher }}</td>
+              <td>{{ item.seller }}</td>
+              <td>{{ item.status }}</td>
+              <td>${{ item.publicvalue | number }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
-  </div>
-  <div class="row" *ngIf="depCanopy.length > 0">
-    <div class="col-sm">
-      <h4>Ventas Canopy</h4>
-      <table class="table table-sm table-hover">
-        <thead>
-          <tr>
-            <th scope="col">#</th>
-            <th scope="col">Cod</th>
-            <th scope="col">Servicio</th>
-            <th scope="col">Cliente</th>
-            <th scope="col"># Vochuer</th>
-            <th scope="col">Vendedor</th>
-            <th scope="col">Estado</th>
-            <th scope="col">Valor</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let item of depCanopy; let i = index">
-            <th scope="row">{{ i + 1 }}</th>
-            <td>{{ item.codebar }}</td>
-            <td>{{ item.name }}</td>
-            <td>{{ item.nameClient }}</td>
-            <td>{{ item.vaucher }}</td>
-            <td>{{ item.seller }}</td>
-            <td>{{ item.status }}</td>
-            <td>${{ item.publicvalue | number }}</td>
-          </tr>
-        </tbody>
-      </table>
+  </ng-container>
+  <!-- depInkaInka -->
+  <ng-container *ngIf="useremail==='taximarino2020@gmail.com' || useremail==='jefferariza@outlook.com'">
+    <div class="row" *ngIf="depInkaInka.length > 0">
+      <div class="col-sm">
+        <button
+          style="margin-top: 8px"
+          class="btn-success btn"
+          (click)="exportExcel('depInkaInka')"
+        >
+          Exportar InkaInkaPikua Servicios vendidos Excel
+        </button>
+      </div>
     </div>
-  </div>
+    <div class="row" *ngIf="depInkaInka.length > 0">
+      <div class="col-sm">
+        <h4>Ventas InkaInka</h4>
+        <table class="table table-sm table-hover">
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Cod</th>
+              <th scope="col">Fecha</th>
+              <th scope="col">Servicio</th>
+              <th scope="col">Cliente</th>
+              <th scope="col"># Vochuer</th>
+              <th scope="col">Vendedor</th>
+              <th scope="col">Estado</th>
+              <th scope="col">Valor</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of depInkaInka; let i = index">
+              <th scope="row">{{ i + 1 }}</th>
+              <td>{{ item.codebar }}</td>
+              <td>{{ item.date }}</td>
+              <td>{{ item.name }}</td>
+              <td>{{ item.nameClient }}</td>
+              <td>{{ item.vaucher }}</td>
+              <td>{{ item.seller }}</td>
+              <td>{{ item.status }}</td>
+              <td>${{ item.publicvalue | number }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </ng-container>
+  <ng-container *ngIf="useremail==='taximarino2020@gmail.com' || useremail==='jefferariza@outlook.com'">
+    <div class="row" *ngIf="depKatamaran.length > 0">
+      <div class="col-sm">
+        <button
+          style="margin-top: 8px"
+          class="btn-success btn"
+          (click)="exportExcel('depKatamaran')"
+        >
+          Exportar Katamaran Servicios vendidos Excel
+        </button>
+      </div>
+    </div>
+    <div class="row" *ngIf="depKatamaran.length > 0">
+      <div class="col-sm">
+        <h4>Ventas Katamaran</h4>
+        <table class="table table-sm table-hover">
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Cod</th>
+              <th scope="col">Fecha</th>
+              <th scope="col">Servicio</th>
+              <th scope="col">Cliente</th>
+              <th scope="col"># Vochuer</th>
+              <th scope="col">Vendedor</th>
+              <th scope="col">Estado</th>
+              <th scope="col">Valor</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of depKatamaran; let i = index">
+              <th scope="row">{{ i + 1 }}</th>
+              <td>{{ item.codebar }}</td>
+              <td>{{ item.date }}</td>
+              <td>{{ item.name }}</td>
+              <td>{{ item.nameClient }}</td>
+              <td>{{ item.vaucher }}</td>
+              <td>{{ item.seller }}</td>
+              <td>{{ item.status }}</td>
+              <td>${{ item.publicvalue | number }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </ng-container>
+  <!-- canopy -->
+  <ng-container *ngIf="useremail==='canopysistema2020@gmail.com' || useremail==='jefferariza@outlook.com'">
+    <div class="row" *ngIf="depCanopy.length > 0">
+      <div class="col-sm">
+        <button
+          style="margin-top: 8px"
+          class="btn-success btn"
+          (click)="exportExcel('depCanopy')"
+        >
+          Exportar Canopy Servicios vendidos Excel
+        </button>
+      </div>
+    </div>
+    <div class="row" *ngIf="depCanopy.length > 0">
+      <div class="col-sm">
+        <h4>Ventas Canopy</h4>
+        <table class="table table-sm table-hover">
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Cod</th>
+              <th scope="col">Fecha</th>
+              <th scope="col">Servicio</th>
+              <th scope="col">Cliente</th>
+              <th scope="col"># Vochuer</th>
+              <th scope="col">Vendedor</th>
+              <th scope="col">Estado</th>
+              <th scope="col">Valor</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of depCanopy; let i = index">
+              <th scope="row">{{ i + 1 }}</th>
+              <td>{{ item.codebar }}</td>
+              <td>{{ item.date }}</td>
+              <td>{{ item.name }}</td>
+              <td>{{ item.nameClient }}</td>
+              <td>{{ item.vaucher }}</td>
+              <td>{{ item.seller }}</td>
+              <td>{{ item.status }}</td>
+              <td>${{ item.publicvalue | number }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </ng-container>
+  
+  
 </div>
