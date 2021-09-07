@@ -1,0 +1,61 @@
+<div class="container">
+  <div class="row" style="padding-top: 20px">
+    <div class="col-sm"><h4>Comisiones</h4></div>
+  </div>
+  <div class="form-group">
+    <form [formGroup]="_formEntity">
+      <div class="card" style="width: 100%">
+        <div class="card-body">
+          <div class="row">
+            <div class="col-sm">
+              <div class="form-group">
+                <label for="exampleFormControlInput1">Fecha</label>
+                <input
+                  formControlName="date"
+                  type="date"
+                  class="form-control"
+                  id="exampleFormControlInput1"
+                  placeholder="name@example.com"
+                />
+              </div>
+            </div>
+            <div class="col-sm">
+              
+            </div>
+          </div>
+           <button type="button" (click)="submit()" class="btn btn-success">
+            Buscar
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="row">
+    <div class="col-sm">
+      <h4>Resultados encontrados </h4>
+
+      <table class="table table-hover">
+        <thead>
+          <tr>
+            <th scope="col"># Registro</th>
+            <th scope="col">Fecha</th>
+            <th scope="col">Cedula</th>
+            <th scope="col">Nombre</th>
+            <th scope="col">valor</th>
+ 
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of result; let i = index">
+            <th scope="row">{{ i + 1 }}</th>
+            <td>{{ item.date }}  </td>
+            <td>{{ item.dni }}</td>
+            <td>{{ item.name }}</td>
+            <td>{{ item.value }}</td>
+           </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+</div>
