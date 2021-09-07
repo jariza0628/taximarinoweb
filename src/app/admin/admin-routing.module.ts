@@ -26,6 +26,8 @@ import { CodebarNoveltiesComponent } from "./codebar-novelties/codebar-novelties
 import { ReportUsedComponent } from "./report-used/report-used.component";
 import { ReportSalesComponent } from "./report-sales/report-sales.component";
 import { BoatComponent } from "./boat/boat.component";
+import { CloseComponent } from "./close/close.component";
+import { ComisionsComponent } from "./comisions/comisions.component";
 
 const routes: Routes = [
   {
@@ -145,6 +147,16 @@ const routes: Routes = [
         component: BoatComponent,
         canActivate: [AdminGuard],
       },
+      {
+        path: "close",
+        component: CloseComponent,
+        canActivate: [AdminGuard],
+      },
+      {
+        path: "comisionslog",
+        component: ComisionsComponent,
+        canActivate: [AdminGuard],
+      }
     ],
   },
   {

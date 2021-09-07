@@ -32,13 +32,15 @@ import { CodebarNoveltiesComponent } from './codebar-novelties/codebar-novelties
 import { ReportUsedComponent } from './report-used/report-used.component';
 import { ReportSalesComponent } from './report-sales/report-sales.component';
 import { BoatComponent } from './boat/boat.component';
+import { CloseComponent } from './close/close.component';
+import { ComisionsComponent } from './comisions/comisions.component';
  
 
 @NgModule({
   declarations: [
     ProjectListComponent, ProjectCreateComponent, ProjectUpdateComponent,
     ProjectComponent, LoginComponent, ReportAdminComponent, PointSaleComponent, AgencyComponent, SalesComponent,
-    IndividualServicesComponent, PlansComponent, NewSalesComponent, ReceiptComponent, ReportComponent, DetailComponent, CodebarComponent, HistoryReportComponent, InventoryComponent, ComisionComponent, ReporstGeneralComponent, CodebarNoveltiesComponent, ReportUsedComponent, ReportSalesComponent, BoatComponent],
+    IndividualServicesComponent, PlansComponent, NewSalesComponent, ReceiptComponent, ReportComponent, DetailComponent, CodebarComponent, HistoryReportComponent, InventoryComponent, ComisionComponent, ReporstGeneralComponent, CodebarNoveltiesComponent, ReportUsedComponent, ReportSalesComponent, BoatComponent, CloseComponent, ComisionsComponent],
   imports: [
     CommonModule,
     AdminRoutingModule,
