@@ -22,7 +22,7 @@ export class ReportsComponent implements OnInit {
   paymentType = paymentType;
   totalVauches: number;
   totalNoVauches: any;
-  @ViewChild("report") report: ElementRef;
+  @ViewChild("report", { static: true }) report: ElementRef;
 
   constructor(
     private GN: GeneralServiceService,

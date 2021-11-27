@@ -1,4 +1,4 @@
- 
+
 export class Inventory {
     id?: any;
     date: string;
@@ -15,7 +15,9 @@ export class Inventory {
 export class Bracelets {
     codebar: string;
     status: string;
-    dateUsage?: string;
-    hour?: string;
+    seller: any;
+    service: any;
+    nameService: string;
+    nameSeller: string;
 }
 
