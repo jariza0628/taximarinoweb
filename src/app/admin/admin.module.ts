@@ -34,13 +34,14 @@ import { ReportSalesComponent } from './report-sales/report-sales.component';
 import { BoatComponent } from './boat/boat.component';
 import { CloseComponent } from './close/close.component';
 import { ComisionsComponent } from './comisions/comisions.component';
+import { ManillasComponent } from './manillas/manillas.component';
  
 
 @NgModule({
   declarations: [
     ProjectListComponent, ProjectCreateComponent, ProjectUpdateComponent,
     ProjectComponent, LoginComponent, ReportAdminComponent, PointSaleComponent, AgencyComponent, SalesComponent,
-    IndividualServicesComponent, PlansComponent, NewSalesComponent, ReceiptComponent, ReportComponent, DetailComponent, CodebarComponent, HistoryReportComponent, InventoryComponent, ComisionComponent, ReporstGeneralComponent, CodebarNoveltiesComponent, ReportUsedComponent, ReportSalesComponent, BoatComponent, CloseComponent, ComisionsComponent],
+    IndividualServicesComponent, PlansComponent, NewSalesComponent, ReceiptComponent, ReportComponent, DetailComponent, CodebarComponent, HistoryReportComponent, InventoryComponent, ComisionComponent, ReporstGeneralComponent, CodebarNoveltiesComponent, ReportUsedComponent, ReportSalesComponent, BoatComponent, CloseComponent, ComisionsComponent, ManillasComponent],
   imports: [
     CommonModule,
     AdminRoutingModule,
