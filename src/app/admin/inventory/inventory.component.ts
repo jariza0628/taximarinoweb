@@ -1,20 +1,22 @@
-import { Component, OnInit } from "@angular/core";
-import { FormControl, FormGroup, Validators } from "@angular/forms";
-import { Service } from "../models/service.model";
-import { Bracelets } from "../models/inventory.model";
+import {Component, OnInit} from '@angular/core';
+import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {Service} from '../models/service.model';
+import {Bracelets} from '../models/inventory.model';
 
-import { GeneralServiceService } from "../services/general-service.service";
+import {GeneralServiceService} from '../services/general-service.service';
 
 @Component({
-  selector: "app-inventory",
-  templateUrl: "./inventory.component.html",
-  styleUrls: ["./inventory.component.css"],
+  selector: 'app-inventory',
+  templateUrl: './inventory.component.html',
+  styleUrls: ['./inventory.component.css'],
 })
 export class InventoryComponent implements OnInit {
   _formEntity: FormGroup;
   sellers: any;
   date: any;
   range: Array<Bracelets>;
+  services: any[] = [];
+
   constructor(public _GeneralServiceService: GeneralServiceService) {
     this.range = [];
   }
@@ -25,8 +27,8 @@ export class InventoryComponent implements OnInit {
     this.sellers = [];
     this.range = [];
     this.getSellers();
-    console.log(this.date);
-    
+    this.getServices();
+
   }
 
   initiForm() {
@@ -40,15 +42,12 @@ export class InventoryComponent implements OnInit {
         Validators.maxLength(9),
       ]),
       seller: new FormControl(null, [Validators.required]),
-      type: new FormControl(null, [Validators.required]),
-      agency: new FormControl(null, []),
-      date: new FormControl(this.date.date, []),
-      hour: new FormControl(this.date.hour, []),
+      service: new FormControl(null, Validators.required),
     });
   }
 
   getSellers() {
-    this._GeneralServiceService.getFirebase("users").subscribe((data) => {
+    this._GeneralServiceService.getFirebase('users').subscribe((data) => {
       // console.log('dara', data);
       this.sellers = data.map((e) => {
         // console.log(e.payload.doc.data());
@@ -59,41 +58,67 @@ export class InventoryComponent implements OnInit {
       });
     });
   }
-  submit(){
-    this.date = this._GeneralServiceService.getDateNow();
-    let formValue;
-    formValue = this._formEntity.value;
-    console.log('formValue', formValue);
-    
+
+  /**
+   * get services from firebase
+   */
+  getServices() {
+    this._GeneralServiceService.getFirebase('service').subscribe(data => {
+      this.services = data.map(e => {
+        return {
+          id: e.payload.doc.id,
+          ...e.payload.doc.data(),
+        };
+      });
+    });
   }
 
-  preview(){
+  submit() {
+    this.date = this._GeneralServiceService.getDateNow();
     let formValue;
-    formValue = this._formEntity.value;
-    console.log('formValue', formValue);
-    if(formValue.range_1 < formValue.range_2){
-      for (let index = formValue.range_1; index < formValue.range_2; index++) {
-        this.range.push({
-          codebar: ''+index,
-          status: 'Active'
-        })
+    this.range.forEach(item => {
+      this._GeneralServiceService.createFirebase('inventorry', item);
+    });
+    this._formEntity.reset('');
+  }
+
+  preview() {
+    if (this._formEntity.invalid) {
+      window.alert('Todos los campos son obligatorios');
+    } else {
+      let formValue;
+      formValue = this._formEntity.value;
+      this.range = [];
+      if (formValue.range_1 < formValue.range_2) {
+        for (let index = formValue.range_1; index < formValue.range_2; index++) {
+          this.range.push({
+            codebar: '' + index,
+            status: 'Active',
+            nameService: formValue.service.name,
+            service: formValue.service,
+            nameSeller: formValue.seller.user,
+            seller: formValue.seller,
+          });
+        }
+      } else {
+        alert('Rango incorrectos');
       }
-    }else{
-      alert('Rango incorrectos')
     }
+
   }
 }
+
 /**
  *     id?: any;
-    date: string;
-    hour: string;
-    seller: any;
-    id_seller: any;
-    range_1: number;
-    range_2:number;
-    bracelet: Array<Bracelets>
-    type: 'Agencia' | 'Normal';
-    agency?: any;
-    agency_id?: string;
-}
+ date: string;
+ hour: string;
+ seller: any;
+ id_seller: any;
+ range_1: number;
+ range_2:number;
+ bracelet: Array<Bracelets>
+ type: 'Agencia' | 'Normal';
+ agency?: any;
+ agency_id?: string;
+ }
  */
