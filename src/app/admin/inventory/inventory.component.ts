@@ -80,6 +80,7 @@ export class InventoryComponent implements OnInit {
       this._GeneralServiceService.createFirebase('inventorry', item);
     });
     this._formEntity.reset('');
+    window.alert('Manillas Creadas');
   }
 
   preview() {
