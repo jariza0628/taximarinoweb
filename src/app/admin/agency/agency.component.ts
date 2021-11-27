@@ -42,7 +42,6 @@ export class AgencyComponent implements OnInit {
   }
 
   save() {
-    console.log('asd', this._formEntity.value);
     this._GeneralServiceService.createFirebase('agency', this._formEntity.value);
   }
   getData() {
