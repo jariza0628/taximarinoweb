@@ -16,6 +16,11 @@ export class InventoryComponent implements OnInit {
   date: any;
   range: Array<Bracelets>;
   services: any[] = [];
+  inventory: any[] = [];
+  inventoryFilter: any[] = [];
+  active = 1;
+  nameSeller = '';
+  nameService = '';
 
   constructor(public _GeneralServiceService: GeneralServiceService) {
     this.range = [];
@@ -28,7 +33,7 @@ export class InventoryComponent implements OnInit {
     this.range = [];
     this.getSellers();
     this.getServices();
-
+    this.getInventory();
   }
 
   initiForm() {
@@ -60,6 +65,23 @@ export class InventoryComponent implements OnInit {
   }
 
   /**
+   * get inventory from firebase
+   */
+  getInventory() {
+    this._GeneralServiceService.getFirebase('inventorry').subscribe((data) => {
+      // console.log('dara', data);
+      this.inventory = data.map((e) => {
+        // console.log(e.payload.doc.data());
+        return {
+          id: e.payload.doc.id,
+          ...e.payload.doc.data(),
+        } as any;
+      });
+      this.inventoryFilter = [...this.inventory];
+    });
+  }
+
+  /**
    * get services from firebase
    */
   getServices() {
@@ -75,11 +97,11 @@ export class InventoryComponent implements OnInit {
 
   submit() {
     this.date = this._GeneralServiceService.getDateNow();
-    let formValue;
     this.range.forEach(item => {
       this._GeneralServiceService.createFirebase('inventorry', item);
     });
     this._formEntity.reset('');
+    this.range = []
     window.alert('Manillas Creadas');
   }
 
@@ -106,6 +128,18 @@ export class InventoryComponent implements OnInit {
       }
     }
 
+  }
+
+  /**
+   * filter inventories already brought in from firebase
+   * @ParamsQuery  nameSeller: filter by name of seller in inventory
+   * @ParamsQuery  nameService: filter by name of service in inventory
+   */
+  filterInventory() {
+    this.inventoryFilter = this.nameSeller ?
+      this.inventory.filter(item => item.nameSeller.toLowerCase().includes(this.nameSeller.toLowerCase())) : this.inventory;
+    this.inventoryFilter = this.nameService ?
+      this.inventoryFilter.filter(item => item.nameService.toLowerCase().includes(this.nameService.toLowerCase())) : this.inventoryFilter;
   }
 }
 

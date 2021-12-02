@@ -2,86 +2,126 @@
   <div class="row" style="padding-top: 20px">
     <div class="col-sm"><h4>Inventario de manillas</h4></div>
   </div>
-  <div class="form-group">
-    <form [formGroup]="_formEntity">
-      <div class="card" style="width: 100%">
-        <div class="card-body">
-          <div class="row">
-            <div class="col-sm-3" style="float: right;">
-              <div class="form-group">
-                <label for="exampleFormControlInput1">Fecha</label>
-                <p>{{ date.date }}</p>
+  <ul ngbNav #nav="ngbNav" [(activeId)]="active" class="nav-tabs">
+    <li [ngbNavItem]="1">
+      <a ngbNavLink>Crear Manillas</a>
+      <ng-template ngbNavContent>
+        <div class="form-group">
+          <form [formGroup]="_formEntity">
+            <div class="card" style="width: 100%">
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-sm-3" style="float: right;">
+                    <div class="form-group">
+                      <label for="exampleFormControlInput1">Fecha</label>
+                      <p>{{ date.date }}</p>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-sm">
+                    <div class="form-group">
+                      <label for="exampleFormControlInput1">Rango Inicial</label>
+                      <input
+                        formControlName="range_1"
+                        type="number"
+                        class="form-control"
+                        id="exampleFormControlInput1"
+                        placeholder="1000000"
+                      />
+                    </div>
+                  </div>
+                  <div class="col-sm">
+                    <div class="form-group">
+                      <label for="exampleFormControlInput1">Rango Final</label>
+                      <input
+                        formControlName="range_2"
+                        type="number"
+                        class="form-control"
+                        placeholder="1500000"
+                      />
+                    </div>
+                  </div>
+                  <div class="col-sm">
+                    <div class="form-group">
+                      <label for="exampleFormControlSelect2">Vendedor</label>
+                      <select
+                        class="form-control"
+                        id="exampleFormControlSelect2"
+                        formControlName="seller"
+                      >
+                        <option *ngFor="let item of sellers" [ngValue]="item">
+                          {{ item.user | titlecase }}
+                        </option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-sm-4">
+                    <div class="form-group">
+                      <label for="exampleFormControlSelect2"
+                      >Servicios</label
+                      >
+                      <select class="form-control"
+                              formControlName="service">
+                        <option *ngFor="let service of services" [ngValue]="service">{{service?.name}}</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+                <button type="button" (click)="preview()" class="btn btn-success">
+                  Previsualizar Rango
+                </button>
+                -
+                <button type="button" [disabled]="!range.length" (click)="submit()" class="btn btn-success">
+                  Guardar
+                </button>
               </div>
             </div>
-          </div>
-          <div class="row">
-            <div class="col-sm">
-              <div class="form-group">
-                <label for="exampleFormControlInput1">Rango Inicial</label>
-                <input
-                  formControlName="range_1"
-                  type="number"
-                  class="form-control"
-                  id="exampleFormControlInput1"
-                  placeholder="1000000"
-                />
-              </div>
-            </div>
-            <div class="col-sm">
-              <div class="form-group">
-                <label for="exampleFormControlInput1">Rango Final</label>
-                <input
-                  formControlName="range_2"
-                  type="number"
-                  class="form-control"
-                  placeholder="1500000"
-                />
-              </div>
-            </div>
-            <div class="col-sm">
-              <div class="form-group">
-                <label for="exampleFormControlSelect2">Vendedor</label>
-                <select
-                  class="form-control"
-                  id="exampleFormControlSelect2"
-                  formControlName="seller"
-                >
-                  <option *ngFor="let item of sellers" [ngValue]="item">
-                    {{ item.user | titlecase }}
-                  </option>
-                </select>
-              </div>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-sm-4">
-              <div class="form-group">
-                <label for="exampleFormControlSelect2"
-                >Servicios</label
-                >
-                <select class="form-control"
-                        formControlName="service">
-                  <option *ngFor="let service of services" [ngValue]="service">{{service?.name}}</option>
-                </select>
-              </div>
-            </div>
-          </div>
-          <button type="button" (click)="preview()" class="btn btn-success">
-            Previsualizar Rango
-          </button>
-          -
-          <button type="button" [disabled]="!range.length" (click)="submit()" class="btn btn-success">
-            Guardar
-          </button>
+          </form>
         </div>
-      </div>
-    </form>
-  </div>
-  <ng-container *ngIf="range">
-    <div class="row">
-      <div class="col-sm">
-        <h4>Rango Generado</h4>
+        <ng-container *ngIf="range">
+          <div class="row">
+            <div class="col-sm">
+              <h4>Rango Generado</h4>
 
+              <table class="table table-hover">
+                <thead>
+                <tr>
+                  <th scope="col"># Registro</th>
+                  <th scope="col">Codebar</th>
+                  <th scope="col">Estado</th>
+                  <th scope="col">Vendedor</th>
+                  <th scope="col">Servicio</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr *ngFor="let item of range;let i = index">
+                  <th scope="row">{{ i + 1}}</th>
+                  <td>{{ item.codebar }}</td>
+                  <td>{{ item.status }}</td>
+                  <td>{{ item.nameSeller  }}</td>
+                  <td>{{item.nameService }}</td>
+                </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </ng-container>
+      </ng-template>
+    </li>
+    <li [ngbNavItem]="2">
+      <a ngbNavLink>Filtrar Manillas</a>
+      <ng-template ngbNavContent>
+        <section class="row">
+          <div class="col-6 form-group">
+            <input type="text" class="form-control" placeholder="Nombre de Vendedor" (keyup)="filterInventory()" [(ngModel)]="nameSeller">
+          </div>
+          <div class="col-6 form-group">
+            <input type="text" class="form-control" placeholder="Nombre de servicio" (keyup)="filterInventory()" [(ngModel)]="nameService">
+          </div>
+        </section>
         <table class="table table-hover">
           <thead>
           <tr>
@@ -93,7 +133,7 @@
           </tr>
           </thead>
           <tbody>
-          <tr *ngFor="let item of range;let i = index">
+          <tr *ngFor="let item of inventoryFilter;let i = index">
             <th scope="row">{{ i + 1}}</th>
             <td>{{ item.codebar }}</td>
             <td>{{ item.status }}</td>
@@ -102,9 +142,12 @@
           </tr>
           </tbody>
         </table>
-      </div>
-    </div>
-  </ng-container>
+      </ng-template>
+    </li>
+  </ul>
+
+  <div [ngbNavOutlet]="nav" class="mt-2"></div>
+
 
 
 </div>

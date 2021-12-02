@@ -34,7 +34,8 @@ import { ReportSalesComponent } from './report-sales/report-sales.component';
 import { BoatComponent } from './boat/boat.component';
 import { CloseComponent } from './close/close.component';
 import { ComisionsComponent } from './comisions/comisions.component';
- 
+import {NgbNavModule} from '@ng-bootstrap/ng-bootstrap';
+
 
 @NgModule({
   declarations: [
@@ -49,6 +50,7 @@ import { ComisionsComponent } from './comisions/comisions.component';
     AngularFireDatabaseModule,
     FormsModule,
     ReactiveFormsModule,
+    NgbNavModule,
   ],
   providers: [
     ExcelService,
