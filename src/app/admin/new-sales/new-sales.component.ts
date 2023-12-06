@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, ElementRef, OnInit, ViewChild,HostListener  } from "@angular/core";
 import { FormGroup, FormControl, Validators } from "@angular/forms";
 import { GeneralServiceService } from "../services/general-service.service";
 import { Plan } from "../models/plan.model";
@@ -12,6 +12,9 @@ import { Tickets } from "src/utils/ticket";
   styleUrls: ["./new-sales.component.css"],
 })
 export class NewSalesComponent implements OnInit {
+  @ViewChild('dataSeacrh', null) dataSeacrh: ElementRef;
+  @ViewChild('codigoInput', null) codigoInput: ElementRef;
+
   public receipt: boolean;
   public _formEntity: FormGroup;
   arraySelectPlan: any;
@@ -67,6 +70,14 @@ export class NewSalesComponent implements OnInit {
     this.getSellers();
   }
 
+  @HostListener('document:keypress', ['$event'])
+  handleKeyboardEvent(event: KeyboardEvent) {
+    if (event.key === 'Enter') {
+      this.serach(this.dataSeacrh.nativeElement.value);
+      console.log(this.dataSeacrh.nativeElement.value);
+      
+    }
+  }
 
   initFomr(){
     let usuaerSelect;
@@ -118,6 +129,20 @@ export class NewSalesComponent implements OnInit {
     this.arryTMP = this.services;
   }
   serach(dataToSearch) {
+
+    if (!isNaN(dataToSearch)) {
+      console.log("El parámetro es un número. Agregar lógica aquí si es necesario.");
+      // Puedes agregar tu lógica específica para el caso de números aquí.
+      console.log("dataToSearch", dataToSearch);
+      this.arryTMP = [];
+      this.services.forEach((element) => {
+        if (element.code == dataToSearch) {
+          this.arryTMP.push(element);
+        }
+      });
+      return;
+    }
+    
     console.log("dataToSearch", dataToSearch);
     this.arryTMP = [];
     this.services.forEach((element) => {
@@ -126,7 +151,9 @@ export class NewSalesComponent implements OnInit {
       }
     });
     console.log("this.arryTMP", this.arryTMP);
- 
+    //this.dataSeacrh.nativeElement.value = '';
+
+    
   }
   getDataPlans() {
     this._GeneralServiceService.getFirebase("plan").subscribe((data) => {
@@ -252,11 +279,20 @@ export class NewSalesComponent implements OnInit {
             if (info.length === 0) {
               this.addCodesave(dataResulCode);
             }
+            setTimeout(() => {
+              this.code = "";
+ 
+            }, 500);
           },
           (err) => {
             console.log(err);
           }
         );
+        setTimeout(() => {
+          this.code = "";
+          this.codigoInput.nativeElement.focus();
+
+        }, 500);
     }
   }
 
