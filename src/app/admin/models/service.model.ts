@@ -30,6 +30,8 @@ export class ServiceCopy {
   vaucher?: any;
   seller?: any;
   date: any;
+  typepay?: any
+
 }
 
 export class GeneralReport {

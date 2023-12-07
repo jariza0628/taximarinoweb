@@ -694,12 +694,49 @@ export class ReportSalesComponent implements OnInit {
   }
   exportExcel(val) {
     switch (val) {
+      case "totalreport":
+        let totalreport = [];
+        this.data.forEach((element) => {
+          let services = '';
+          let total = 0;
+
+          element.detail.forEach(ser => {
+            services = services + ' ' +ser.name;
+            total = total + ser.publicvalue
+          });
+
+          element.plans.forEach(plans => {
+            services = services + 'Combo: ' +plans.name;
+            plans.services.forEach(ser => {
+              total = total + ser.publicvalue
+            });
+          });
+           
+           
+          totalreport.push({
+            codigo: element.codebar,
+            cliente: element.name,
+            servicios: services,
+            vendedor: element.seller,
+            precio: total,
+            voucher: element.vaucher,
+            date: element.date,
+            tipopago: this.chagenTypePay(element.typepay),
+
+          });
+        });
+        totalreport.sort(function (a, b) {
+          return a.codigo.toLowerCase().localeCompare(b.codigo.toLowerCase());
+        });
+        this._ExcelService.exportToExcel(totalreport, "GeneralTotal");
+        break;
       case "generalReport":
         this._ExcelService.exportToExcel(this.generalReport, "General");
         break;
       case "depTaxiMarino":
         let arraydepTaxiMarino = [];
         this.depTaxiMarino.forEach((element) => {
+         
           arraydepTaxiMarino.push({
             codigo: element.codebar,
             servicio: element.name,
@@ -709,6 +746,7 @@ export class ReportSalesComponent implements OnInit {
             estado: element.status,
             voucher: element.vaucher,
             date: element.date,
+            tipopago: this.chagenTypePay(element.typepay),
           });
         });
         this._ExcelService.exportToExcel(arraydepTaxiMarino, "TaxiMarino");
@@ -725,6 +763,7 @@ export class ReportSalesComponent implements OnInit {
             estado: element.status,
             voucher: element.vaucher,
             date: element.date,
+            tipopago: this.chagenTypePay(element.typepay),
           });
         });
         this._ExcelService.exportToExcel(arraydepAcuario, "Acuario");
@@ -741,6 +780,7 @@ export class ReportSalesComponent implements OnInit {
             estado: element.status,
             voucher: element.vaucher,
             date: element.date,
+            tipopago: this.chagenTypePay(element.typepay),
           });
         });
         this._ExcelService.exportToExcel(arraydepPikua, "Pikua");
@@ -757,6 +797,7 @@ export class ReportSalesComponent implements OnInit {
             estado: element.status,
             voucher: element.vaucher,
             date: element.date,
+            tipopago: this.chagenTypePay(element.typepay),
           });
         });
         this._ExcelService.exportToExcel(arraydepInkaInka, "InkaInka");
@@ -773,6 +814,7 @@ export class ReportSalesComponent implements OnInit {
             estado: element.status,
             voucher: element.vaucher,
             date: element.date,
+            tipopago: this.chagenTypePay(element.typepay),
           });
         });
         this._ExcelService.exportToExcel(arraydepKatamaran, "Katamaran");
@@ -789,6 +831,7 @@ export class ReportSalesComponent implements OnInit {
             estado: element.status,
             voucher: element.vaucher,
             date: element.date,
+            tipopago: this.chagenTypePay(element.typepay),
           });
         });
         this._ExcelService.exportToExcel(arraydepdepCanopy, "Canopy");
@@ -805,6 +848,7 @@ export class ReportSalesComponent implements OnInit {
             estado: element.status,
             voucher: element.vaucher,
             date: element.date,
+            tipopago: this.chagenTypePay(element.typepay),
           });
         });
         this._ExcelService.exportToExcel(
@@ -909,7 +953,17 @@ export class ReportSalesComponent implements OnInit {
     this.data = [];
     this.total = 0;
   }
-
+  chagenTypePay(data){
+    if(data==='card'){
+      return 'Tarjeta'
+    }
+    if(data==='credit'){
+      return 'Credito'
+    }
+    if(data==='cash'){
+      return 'Efectivo'
+    }
+  }
   ordenar() {
     this.service = this.service
       .filter((keyword, index) => this.service.indexOf(keyword) === index)
