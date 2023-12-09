@@ -64,6 +64,23 @@
         </div>
         <div class="col-sm">
           <div class="form-group">
+            <label>Selecciona un comisionista</label>
+            <select 
+              class="form-control"
+              formControlName="comisionista"
+            >
+              <option>Seleccionar</option>
+              <option
+                *ngFor="let item of datac; let i = index"
+                value="{{ item.name }}"
+              >
+                {{ item.description }} - {{ item.name }}
+              </option>
+            </select>
+          </div>
+        </div>
+        <div class="col-sm">
+          <div class="form-group">
             <label>Cedula cliente (opcional)</label>
             <input
               type="number"
@@ -76,6 +93,18 @@
       </div>
     </form>
     <div class="row">
+      <div class="col-sm 2">
+        <label>Buscar Servicios</label><br>
+        <button
+            type="button"
+            class="btn btn-primary"
+            data-toggle="modal"
+            data-target="#exampleModal"
+            (click)="restDate()"
+          >
+            Ver todos los Servicios
+          </button>
+      </div>
       <div class="col-sm">
         <div class="form-group">
           <label>Selecciona un plan</label>
@@ -104,6 +133,7 @@
           </select>
         </div>
       </div>
+    
     </div>
     <!-- Mostrar planes
     <ng-container *ngIf="arraySelectPlan && arraySelectPlan.length > 0">
@@ -125,15 +155,7 @@
     <ng-container>
       <div class="row">
         <div class="col-sm">
-          <button
-            type="button"
-            class="btn btn-primary"
-            data-toggle="modal"
-            data-target="#exampleModal"
-            (click)="restDate()"
-          >
-            Ver todos los planes
-          </button>
+          
           <div class="row" style="margin-top: 10px; margin-bottom: 10px">
             <div class="col-sm">
               <div class="card">
@@ -151,7 +173,7 @@
                           i === 34 ||
                           i === 35 ||
                           i === 41 ||
-                          i === 52
+                          i === 101
                         "
                       >
                         <button
@@ -172,18 +194,8 @@
                     >
                       <ng-container
                         *ngIf="
-                          i === 15 ||
-                          i === 58 ||
-                          i === 33 ||
-                          i === 21 ||
-                          i === 34 ||
-                          i === 35 ||
-                          i === 41 ||
-                          i === 60 ||
-                          i === 50 ||
-                          i === 37 ||
-                          i === 23 ||
-                          i === 16
+                          item.code === '101' 
+                          
                         "
                       >
                         <button
@@ -371,6 +383,29 @@
         Generar Consecutivos
       </button>--->
     </ng-container>
+    <div class="row">
+      <div class="col-sm-2">
+        <input type="checkbox" [(ngModel)]="checmanual" name="" id="">Activar Manual
+      </div>
+      <div class="col-sm-2">
+        <input type="checkbox" [(ngModel)]="checkrango" name="" id="">Activar Rango
+      </div>
+    </div>
+    <div class="row" *ngIf="checkrango">
+      <div class="col-sm-2">
+        <label>Codigo Inicial</label>
+        <input class="form-control" type="number" [(ngModel)]="codinicial" >
+      </div>
+      <div class="col-sm-2">
+        <label>Hasta</label>
+        <input class="form-control" type="number" [(ngModel)]="codfinal" >
+      </div>
+      <div class="col-sm-2">
+        <button class="btn btn-primary" (click)="generarRango()">
+          Generar
+        </button>
+      </div>
+    </div>
     <div class="row">
       <div class="col-sm-4">
         <div class="form-group">

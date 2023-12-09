@@ -5,6 +5,7 @@ import { Plan } from "../models/plan.model";
 import { Service } from "../models/service.model";
 import { v4 as uuidv4 } from "uuid";
 import { Tickets } from "src/utils/ticket";
+import { Commission } from "../models/commission.model";
 
 @Component({
   selector: "app-new-sales",
@@ -27,6 +28,8 @@ export class NewSalesComponent implements OnInit {
   code: string;
   dataFormvalue: any;
 
+  checmanual:any;
+
   showmixprice: boolean;
   typepay: any;
   efecty: any;
@@ -45,6 +48,12 @@ export class NewSalesComponent implements OnInit {
   ticke = new Tickets();
   user: any;
   sellerSelected: any;
+
+  codinicial:number;
+  codfinal:number;
+
+  checkrango:boolean;
+  public datac: any;
   constructor(private _GeneralServiceService: GeneralServiceService) {
     this.receipt = false;
     this.arraySelectPlan = [];
@@ -57,7 +66,8 @@ export class NewSalesComponent implements OnInit {
     this.typepay = "Efectivo";
 
     this.code = "";
- 
+    this.codinicial = 0;
+    this.codfinal = 0;
     this.initFomr();
     this.sellerSelected = localStorage.getItem('sellerSelected');
 
@@ -68,6 +78,8 @@ export class NewSalesComponent implements OnInit {
     this.getData();
     this.getDataPlans();
     this.getSellers();
+    this.getDataComisionitas();
+    this.checmanual = false;
   }
 
   @HostListener('document:keypress', ['$event'])
@@ -89,6 +101,9 @@ export class NewSalesComponent implements OnInit {
     usuaerSelect = localStorage.getItem('sellerSelected')
     this._formEntity = new FormGroup({
       name: new FormControl("", [
+        Validators.maxLength(100),
+      ]),
+      comisionista: new FormControl("", [
         Validators.maxLength(100),
       ]),
       seller: new FormControl(usuaerSelect, [
@@ -157,7 +172,7 @@ export class NewSalesComponent implements OnInit {
   }
   getDataPlans() {
     this._GeneralServiceService.getFirebase("plan").subscribe((data) => {
-      console.log("dara", data);
+      console.log("getDataPlans", data);
       this.plans = data.map((e) => {
         // console.log(e.payload.doc.data());
         return {
@@ -280,7 +295,10 @@ export class NewSalesComponent implements OnInit {
               this.addCodesave(dataResulCode);
             }
             setTimeout(() => {
-              this.code = "";
+              if (this.checmanual == false) {
+                this.code = "";
+
+              }
  
             }, 500);
           },
@@ -288,11 +306,97 @@ export class NewSalesComponent implements OnInit {
             console.log(err);
           }
         );
+        console.log('this.checmanual', this.checmanual);
+        
         setTimeout(() => {
-          this.code = "";
+         
+          if (this.checmanual == false) {
+            this.code = "";
+          }
           this.codigoInput.nativeElement.focus();
 
         }, 500);
+    }
+  }
+  generarRango(){
+    if(this.checkrango){
+      if (this.codinicial == 0 || this.codfinal == 0) {
+        alert('Digite un rango valido');
+        return null
+  
+      } 
+      if (this.codinicial >=  this.codfinal) {
+        alert('El codigo inical debe ser mayor que el codigo final');
+        return null
+      } 
+  
+      
+        for (let i = this.codinicial; i <= this.codfinal; i++) {
+          console.log(i);
+          this.validaeCodRango(i);
+          // Puedes hacer algo con cada número, como agregarlo a un array o realizar alguna lógica específica
+        }
+        this.codinicial = 0 ;
+         this.codfinal = 0;
+         this.checkrango = false;
+    }
+
+    
+    
+     
+  }
+
+
+  async validaeCodRango(code) {
+    
+    // get code database
+    console.log("code", code);
+    let find_Code_duplic, cod_vendido;
+    let dataResulCode = code;
+
+    if (code === "" || code === null) {
+      //alert("Ingrese un codigo de barra");
+    } else {
+      find_Code_duplic = false;
+
+      //Validar si el cod fue vendido
+      await this._GeneralServiceService
+        .getSalesBydaCodeBar("sales", code + "")
+        .subscribe(
+          (data: any) => {
+            console.log("codeBAr search", data + "code:", code);
+            if (code === "") {
+              return null;
+            } else {
+            }
+            let info = data.map((e) => {
+              console.log(e.payload.doc.data());
+              let result;
+              result = e.payload.doc.data();
+              if (result) {
+                cod_vendido = true;
+                if(this.checkrango){
+                  alert(
+                    "El codigo # " +
+                      code +
+                      " ya se encuentra regisrado intente con otro"
+                  );
+                }
+                 
+                code = "";
+              }
+            });
+            console.log("info", info);
+            if (info.length === 0) {
+              this.addCodesave(dataResulCode);
+            }
+             
+          },
+          (err) => {
+            console.log(err);
+          }
+        );
+         
     }
   }
 
@@ -346,6 +450,9 @@ export class NewSalesComponent implements OnInit {
       dates.getHours() + ":" + dates.getMinutes() + ":" + dates.getSeconds();
     formValue = this._formEntity.value;
 
+    console.log('formValue', formValue);
+    
+
     let ventas;
     ventas = false;
     if(!this.generalSale.paymentType){
@@ -364,16 +471,18 @@ export class NewSalesComponent implements OnInit {
         // id of sale general
         const saleIdentifier = uuidv4();
         // set object for creted general sale
+        
         this.generalSale = {
           ...this.generalSale,
           clientName: this._formEntity.value.name,
           sellerName: this._formEntity.value.seller,
+          comisionista: this._formEntity.value.comisionista,
           total: (this.totalValue + this.total) * this.barcodes.length,
           idGenerated: saleIdentifier,
           date: dateString,
           clientIdentification: this._formEntity.value.dni,
         };
-
+         
         /* for push in firebase*/
         this.barcodes.forEach((element) => {
           ventas = true;
@@ -410,12 +519,28 @@ export class NewSalesComponent implements OnInit {
               this.generalSale.cash = 0;
               this.generalSale.card = total;
             }
+            let totalComision = 0;
 
+            this.arraySelect.forEach(element => {
+               
+              if(element.comision_value > 0){
+                totalComision = totalComision + element.comision_value;
+              }
+            });
+
+            this.arraySelectPlan.forEach(element => {
+              element.services.forEach(element => {
+                if(element.comision_value > 0){
+                  totalComision = totalComision + element.comision_value;
+                }  
+              });
+             
+            });
             body = {
               ...formValue,
               plans: this.arraySelectPlan,
               detail: this.arraySelect,
-              date: "2021-01-12"  /*dateString*/,
+              date: dateString,
               hour: hour,
               total: total,
               state: "Activo",
@@ -424,6 +549,7 @@ export class NewSalesComponent implements OnInit {
               typepay: this.generalSale.paymentType || null,
               zone: "Oficina",
               vaucher: this.vaucher,
+              totalComison: totalComision,
               idGeneralSale: saleIdentifier,
             };
             if (ventas) {
@@ -459,7 +585,7 @@ export class NewSalesComponent implements OnInit {
                     const list = res.map((data) => data.payload.doc.data());
                     console.log(list);
 
-                    // this.ticke.pdf(generalSale, list);
+                    this.ticke.pdf(generalSale, list);
                   });
               });
           });
@@ -477,12 +603,13 @@ export class NewSalesComponent implements OnInit {
             total: total,
             state: "Activo",
           };
-
+          this.generalSale = {};
           this.total = 0;
           this.totalValue = 0;
           this.arraySelectPlan = [];
           this.arraySelect = [];
           this.barcodes = [];
+          this.vaucher = "";
           this._formEntity.reset();
           this.initFomr();
           this.showmixprice = false;
@@ -497,6 +624,7 @@ export class NewSalesComponent implements OnInit {
       );
       return null;
     }
+    
   }
 
   async save(body) {
@@ -516,7 +644,19 @@ export class NewSalesComponent implements OnInit {
       });
     });
   }
-
+  getDataComisionitas() {
+    this._GeneralServiceService.getFirebase('commissions').subscribe(
+      data => {
+        // console.log('dara', data);
+        this.datac = data.map(e => {
+          // console.log(e.payload.doc.data());
+          return {
+            id: e.payload.doc.id,
+            ...e.payload.doc.data()
+          } as Commission;
+        });
+      });
+  }
   /**
    * name: "asdasd"
    dni: "asdas2"
@@ -548,6 +688,7 @@ export interface GeneralSale {
   id?: string;
   total?: number;
   date?: Date;
+  comisionista?:string
 }
 
 export enum paymentType {

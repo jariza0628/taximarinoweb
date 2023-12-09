@@ -62,10 +62,13 @@
           CODIGO
         </div>
         <div class="col-lg-2 col-md-2 font-weight-bold">CLIENTE</div>
-        <div class="col-lg-3 col-md-3 font-weight-bold">SERVICIO</div>
+        <div class="col-lg-2 col-md-2 font-weight-bold">SERVICIO</div>
         <div class="col-lg-2 col-md-2 font-weight-bold">TOTAL SERVICIO</div>
-        <div class="col-lg-2 col-md-2 font-weight-bold">TIPO DE PAGO</div>
-        <div class="col-lg-2 col-md-2 font-weight-bold">VOUCHER</div>
+        <div class="col-lg-1 col-md-1 font-weight-bold">TIPO PAGO</div>
+        
+        <div class="col-lg-1 col-md-1 font-weight-bold">VOUCHER</div>
+        <div class="col-lg-1 col-md-1 font-weight-bold">COMISIONISTA</div>
+        <div class="col-lg-1 col-md-1 font-weight-bold">COMISION</div>
 
         <ng-container *ngFor="let sale of data; let i = index">
           <div
@@ -82,7 +85,7 @@
           </div>
           <div
             style="border-bottom: 1px solid rgb(190, 190, 190)"
-            class="col-lg-3 col-md-3 text-max"
+            class="col-lg-2 col-md-2 text-max"
           >
             {{ servicesSale(sale) }}
           </div>
@@ -94,15 +97,27 @@
           </div>
           <div
             style="border-bottom: 1px solid rgb(190, 190, 190)"
-            class="col-lg-2 col-md-2"
+            class="col-lg-1 col-md-1"
           >
             {{ typePayment(sale) }}
           </div>
           <div
             style="border-bottom: 1px solid rgb(190, 190, 190)"
-            class="col-lg-2 col-md-2"
+            class="col-lg-1 col-md-1"
           >
             {{ sale.vaucher }}
+          </div>
+          <div
+          style="border-bottom: 1px solid rgb(190, 190, 190)"
+          class="col-lg-1 col-md-1"
+        >
+          {{ sale.comisionista }}
+        </div>
+          <div
+            style="border-bottom: 1px solid rgb(190, 190, 190)"
+            class="col-lg-1 col-md-1"
+          >
+            {{ sale.totalComison }}
           </div>
         </ng-container>
         <div class="col-lg-2 col-md-2 font-weight-bold"></div>

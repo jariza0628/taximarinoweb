@@ -16,7 +16,8 @@ export class Tickets {
     });
     doc.setFontSize(8);
     doc.setFontType('bold');
-    doc.text(32, 5, 'Taximarino');
+    doc.text(8, 5, 'Comprobante entrega de manillas');
+    doc.text(15, 8, 'Taximarino Travels');
     doc.setFontType('normal');
     doc.text(5, 15, 'VENDEDOR:');
     doc.text(25, 15, '' + generalSale.sellerName);
@@ -73,6 +74,9 @@ export class Tickets {
     doc.setFontType('bold');
     doc.text(5, sumrow + 3, 'TOTAL');
     doc.text(60, sumrow + 3, '' + generalSale.total);
+    doc.text(10, sumrow + 8, 'Grupo empresarial Taximarino, Canopy');
+    doc.text(20, sumrow + 11, 'Centro de vida marina. ');
+
 
     const elementPrint = window.open(doc.output('bloburl'));
     elementPrint.print();

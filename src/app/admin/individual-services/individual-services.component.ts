@@ -37,6 +37,9 @@ export class IndividualServicesComponent implements OnInit {
       department: new FormControl(null, [
         Validators.required
       ]),
+      comision_value: new FormControl(null, [
+        Validators.required
+      ]),
       code: new FormControl(null, [
         Validators.required,
         Validators.maxLength(3),
@@ -116,7 +119,10 @@ export class IndividualServicesComponent implements OnInit {
       department: new FormControl(dataToEdit.department, [
         Validators.required
       ]),
-      code: new FormControl(null, [
+      comision_value: new FormControl(dataToEdit.comision_value, [
+        Validators.required
+      ]),
+      code: new FormControl(dataToEdit.code, [
         Validators.required,
         Validators.maxLength(3),
         Validators.minLength(2)

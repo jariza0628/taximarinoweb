@@ -11,6 +11,7 @@ export class Service {
   code?: string;
   verificador?: any;
   codebar?: any;
+  comision_value?:any;
 }
 
 export class ServiceCopy {
@@ -30,8 +31,8 @@ export class ServiceCopy {
   vaucher?: any;
   seller?: any;
   date: any;
-  typepay?: any
-
+  typepay?: any;
+  comision_value?:any;
 }
 
 export class GeneralReport {

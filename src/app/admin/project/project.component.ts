@@ -82,6 +82,12 @@ export class ProjectComponent implements OnInit {
         icon: "fa fa-bell",
       },
       {
+        name: "Reportes Diarios Comision",
+        link: "reportscomision",
+        rol: "user",
+        icon: "fa fa-dashboard fa-lg",
+      },
+      {
         name: "Comisionistas",
         link: "comision",
         rol: "user",

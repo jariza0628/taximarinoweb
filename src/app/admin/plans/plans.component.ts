@@ -53,11 +53,15 @@ export class PlansComponent implements OnInit {
   ngOnInit() {
     this.getServices();
     this.getAgencies();
-    console.log(" this.dataServices", this.dataServices);
+    setTimeout(() => {
+      console.log(" this.dataServices", this.dataServices);
+
+    }, 2000);
     this.getData();
   }
 
   save() {
+     
     this._formEntity.controls["services"].setValue(this.arraySelect);
     console.log("asd", this._formEntity.value);
     this._GeneralServiceService.createFirebase("plan", this._formEntity.value);
