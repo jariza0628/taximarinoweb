@@ -64,7 +64,7 @@
         <div class="col-lg-2 col-md-2 font-weight-bold">CLIENTE</div>
         <div class="col-lg-2 col-md-2 font-weight-bold">SERVICIO</div>
         <div class="col-lg-2 col-md-2 font-weight-bold">TOTAL SERVICIO</div>
-        <div class="col-lg-1 col-md-1 font-weight-bold">TIPO PAGO</div>
+        <div class="col-lg-2 col-md-2 font-weight-bold">TIPO PAGO</div>
         
         <div class="col-lg-1 col-md-1 font-weight-bold">VOUCHER</div>
         <div class="col-lg-1 col-md-1 font-weight-bold">COMISIONISTA</div>
@@ -97,7 +97,7 @@
           </div>
           <div
             style="border-bottom: 1px solid rgb(190, 190, 190)"
-            class="col-lg-1 col-md-1"
+            class="col-lg-2 col-md-2"
           >
             {{ typePayment(sale) }}
           </div>
@@ -195,6 +195,13 @@
         <div class="col-lg-4 col-md-4 font-weight-bold">
           ${{ calcTypePay("card") + calcMixed("tarjeta") | number }}
         </div>
+
+        <div class="col-lg-5 col-md-5 font-weight-bold"></div>
+        <div class="col-lg-3 col-md-3 font-weight-bold">TOTAL COMISIONES</div>
+        <div class="col-lg-4 col-md-4 font-weight-bold">
+          ${{ totalComisiones | number }}
+        </div>
+ 
         <div class="col-lg-5 col-md-5 font-weight-bold"></div>
         <div class="col-lg-3 col-md-3 font-weight-bold">TOTAL VOUCHER CREDITO</div>
         <div class="col-lg-4 col-md-4 font-weight-bold">
@@ -205,11 +212,11 @@
         <div class="col-lg-4 col-md-4 font-weight-bold">
           ${{ total | number }}
         </div>
-        <div class="col-lg-5 col-md-5 font-weight-bold"></div>
+        <!-- <div class="col-lg-5 col-md-5 font-weight-bold"></div>
         <div class="col-lg-3 col-md-3 font-weight-bold">TOTAL PAGO COMISIONES</div>
         <div class="col-lg-4 col-md-4 font-weight-bold">
           ${{ 0 | number }}
-        </div>
+        </div> -->
         <div class="col-lg-5 col-md-5 font-weight-bold"></div>
         <div class="col-lg-3 col-md-3 font-weight-bold">TOTAL ENTREGA</div>
         <div class="col-lg-4 col-md-4 font-weight-bold">

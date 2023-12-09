@@ -21,6 +21,8 @@ export class ReportsComponent implements OnInit {
   servicesNovauche: Array<Service> = [];
   paymentType = paymentType;
   totalVauches: number;
+  totalComisiones: number;
+
   totalNoVauches: any;
   @ViewChild("report", { static: true }) report: ElementRef;
 
@@ -144,6 +146,35 @@ export class ReportsComponent implements OnInit {
     return total;
   }
 
+ totalCOmisionistas() {
+   this.totalComisiones = 0;
+    if(this.data.length > 0){
+      this.data.forEach((sale) => {
+        sale.plans.forEach((plan) => {
+          console.log('plans', plan);
+          
+          plan.services.forEach(element => {
+            if(element.comision_value){
+              this.totalComisiones += Number(element.comision_value);
+
+            }
+          });
+          /*
+          plan.services.forEach(serviceItem => {
+            total += serviceItem.publicvalue;
+          });*/
+        });
+        sale.detail.forEach((serviceItem) => {
+          if(serviceItem.comision_value){
+            this.totalComisiones += Number(serviceItem.comision_value);
+
+          }
+        });
+      });
+       
+    } 
+  }
+
   /**
    * @method return total by count service
    * */
@@ -244,6 +275,7 @@ export class ReportsComponent implements OnInit {
     let total = 0;
     this.services.forEach((service) => (total += this.countByService(service)));
     this.totalVauchess();
+    this.totalCOmisionistas();
     return total;
   }
   totalVauchess() {
