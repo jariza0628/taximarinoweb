@@ -1,0 +1,243 @@
+<div class="container">
+  <div id="reporte" class="row">
+    <div class="col-sm">
+      <h4 (click)="calcDepartament('Acuario')">Reportes Diarios Comision</h4>
+      <div class="row">
+        <div class="col-sm">
+          <label for="date">Filtar por fecha</label>
+          <input
+            id="date"
+            class="form-control"
+            type="date"
+            #dates
+            [(ngModel)]="date"
+            (change)="search()"
+          />
+        </div>
+        <div class="col-sm">
+          <label for="seller">Filtar por comisonistas</label>
+          <select
+            id="seller"
+            class="custom-select custom-select mb-3"
+            #sellers
+            (change)="search()"
+            [(ngModel)]="seller"
+          >
+            <option selected>Selecciona un vendedor</option>
+            <option *ngFor="let item of users" value="{{ item.name }}">
+              {{ item.name }}
+            </option>
+          </select>
+        </div>
+        <div class="col-sm">
+          <br />
+          <button
+            style="margin-top: 8px"
+            [disabled]="!seller && !date"
+            class="btn-success btn"
+            (click)="generateReport()"
+          >
+            Generar Reporte
+          </button>
+          &nbsp;
+          <button
+          style="margin-top: 8px"
+          [disabled]="!seller && !date"
+          class="btn-success btn"
+          (click)="generateReportExcel()"
+        >
+          Generar Excel
+        </button>
+        </div>
+      </div>
+
+      <div #report class="row details">
+        <div class="col-lg-2 col-md-2 font-weight-bold">COMISIONISTA</div>
+        <div class="col-lg-10 col-md-10">{{ seller }}</div>
+        <div class="col-lg-2 col-md-2 font-weight-bold">MANILLAS VENDIDAS</div>
+        <div class="col-lg-10 col-md-10">{{ data.length }}</div>
+        <div class="col-lg-2 col-md-2 font-weight-bold">SERVICIOS VENDIDOS</div>
+        <div class="col-lg-10 col-md-10">{{ totalBracelet }}</div>
+        <div class="col-lg-2 col-md-2 font-weight-bold" (click)="ordenar()">
+          CODIGO
+        </div>
+        <div class="col-lg-2 col-md-2 font-weight-bold">CAJERO</div>
+        <div class="col-lg-3 col-md-3 font-weight-bold">SERVICIO</div>
+        <div class="col-lg-2 col-md-2 font-weight-bold">TOTAL SERVICIO</div>
+        <div class="col-lg-2 col-md-2 font-weight-bold">TOTAL COMISION</div>
+        <div class="col-lg-1 col-md-1 font-weight-bold">VOUCHER</div>
+
+        <ng-container *ngFor="let sale of data; let i = index">
+          <div
+            style="border-bottom: 1px solid rgb(190, 190, 190)"
+            class="col-lg-2 col-md-2"
+          >
+            {{ sale.codebar }}
+          </div>
+          <div
+            style="border-bottom: 1px solid rgb(190, 190, 190)"
+            class="col-lg-2 col-md-2"
+          >
+            {{ sale.seller }}
+          </div>
+          <div
+            style="border-bottom: 1px solid rgb(190, 190, 190)"
+            class="col-lg-3 col-md-3 text-max"
+          >
+            {{ servicesSale(sale) }}
+          </div>
+          <div
+            style="border-bottom: 1px solid rgb(190, 190, 190)"
+            class="col-lg-2 col-md-2"
+          >
+            ${{ totalbySale(sale) | number }}
+          </div>
+          <div
+            style="border-bottom: 1px solid rgb(190, 190, 190)"
+            class="col-lg-2 col-md-2"
+          >
+          {{ sale.totalComison }}
+          </div>
+          <div
+            style="border-bottom: 1px solid rgb(190, 190, 190)"
+            class="col-lg-1 col-md-1"
+          >
+            {{ sale.vaucher }}
+          </div>
+        </ng-container>
+        <div class="col-lg-2 col-md-2 font-weight-bold"></div>
+        <div class="col-lg-1 col-md-1 font-weight-bold"></div>
+        <div class="col-lg-2 col-md-2 font-weight-bold"></div>
+        <div class="col-lg-3 col-md-3 font-weight-bold">TOTAL</div>
+        <div class="col-lg-2 col-md-2 font-weight-bold">
+          ${{ total | number }}
+        </div>
+        <div class="col-lg-2 col-md-2 font-weight-bold"></div>
+        <br />
+        <div class="col-lg-2 col-md-2 font-weight-bold">NOMBRE</div>
+        <div class="col-lg-1 col-md-1 font-weight-bold">CANTIDAD</div>
+        <div class="col-lg-2 col-md-2 font-weight-bold"></div>
+        <div class="col-lg-3 col-md-3 font-weight-bold">
+          VALOR INDIVIDUAL SER.
+        </div>
+        <div class="col-lg-2 col-md-2 font-weight-bold">VALOR TOTAL</div>
+        <div class="col-lg-2 col-md-2 font-weight-bold"></div>
+        <!-- Datos generales-->
+        <ng-container *ngFor="let service of services">
+          <ng-container *ngIf="countByService(service) > 0">
+            <div class="col-lg-2 col-md-2">{{ service.name }}</div>
+            <div class="col-lg-1 col-md-1">{{ countByService(service) }}</div>
+            <div class="col-lg-2 col-md-2"></div>
+            <div class="col-lg-3 col-md-3">
+              ${{ service.publicvalue | number }}
+            </div>
+            <div class="col-lg-2 col-md-2">
+              ${{ countByService(service) * service.publicvalue | number }}
+            </div>
+            <div class="col-lg-2 col-md-2"></div>
+          </ng-container>
+        </ng-container>
+        
+        <div class="col-lg-12 col-md-12 font-weight-bold"><HR >VENTAS EFECTIVOS</div>
+
+        <!-- Ventas sin vaucher -->
+         <ng-container *ngFor="let service of services">
+          
+            <ng-container *ngIf="countByServiceNoVaucher(service) > 0">
+              <div class="col-lg-2 col-md-2">{{ service.name }}</div>
+              <div class="col-lg-1 col-md-1">{{ countByService(service) - countByServiceNoVaucher(service)  }}</div>
+              <div class="col-lg-2 col-md-2"></div>
+              <div class="col-lg-3 col-md-3">
+                ${{ service.publicvalue | number }}
+              </div>
+              <div class="col-lg-2 col-md-2">
+                ${{ (countByService(service) - countByServiceNoVaucher(service) )  * service.publicvalue | number }}
+              
+              </div>
+              <div class="col-lg-2 col-md-2"></div>
+          </ng-container>
+        </ng-container>
+        <div class="col-lg-12 col-md-12 font-weight-bold"><HR ></div>
+        <!--
+        <div class="col-lg-10 col-md-10 font-weight-bold"> </div>
+        <div class="col-lg-2 col-md-2 font-weight-bold"> {{ totalNoVauches }}</div>
+         -->
+        
+        <div class="col-lg-5 col-md-5 font-weight-bold"></div>
+        <div class="col-lg-3 col-md-3 font-weight-bold">
+          
+        </div>
+        
+      <!--  <div class="col-lg-5 col-md-5 font-weight-bold"></div>
+        <div class="col-lg-3 col-md-3 font-weight-bold">TOTAL PAGO CRÉDITO</div>
+        <div class="col-lg-4 col-md-4 font-weight-bold">
+          ${{ totalByTypePayment(paymentType.credit) | number }}
+        </div>-->
+       
+      
+        <div class="col-lg-5 col-md-5 font-weight-bold"></div>
+      </div>
+      <hr />
+      <div class="row details">
+        <div class="col-lg-5 col-md-5 font-weight-bold">
+          CANTIDAD {{ calcDepartamentCant("Acuario") }}
+        </div>
+        <div class="col-lg-3 col-md-3 font-weight-bold">VENTAS ACUARIO</div>
+        <div class="col-lg-4 col-md-4 font-weight-bold">
+          ${{ calcDepartament("Acuario") | number }}
+        </div>
+        <div class="col-lg-5 col-md-5 font-weight-bold"></div>
+      </div>
+      <div class="row details">
+        <div class="col-lg-5 col-md-5 font-weight-bold">
+          CANTIDAD {{ calcDepartamentCant("TaxiMarino") }}
+        </div>
+        <div class="col-lg-3 col-md-3 font-weight-bold">VENTAS TAXI</div>
+        <div class="col-lg-4 col-md-4 font-weight-bold">
+          ${{ calcDepartament("TaxiMarino") | number }}
+        </div>
+        <div class="col-lg-5 col-md-5 font-weight-bold"></div>
+      </div>
+      <div class="row details">
+        <div class="col-lg-5 col-md-5 font-weight-bold">
+          CANTIDAD {{ calcDepartamentCant("Pikua") }}
+        </div>
+        <div class="col-lg-3 col-md-3 font-weight-bold">VENTAS PIKUA</div>
+        <div class="col-lg-4 col-md-4 font-weight-bold">
+          ${{ calcDepartament("Pikua") | number }}
+        </div>
+        <div class="col-lg-5 col-md-5 font-weight-bold"></div>
+      </div>
+      <div class="row details">
+        <div class="col-lg-5 col-md-5 font-weight-bold">
+          CANTIDAD {{ calcDepartamentCant("Canopy") }}
+        </div>
+        <div class="col-lg-3 col-md-3 font-weight-bold">VENTAS CANOPY</div>
+        <div class="col-lg-4 col-md-4 font-weight-bold">
+          ${{ calcDepartament("Canopy") | number }}
+        </div>
+        <div class="col-lg-5 col-md-5 font-weight-bold"></div>
+      </div>
+      <div class="row details">
+        <div class="col-lg-5 col-md-5 font-weight-bold">
+          CANTIDAD {{ calcDepartamentCant("Katamaran") }}
+        </div>
+        <div class="col-lg-3 col-md-3 font-weight-bold">VENTAS KATAMARAN</div>
+        <div class="col-lg-4 col-md-4 font-weight-bold">
+          ${{ calcDepartament("Katamaran") | number }}
+        </div>
+        <div class="col-lg-5 col-md-5 font-weight-bold"></div>
+      </div>
+      <div class="row details">
+        <div class="col-lg-5 col-md-5 font-weight-bold">
+          CANTIDAD {{ calcDepartamentCant("InkaInka") }}
+        </div>
+        <div class="col-lg-3 col-md-3 font-weight-bold">VENTAS INKA INKA</div>
+        <div class="col-lg-4 col-md-4 font-weight-bold">
+          ${{ calcDepartament("InkaInka") | number }}
+        </div>
+        <div class="col-lg-5 col-md-5 font-weight-bold"></div>
+      </div>
+    </div>
+  </div>
+</div>
