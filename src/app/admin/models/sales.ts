@@ -23,6 +23,7 @@ export interface Sales {
   zone?: any;
   description?: any;
   comisionista?:any;
+  totalComison?:any;
 }
 
  

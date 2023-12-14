@@ -288,9 +288,24 @@
     </div>
   </div>
   <hr>
-  <div class="row">
+  acumuladoComisionistas
+  <hr>
+  <div class="row" *ngIf="acumuladoComisionistas">
     <div class="col-12">
-      asd
+      <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th>Comisionista</th>
+            <th>Valor Acumulado</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of acumuladoComisionistas">
+            <td>{{ item.name }}</td>
+            <td>{{ item.valorAcumulado }}</td>
+          </tr>
+        </tbody>
+      </table>
     </div>
      
   </div>
