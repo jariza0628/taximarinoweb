@@ -17,11 +17,15 @@ export class ReportsComponent implements OnInit {
   date: any;
   data: Array<Sales> = [];
   users: Array<any> = [];
+  comisonistas: Array<any> = [];
   services: Array<Service> = [];
   servicesNovauche: Array<Service> = [];
   paymentType = paymentType;
   totalVauches: number;
   totalComisiones: number;
+
+  acumuladoComisionistas: { name: string; valorAcumulado: number }[] = [];
+
 
   totalNoVauches: any;
   @ViewChild("report", { static: true }) report: ElementRef;
@@ -35,6 +39,7 @@ export class ReportsComponent implements OnInit {
     this.getsellers();
     this.getServices();
     this.totalNoVauches = 0;
+    
   }
 
   servicesSale(sale: Sales) {
@@ -75,7 +80,7 @@ export class ReportsComponent implements OnInit {
       setTimeout(() => {
         subscription.unsubscribe();
         this.ordenar();
-
+        this.getComisionistas();
       }, 1800);
     }
   }
@@ -366,8 +371,7 @@ export class ReportsComponent implements OnInit {
   }
   getComisionistas(){
     this.GN.getFirebase("commissions").subscribe((data) => {
-      // console.log('dara', data);
-      this.users = data.map((e) => {
+      this.comisonistas = data.map((e) => {
         console.log(e.payload.doc.data());
         return {
           id: e.payload.doc.id,
@@ -375,6 +379,10 @@ export class ReportsComponent implements OnInit {
         } as any;
       });
     });
+    setTimeout(() => {
+      console.log('getComisionistas', this.comisonistas);
+      this.calcComisionsPorvendedor();
+    }, 1500);
   }
   calcDepartamentCant(dept) {
     let totalDep = 0;
@@ -397,26 +405,39 @@ export class ReportsComponent implements OnInit {
 
     return totalDep;
   }
-  calcComisionsPorvendedor(dept) {
+  calcComisionsPorvendedor() {
     let totalDep = 0;
-    this.data.forEach((sale) => {
-      sale.plans.forEach((plan) => {
-        // totalDep += plan.totalvalue;
-        plan.services.forEach((serviceItem) => {
-          if (dept === serviceItem.department) {
-            totalDep += Number(serviceItem.publicvalue);
-          }
-        });
-      });
-      sale.detail.forEach((serviceItem) => {
-        if (dept === serviceItem.department) {
-          totalDep += Number(serviceItem.publicvalue);
-        }
-      });
-    });
-    console.log("calcDepartament" + dept + ": ", totalDep);
+    this.acumuladoComisionistas = [];
+    this.comisonistas.forEach(comisionista => {
 
-    return totalDep;
+      let ventasFiltradas = this.data.filter(venta => venta.comisionista === comisionista.name);
+
+      let valorAcumulado = ventasFiltradas.reduce((total, venta) => total + (venta.totalComison || 0), 0);
+
+      // Añade el nombre y el valor acumulado al objeto 'acumuladoComisionistas'
+      this.acumuladoComisionistas.push({ name: comisionista.name, valorAcumulado });
+
+      // this.data.forEach((sale) => {
+      //   sale.plans.forEach((plan) => {
+      //     // totalDep += plan.totalvalue;
+      //     plan.services.forEach((serviceItem) => {
+      //       if (dept === serviceItem.department) {
+      //         totalDep += Number(serviceItem.publicvalue);
+      //       }
+      //     });
+      //   });
+      //   sale.detail.forEach((serviceItem) => {
+      //     if (dept === serviceItem.department) {
+      //       totalDep += Number(serviceItem.publicvalue);
+      //     }
+      //   });
+      // });
+
+    });
+    
+    console.log("calcComisionsPorvendedor", this.acumuladoComisionistas);
+
+     
   }
 
   generateReport() {
