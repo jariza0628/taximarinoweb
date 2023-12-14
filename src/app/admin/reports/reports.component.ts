@@ -150,26 +150,30 @@ export class ReportsComponent implements OnInit {
    this.totalComisiones = 0;
     if(this.data.length > 0){
       this.data.forEach((sale) => {
-        sale.plans.forEach((plan) => {
-          console.log('plans', plan);
-          
-          plan.services.forEach(element => {
-            if(element.comision_value){
-              this.totalComisiones += Number(element.comision_value);
-
+         
+        if(sale.comisionista && sale.comisionista !=''){
+          sale.plans.forEach((plan) => {
+            console.log('totalComisiones', plan);
+            
+            plan.services.forEach(element => {
+              if(element.comision_value){
+                this.totalComisiones += Number(element.comision_value);
+  
+              }
+            });
+            /*
+            plan.services.forEach(serviceItem => {
+              total += serviceItem.publicvalue;
+            });*/
+          });
+          sale.detail.forEach((serviceItem) => {
+            if(serviceItem.comision_value){
+              this.totalComisiones += Number(serviceItem.comision_value);
+  
             }
           });
-          /*
-          plan.services.forEach(serviceItem => {
-            total += serviceItem.publicvalue;
-          });*/
-        });
-        sale.detail.forEach((serviceItem) => {
-          if(serviceItem.comision_value){
-            this.totalComisiones += Number(serviceItem.comision_value);
-
-          }
-        });
+        }
+       
       });
        
     } 
@@ -360,6 +364,18 @@ export class ReportsComponent implements OnInit {
 
     return totalDep;
   }
+  getComisionistas(){
+    this.GN.getFirebase("commissions").subscribe((data) => {
+      // console.log('dara', data);
+      this.users = data.map((e) => {
+        console.log(e.payload.doc.data());
+        return {
+          id: e.payload.doc.id,
+          ...e.payload.doc.data(),
+        } as any;
+      });
+    });
+  }
   calcDepartamentCant(dept) {
     let totalDep = 0;
     this.data.forEach((sale) => {
@@ -374,6 +390,27 @@ export class ReportsComponent implements OnInit {
       sale.detail.forEach((serviceItem) => {
         if (dept === serviceItem.department) {
           totalDep += 1;
+        }
+      });
+    });
+    console.log("calcDepartament" + dept + ": ", totalDep);
+
+    return totalDep;
+  }
+  calcComisionsPorvendedor(dept) {
+    let totalDep = 0;
+    this.data.forEach((sale) => {
+      sale.plans.forEach((plan) => {
+        // totalDep += plan.totalvalue;
+        plan.services.forEach((serviceItem) => {
+          if (dept === serviceItem.department) {
+            totalDep += Number(serviceItem.publicvalue);
+          }
+        });
+      });
+      sale.detail.forEach((serviceItem) => {
+        if (dept === serviceItem.department) {
+          totalDep += Number(serviceItem.publicvalue);
         }
       });
     });

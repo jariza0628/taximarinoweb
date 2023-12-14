@@ -22,6 +22,7 @@ export interface Sales {
   hour?: any;
   zone?: any;
   description?: any;
+  comisionista?:any;
 }
 
  
