@@ -36,16 +36,20 @@ import { CloseComponent } from './close/close.component';
 import { ComisionsComponent } from './comisions/comisions.component';
 import { ManillasComponent } from './manillas/manillas.component';
 import { ReportComisionistasComponent } from './report-comisionistas/report-comisionistas.component';
+import { ReporteComisionistasGeneralComponent } from './reporte-comisionistas-general/reporte-comisionistas-general.component';
+import { ZenviaService } from './services/zenvia.service';
+import { HttpClientModule } from '@angular/common/http';
  
 
 @NgModule({
   declarations: [
     ProjectListComponent, ProjectCreateComponent, ProjectUpdateComponent,
     ProjectComponent, LoginComponent, ReportAdminComponent, PointSaleComponent, AgencyComponent, SalesComponent,
-    IndividualServicesComponent, PlansComponent, NewSalesComponent, ReceiptComponent, ReportComponent, DetailComponent, CodebarComponent, HistoryReportComponent, InventoryComponent, ComisionComponent, ReporstGeneralComponent, CodebarNoveltiesComponent, ReportUsedComponent, ReportSalesComponent, BoatComponent, CloseComponent, ComisionsComponent, ManillasComponent, ReportComisionistasComponent],
+    IndividualServicesComponent, PlansComponent, NewSalesComponent, ReceiptComponent, ReportComponent, DetailComponent, CodebarComponent, HistoryReportComponent, InventoryComponent, ComisionComponent, ReporstGeneralComponent, CodebarNoveltiesComponent, ReportUsedComponent, ReportSalesComponent, BoatComponent, CloseComponent, ComisionsComponent, ManillasComponent, ReportComisionistasComponent, ReporteComisionistasGeneralComponent],
   imports: [
     CommonModule,
     AdminRoutingModule,
+    HttpClientModule,
     AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFireAuthModule,
     AngularFireDatabaseModule,
@@ -54,6 +58,7 @@ import { ReportComisionistasComponent } from './report-comisionistas/report-comi
   ],
   providers: [
     ExcelService,
+     
      AngularFirestore
   ],
 

@@ -16,6 +16,7 @@ export class ReportComisionistasComponent implements OnInit {
 
     seller: string;
     date: any;
+    date2: any;
     data: Array<Sales> = [];
     users: Array<any> = [];
     services: Array<Service> = [];
@@ -55,11 +56,12 @@ export class ReportComisionistasComponent implements OnInit {
      * */
     search() {
       this.totalNoVauches = 0;
-      if (this.seller && this.date) {
+      if (this.seller && this.date  && this.date2) {
         let subscription = this.GN.getSalesByDateAndComision(
           "sales",
           this.seller,
-          this.date
+          this.date,
+          this.date2,
         ).subscribe((data) => {
           // console.log('dara', data);
           this.data = data.map((e) => {

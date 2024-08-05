@@ -15,6 +15,17 @@
           />
         </div>
         <div class="col-sm">
+          <label for="date">Filtar por fecha</label>
+          <input
+            id="date"
+            class="form-control"
+            type="date"
+            #dates2
+            [(ngModel)]="date2"
+            (change)="search()"
+          />
+        </div>
+        <div class="col-sm">
           <label for="seller">Filtar por comisonistas</label>
           <select
             id="seller"

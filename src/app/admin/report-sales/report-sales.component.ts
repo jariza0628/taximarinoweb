@@ -146,6 +146,7 @@ export class ReportSalesComponent implements OnInit {
                 vaucher: sale.vaucher,
                 seller: sale.seller,
                 date: sale.date,
+                comision_value: serviceItem.comision_value,
                 ...serviceItem,
               });
             });
@@ -177,6 +178,7 @@ export class ReportSalesComponent implements OnInit {
                   vaucher: sale.vaucher,
                   seller: sale.seller,
                   date: sale.date,
+                  comision_value: serviceItem.comision_value,
                   ...serviceItem,
                 });
               }
@@ -209,6 +211,7 @@ export class ReportSalesComponent implements OnInit {
                 vaucher: sale.vaucher,
                 seller: sale.seller,
                 date: sale.date,
+                comision_value: serviceItem.comision_value,
                 ...serviceItem,
               });
             });
@@ -234,6 +237,7 @@ export class ReportSalesComponent implements OnInit {
               vaucher: sale.vaucher,
               seller: sale.seller,
               date: sale.date,
+              comision_value: serviceItem.comision_value,
               ...serviceItem,
             });
           });
@@ -746,6 +750,7 @@ export class ReportSalesComponent implements OnInit {
             estado: element.status,
             voucher: element.vaucher,
             date: element.date,
+            valor_comision: element.comision_value,
             tipopago: this.chagenTypePay(element.typepay),
           });
         });
@@ -763,6 +768,8 @@ export class ReportSalesComponent implements OnInit {
             estado: element.status,
             voucher: element.vaucher,
             date: element.date,
+            valor_comision: element.comision_value,
+            
             tipopago: this.chagenTypePay(element.typepay),
           });
         });
@@ -780,6 +787,7 @@ export class ReportSalesComponent implements OnInit {
             estado: element.status,
             voucher: element.vaucher,
             date: element.date,
+            valor_comision: element.comision_value,
             tipopago: this.chagenTypePay(element.typepay),
           });
         });
@@ -797,6 +805,7 @@ export class ReportSalesComponent implements OnInit {
             estado: element.status,
             voucher: element.vaucher,
             date: element.date,
+            valor_comision: element.comision_value,
             tipopago: this.chagenTypePay(element.typepay),
           });
         });
@@ -814,6 +823,7 @@ export class ReportSalesComponent implements OnInit {
             estado: element.status,
             voucher: element.vaucher,
             date: element.date,
+            valor_comision: element.comision_value,
             tipopago: this.chagenTypePay(element.typepay),
           });
         });
@@ -831,6 +841,7 @@ export class ReportSalesComponent implements OnInit {
             estado: element.status,
             voucher: element.vaucher,
             date: element.date,
+            valor_comision: element.comision_value,
             tipopago: this.chagenTypePay(element.typepay),
           });
         });
@@ -848,6 +859,7 @@ export class ReportSalesComponent implements OnInit {
             estado: element.status,
             voucher: element.vaucher,
             date: element.date,
+            valor_comision: element.comision_value,
             tipopago: this.chagenTypePay(element.typepay),
           });
         });

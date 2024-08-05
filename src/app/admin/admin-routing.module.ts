@@ -30,6 +30,7 @@ import { CloseComponent } from "./close/close.component";
 import { ComisionsComponent } from "./comisions/comisions.component";
 import { ManillasComponent } from "./manillas/manillas.component";
 import { ReportComisionistasComponent } from "./report-comisionistas/report-comisionistas.component";
+import { ReporteComisionistasGeneralComponent } from "./reporte-comisionistas-general/reporte-comisionistas-general.component";
 
 const routes: Routes = [
   {
@@ -162,6 +163,11 @@ const routes: Routes = [
       {
         path: "comisionslog",
         component: ComisionsComponent,
+        canActivate: [AdminGuard],
+      },
+      {
+        path: "comisionesgeneral",
+        component: ReporteComisionistasGeneralComponent,
         canActivate: [AdminGuard],
       },
       {

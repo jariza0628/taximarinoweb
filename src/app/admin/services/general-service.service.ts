@@ -77,14 +77,23 @@ export class GeneralServiceService {
       .snapshotChanges();
   }
 
-  getSalesByDateAndComision(entiti, data, data2) {
+  getSalesByDateAndComision(entiti, data, data2, data3) {
     return this.firestore
       .collection(entiti, (ref) =>
-        ref.where("comisionista", "==", data).where("date", "==", data2)
+        ref.where("comisionista", "==", data).where("date", ">=", data2).where("date", "<=", data3)
+      )
+      .snapshotChanges();
+  }
+  getSalesByDateAndComisionGeneral(entiti, data, data2, data3) {
+    //.where("date", ">=", data).where("date", "<=", data2)
+    return this.firestore
+      .collection(entiti, (ref) =>
+        ref.where("date", ">=", data2).where("date", "<=", data3)
       )
       .snapshotChanges();
   }
 
+  
   getSalesByDateRange(entiti, data, data2) {
     return this.firestore
       .collection(entiti, (ref) =>

@@ -6,6 +6,7 @@ import { Service } from "../models/service.model";
 import { v4 as uuidv4 } from "uuid";
 import { Tickets } from "src/utils/ticket";
 import { Commission } from "../models/commission.model";
+import { ZenviaService } from "../services/zenvia.service";
 
 @Component({
   selector: "app-new-sales",
@@ -54,7 +55,7 @@ export class NewSalesComponent implements OnInit {
 
   checkrango:boolean;
   public datac: any;
-  constructor(private _GeneralServiceService: GeneralServiceService) {
+  constructor(private _GeneralServiceService: GeneralServiceService, private zenviaService: ZenviaService) {
     this.receipt = false;
     this.arraySelectPlan = [];
     this.arraySelect = [];
@@ -80,6 +81,7 @@ export class NewSalesComponent implements OnInit {
     this.getSellers();
     this.getDataComisionitas();
     this.checmanual = false;
+    //this.sendMessage('573045268723');
   }
 
   @HostListener('document:keypress', ['$event'])
@@ -90,7 +92,21 @@ export class NewSalesComponent implements OnInit {
       
     }
   }
+  sendMessage(nuerocliente: string) {
+    const from = '573165228827';
+    //const to = '573045268764';
+    const templateId = '5c35b1e4-3f85-4791-aad4-3efbbd043b5d';
+    const fields = { '1': 'demo' };
 
+    this.zenviaService.sendMessage(from, nuerocliente, templateId, fields).subscribe(
+      response => {
+        console.log('Message sent successfully', response);
+      },
+      error => {
+        console.error('Error sending message', error);
+      }
+    );
+  }
   initFomr(){
     let usuaerSelect;
     if(localStorage.getItem('sellerSelected')){
@@ -101,6 +117,14 @@ export class NewSalesComponent implements OnInit {
     usuaerSelect = localStorage.getItem('sellerSelected')
     this._formEntity = new FormGroup({
       name: new FormControl("", [
+        Validators.maxLength(100),
+        Validators.required,
+      ]),
+      numeroCliente: new FormControl("", [
+        Validators.maxLength(15),
+        Validators.minLength(10),
+      ]),
+      emailCliente: new FormControl("", [
         Validators.maxLength(100),
       ]),
       comisionista: new FormControl("", [
@@ -475,6 +499,8 @@ export class NewSalesComponent implements OnInit {
         this.generalSale = {
           ...this.generalSale,
           clientName: this._formEntity.value.name,
+          clientNumber: this._formEntity.value.numeroCliente,
+          clientEmail: this._formEntity.value.emailCliente,
           sellerName: this._formEntity.value.seller,
           comisionista: this._formEntity.value.comisionista,
           total: (this.totalValue + this.total) * this.barcodes.length,
@@ -482,7 +508,10 @@ export class NewSalesComponent implements OnInit {
           date: dateString,
           clientIdentification: this._formEntity.value.dni,
         };
-         
+
+        
+        
+   
         /* for push in firebase*/
         this.barcodes.forEach((element) => {
           ventas = true;
@@ -589,6 +618,8 @@ export class NewSalesComponent implements OnInit {
                   });
               });
           });
+          //Eniar WhatsApp
+          this.sendMessage(this._formEntity.value.numeroCliente);
 
           alert("Venta creada. Su venta a sido registrada");
           // this.receipt = true;
@@ -679,6 +710,8 @@ export class NewSalesComponent implements OnInit {
 
 export interface GeneralSale {
   clientName?: string;
+  clientNumber?: string;
+  clientEmail?: string;
   clientIdentification?: string;
   sellerName?: string;
   paymentType?: "card" | "credit" | "cash" | "mixed";
