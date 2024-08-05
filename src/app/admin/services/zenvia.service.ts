@@ -31,4 +31,32 @@ export class ZenviaService {
 
     return this.http.post(this.apiUrl, body, { headers: headers });
   }
+  sendMessageByplantillaID(from: string, to: string, templateId: string): Observable<any> {
+    const headers = new HttpHeaders({
+      'X-API-TOKEN': this.apiToken,
+      'Content-Type': 'application/json'
+    });
+
+    const body = {
+      from: from,
+      to: to,
+      contents: [
+        {
+          type: 'template',
+          templateId: templateId,
+          //fields: fields
+        }
+      ]
+    };
+
+    return this.http.post(this.apiUrl, body, { headers: headers });
+  }
+  getAllpantillas(): Observable<any> {
+    const headers = new HttpHeaders({
+      'X-API-TOKEN': this.apiToken,
+      'Content-Type': 'application/json'
+    });
+
+    return this.http.get("https://api.zenvia.com/v2/templates?channel=WHATSAPP", { headers: headers });
+  }
 }

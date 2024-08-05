@@ -1,0 +1,97 @@
+<div class="container">
+  <div class="row" style="padding-top: 20px">
+    <div class="col-sm"><h4>Clientes registrados</h4></div>
+  </div>
+  <div class="form-group">
+    <form [formGroup]="_formEntity">
+      <div class="card" style="width: 100%">
+        <div class="card-body">
+          <div class="row">
+            <div class="col-sm">
+              <div class="form-group">
+                <label for="exampleFormControlInput1">Fecha Desde</label>
+                <input
+                  formControlName="date"
+                  type="date"
+                  class="form-control"
+                  id="exampleFormControlInput1"
+                  placeholder="name@example.com"
+                />
+              </div>
+            </div>
+            <div class="col-sm">
+              <div class="form-group">
+                <label for="exampleFormControlInput1">Fecha Hasta</label>
+                <input
+                  formControlName="date2"
+                  type="date"
+                  class="form-control"
+                  id="exampleFormControlInput1"
+                  placeholder="name@example.com"
+                />
+              </div>
+            </div>
+            <div class="col-sm">
+              <div class="form-group">
+                <label for="exampleFormControlInput1">Plantilla de Whatsapp</label>
+                <select
+                  [(ngModel)]="plantillaId"
+                  [ngModelOptions]="{standalone: true}"
+                  class="form-control"
+                  id="exampleFormControlInput1"
+                >
+                 <ng-container>
+                  <option *ngFor="let item of plantillas" [value]="item.id">
+                    {{ item.name }}
+                  </option>
+                 </ng-container>
+                 
+               </select>
+              </div>
+
+            </div>
+          </div>
+           <button type="button" (click)="submit()" class="btn btn-success">
+            Buscar
+          </button>&nbsp;
+          <button *ngIf="this.result && plantillaId" type="button" (click)="sendMassive()" class="btn btn-success"> Enviar Mensajes Masivos
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="row">
+    <div class="col-sm">
+      <h4>Resultados encontrados </h4>
+
+      <table class="table table-hover">
+        <thead>
+          <tr>
+            <th scope="col"># Registro</th>
+            <th scope="col">Fecha</th>
+            <th scope="col">Cedula</th>
+            <th scope="col">Nombre</th>
+            <th scope="col">correo</th>
+            <th scope="col">Celular</th>
+            <th scope="col">Celular</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of result; let i = index">
+            <th scope="row">{{ i + 1 }}</th>
+            <td>{{ item.date }}  </td>
+            <td>{{ item.clientIdentification }}</td>
+            <td>{{ item.clientName }}</td>
+            <td>{{ item.clientEmail }}</td>
+            <td>{{ item.clientNumber }}</td>
+            <td>
+              <button *ngIf="this.plantillaId" class="btn btn-primary" (click)="sendIndividual(item.clientNumber)" >Enviar Individual</button>
+              <p *ngIf="!this.plantillaId" style="color:brown">Selecciona una plantilla para enviar</p>
+            </td>
+           </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+</div>

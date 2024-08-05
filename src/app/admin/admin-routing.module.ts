@@ -31,6 +31,7 @@ import { ComisionsComponent } from "./comisions/comisions.component";
 import { ManillasComponent } from "./manillas/manillas.component";
 import { ReportComisionistasComponent } from "./report-comisionistas/report-comisionistas.component";
 import { ReporteComisionistasGeneralComponent } from "./reporte-comisionistas-general/reporte-comisionistas-general.component";
+import { ClientWhatsappComponent } from "./client-whatsapp/client-whatsapp.component";
 
 const routes: Routes = [
   {
@@ -173,6 +174,11 @@ const routes: Routes = [
       {
         path: "manillas",
         component: ManillasComponent,
+        canActivate: [AdminGuard],
+      },
+      {
+        path: "clienteswhatsapp",
+        component: ClientWhatsappComponent,
         canActivate: [AdminGuard],
       }
     ],

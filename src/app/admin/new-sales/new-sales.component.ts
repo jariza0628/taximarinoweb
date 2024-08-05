@@ -97,15 +97,22 @@ export class NewSalesComponent implements OnInit {
     //const to = '573045268764';
     const templateId = '5c35b1e4-3f85-4791-aad4-3efbbd043b5d';
     const fields = { '1': 'demo' };
+    if(nuerocliente){
 
-    this.zenviaService.sendMessage(from, nuerocliente, templateId, fields).subscribe(
-      response => {
-        console.log('Message sent successfully', response);
-      },
-      error => {
-        console.error('Error sending message', error);
-      }
-    );
+      this.zenviaService.sendMessage(from, nuerocliente, templateId, fields).subscribe(
+        response => {
+          console.log('Message sent successfully', response);
+        },
+        error => {
+          console.error('Error sending message', error);
+        }
+      );
+
+    }else{
+      console.log('No se envio mensaje');
+    }
+
+   
   }
   initFomr(){
     let usuaerSelect;
@@ -123,9 +130,11 @@ export class NewSalesComponent implements OnInit {
       numeroCliente: new FormControl("", [
         Validators.maxLength(15),
         Validators.minLength(10),
+        Validators.required,
       ]),
       emailCliente: new FormControl("", [
         Validators.maxLength(100),
+        Validators.required,
       ]),
       comisionista: new FormControl("", [
         Validators.maxLength(100),
@@ -618,9 +627,25 @@ export class NewSalesComponent implements OnInit {
                   });
               });
           });
-          //Eniar WhatsApp
-          this.sendMessage(this._formEntity.value.numeroCliente);
+          //****************** Enviar WhatsApp **************************
+          //*********************************************************** */
 
+          //1. Registrar cliente en la base de datos whatsapp
+          let cliente: clientWhastapp = { 
+            clientName: formValue.name, 
+            clientNumber: formValue.numeroCliente, 
+            clientEmail: formValue.emailCliente, 
+            clientIdentification: formValue.dni, 
+            date: dateString,
+            consentimiento: "PENDIENTE"
+            
+          };
+          this._GeneralServiceService.createFirebase("ClientesWhatsapp", cliente);
+          //2. Enviar mensaje de WhatsApp
+          this.sendMessage(this._formEntity.value.numeroCliente);
+          // ******************** Fin enviar whastapp *********************
+
+          
           alert("Venta creada. Su venta a sido registrada");
           // this.receipt = true;
           let total;
@@ -722,6 +747,17 @@ export interface GeneralSale {
   total?: number;
   date?: Date;
   comisionista?:string
+}
+
+export interface clientWhastapp {
+  clientName?: string;
+  clientNumber?: string;
+  clientEmail?: string;
+  clientIdentification?: string;
+  date?: string;
+  servicios?: any;
+  consentimiento?: "SI" | "NO" | "PENDIENTE";
+
 }
 
 export enum paymentType {

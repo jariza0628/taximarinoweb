@@ -116,6 +116,12 @@ export class ProjectComponent implements OnInit {
         link: "comisionslog",
         rol: "user",
         icon: "fa fa-bell",
+      },
+      {
+        name: "clientes Whatsapp",
+        link: "clienteswhatsapp",
+        rol: "user",
+        icon: "fa fa-bell",
       }
     ];
   }

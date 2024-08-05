@@ -39,13 +39,14 @@ import { ReportComisionistasComponent } from './report-comisionistas/report-comi
 import { ReporteComisionistasGeneralComponent } from './reporte-comisionistas-general/reporte-comisionistas-general.component';
 import { ZenviaService } from './services/zenvia.service';
 import { HttpClientModule } from '@angular/common/http';
+import { ClientWhatsappComponent } from './client-whatsapp/client-whatsapp.component';
  
 
 @NgModule({
   declarations: [
     ProjectListComponent, ProjectCreateComponent, ProjectUpdateComponent,
     ProjectComponent, LoginComponent, ReportAdminComponent, PointSaleComponent, AgencyComponent, SalesComponent,
-    IndividualServicesComponent, PlansComponent, NewSalesComponent, ReceiptComponent, ReportComponent, DetailComponent, CodebarComponent, HistoryReportComponent, InventoryComponent, ComisionComponent, ReporstGeneralComponent, CodebarNoveltiesComponent, ReportUsedComponent, ReportSalesComponent, BoatComponent, CloseComponent, ComisionsComponent, ManillasComponent, ReportComisionistasComponent, ReporteComisionistasGeneralComponent],
+    IndividualServicesComponent, PlansComponent, NewSalesComponent, ReceiptComponent, ReportComponent, DetailComponent, CodebarComponent, HistoryReportComponent, InventoryComponent, ComisionComponent, ReporstGeneralComponent, CodebarNoveltiesComponent, ReportUsedComponent, ReportSalesComponent, BoatComponent, CloseComponent, ComisionsComponent, ManillasComponent, ReportComisionistasComponent, ReporteComisionistasGeneralComponent, ClientWhatsappComponent],
   imports: [
     CommonModule,
     AdminRoutingModule,
