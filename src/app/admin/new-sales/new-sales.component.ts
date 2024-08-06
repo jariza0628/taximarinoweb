@@ -125,16 +125,16 @@ export class NewSalesComponent implements OnInit {
     this._formEntity = new FormGroup({
       name: new FormControl("", [
         Validators.maxLength(100),
-        Validators.required,
+        //Validators.required,
       ]),
       numeroCliente: new FormControl("", [
         Validators.maxLength(15),
         Validators.minLength(10),
-        Validators.required,
+        //Validators.required,
       ]),
       emailCliente: new FormControl("", [
         Validators.maxLength(100),
-        Validators.required,
+        //Validators.required,
       ]),
       comisionista: new FormControl("", [
         Validators.maxLength(100),
@@ -640,9 +640,12 @@ export class NewSalesComponent implements OnInit {
             consentimiento: "PENDIENTE"
             
           };
-          this._GeneralServiceService.createFirebase("ClientesWhatsapp", cliente);
-          //2. Enviar mensaje de WhatsApp
-          this.sendMessage(this._formEntity.value.numeroCliente);
+          if(cliente.clientNumber != "" && cliente.clientName != ""){
+            this._GeneralServiceService.createFirebase("ClientesWhatsapp", cliente);
+            //2. Enviar mensaje de WhatsApp
+            this.sendMessage(this._formEntity.value.numeroCliente);
+          }
+          
           // ******************** Fin enviar whastapp *********************
 
           
