@@ -671,9 +671,13 @@
         </ng-container>
         <ng-template #userComp>
           <select #seller (click)="selectSeller(seller.value)">
-            <option *ngFor="let item of sellers" value="{{ item.user }}">
-              {{ item.user }}
-            </option>
+            <ng-container *ngFor="let item of sellers" >
+              <ng-container *ngIf="item.status == 'Activo'">
+                <option value="{{ item.user }}">
+                {{ item.user }}
+                </option>
+              </ng-container>
+            </ng-container>
           </select>
           <br />
           <p>Usuario Selecionado: {{ sellerSelected }}</p>

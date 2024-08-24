@@ -1,6 +1,8 @@
 import { Injectable } from "@angular/core";
 import { AngularFirestore } from "@angular/fire/firestore";
 import { User } from "../models/user.model";
+import { Observable } from "rxjs";
+import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: "root",
@@ -139,6 +141,24 @@ export class GeneralServiceService {
     return this.firestore
       .collection("users", (ref) => ref.where("type", "==", "Vendedor"))
       .snapshotChanges();
+  }
+
+  getLastFactura(entity: string): Observable<number | null> {
+    return this.firestore.collection(entity, ref => 
+      ref.orderBy('timeStamp', 'desc').limit(1)
+    ).get().pipe(
+      map(snapshot => {
+        const docs = snapshot.docs;
+        if (docs.length > 0) {
+          const docData = docs[0].data();
+          const consecutivo = docData.consecutivo;
+          console.log('Último consecutivo:', consecutivo);
+          return consecutivo as number;
+        }
+        console.log('No se encontró ningún consecutivo.');
+        return null;
+      })
+    );
   }
   getDateNow() {
     const dates = new Date();

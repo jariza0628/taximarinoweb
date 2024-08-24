@@ -7,6 +7,7 @@ import { v4 as uuidv4 } from "uuid";
 import { Tickets } from "src/utils/ticket";
 import { Commission } from "../models/commission.model";
 import { ZenviaService } from "../services/zenvia.service";
+import { timeStamp } from "console";
 
 @Component({
   selector: "app-new-sales",
@@ -82,6 +83,7 @@ export class NewSalesComponent implements OnInit {
     this.getDataComisionitas();
     this.checmanual = false;
     //this.sendMessage('573045268723');
+    
   }
 
   @HostListener('document:keypress', ['$event'])
@@ -467,7 +469,12 @@ export class NewSalesComponent implements OnInit {
     return n;
   }
 
-  onSubmit1() {
+  async onSubmit1() {
+    // let consecutivoinical = 100;
+    // let consecutivoinical = 200;
+
+    let consecutivo = 0;
+    
     let formValue;
     let body;
 
@@ -494,185 +501,212 @@ export class NewSalesComponent implements OnInit {
     }
     if (this.arraySelectPlan.length > 0 || this.arraySelect.length > 0) {
       if (this.barcodes.length > 0) {
-        if(this.generalSale.paymentType === 'credit'){
-          if(this.vaucher === null || this.vaucher === '' || formValue.name === null || formValue.name === ''){
-            alert('Indica un codigo de vaucher y/o nombre de cliente')
-            return false
-          }
-        }
-     
-        // id of sale general
-        const saleIdentifier = uuidv4();
-        // set object for creted general sale
-        
-        this.generalSale = {
-          ...this.generalSale,
-          clientName: this._formEntity.value.name,
-          clientNumber: this._formEntity.value.numeroCliente,
-          clientEmail: this._formEntity.value.emailCliente,
-          sellerName: this._formEntity.value.seller,
-          comisionista: this._formEntity.value.comisionista,
-          total: (this.totalValue + this.total) * this.barcodes.length,
-          idGenerated: saleIdentifier,
-          date: dateString,
-          clientIdentification: this._formEntity.value.dni,
-        };
+        // ************************** get last consecutivo
+        const foundUser = this.sellers.find(u => u.user === this._formEntity.value.seller);
 
-        
-        
-   
-        /* for push in firebase*/
-        this.barcodes.forEach((element) => {
-          ventas = true;
-          console.log("code foreac", element.code);
+        let consecutivoUltimo = 179;
+        await this._GeneralServiceService.getLastFactura('sales').subscribe(consecutivo => {
 
-          if (element.code !== null) {
-            let total;
-
-            total = (this.totalValue + this.total) * this.barcodes.length;
-            formValue.codebar = "" + element.code;
-
-            if (this.generalSale.paymentType === "mixed") {
-              if (this.generalSale.card > 0 && this.generalSale.cash > 0) {
-                let totaltmp;
-                totaltmp = this.generalSale.card + this.generalSale.cash;
-                if (totaltmp !== total) {
-                  alert(
-                    "Los valores indicados no suman el total de la factura."
-                  );
-                  ventas = false;
-                  return null;
+          debugger
+            consecutivoUltimo = consecutivo + 1;
+            
+            //****** VENTA */
+            if(this.generalSale.paymentType === 'credit'){
+              if(this.vaucher === null || this.vaucher === '' || formValue.name === null || formValue.name === ''){
+                alert('Indica un codigo de vaucher y/o nombre de cliente')
+                return false
+              }
+            }
+         
+            // id of sale general
+            const saleIdentifier = uuidv4();
+            // set object for creted general sale
+    
+    
+            this.generalSale = {
+              ...this.generalSale,
+              clientName: this._formEntity.value.name,
+              clientNumber: this._formEntity.value.numeroCliente,
+              clientEmail: this._formEntity.value.emailCliente,
+              sellerName: this._formEntity.value.seller,
+              comisionista: this._formEntity.value.comisionista,
+              total: (this.totalValue + this.total) * this.barcodes.length,
+              idGenerated: saleIdentifier,
+              date: dateString,
+              clientIdentification: this._formEntity.value.dni,
+              consecutivo: consecutivoUltimo,
+              zona: foundUser.zone
+            };
+    
+       
+            /* for push in firebase*/
+            this.barcodes.forEach((element) => {
+              ventas = true;
+              console.log("code foreac", element.code);
+    
+              if (element.code !== null) {
+                let total;
+    
+                total = (this.totalValue + this.total) * this.barcodes.length;
+                formValue.codebar = "" + element.code;
+    
+                if (this.generalSale.paymentType === "mixed") {
+                  if (this.generalSale.card > 0 && this.generalSale.cash > 0) {
+                    let totaltmp;
+                    totaltmp = this.generalSale.card + this.generalSale.cash;
+                    if (totaltmp !== total) {
+                      alert(
+                        "Los valores indicados no suman el total de la factura."
+                      );
+                      ventas = false;
+                      return null;
+                    }
+                  } else {
+                    alert("Efectivo y valor en tarjeta no puedes ser menor que 0");
+                    ventas = false;
+                    return null;
+                  }
                 }
+                if (this.generalSale.paymentType === "cash") {
+                  this.generalSale.card = 0;
+                  this.generalSale.cash = total;
+                }
+                if (this.generalSale.paymentType === "card") {
+                  this.generalSale.cash = 0;
+                  this.generalSale.card = total;
+                }
+                let totalComision = 0;
+    
+                this.arraySelect.forEach(element => {
+                   
+                  if(element.comision_value > 0){
+                    totalComision = totalComision + element.comision_value;
+                  }
+                });
+    
+                this.arraySelectPlan.forEach(element => {
+                  element.services.forEach(element => {
+                    if(element.comision_value > 0){
+                      totalComision = totalComision + element.comision_value;
+                    }  
+                  });
+                 
+                });
+                body = {
+                  ...formValue,
+                  plans: this.arraySelectPlan,
+                  detail: this.arraySelect,
+                  date: dateString,
+                  hour: hour,
+                  total: total,
+                  state: "Activo",
+                  efecty: this.generalSale.cash || null,
+                  tarjeta: this.generalSale.card || null,
+                  typepay: this.generalSale.paymentType || null,
+                  zone: "Oficina",
+                  vaucher: this.vaucher,
+                  totalComison: totalComision,
+                  idGeneralSale: saleIdentifier,
+                  timeStamp: new Date().getTime(),
+                  consecutivo: consecutivoUltimo,
+                };
+                if (ventas) {
+               
+     
+                      this.save(body);
+                      this.code = "";
+                   
+    
+                  // this.save(body);
+                  // this.code = "";
+                }
+    
+                console.log("body", body);
+    
+                //FIN guardar
               } else {
-                alert("Efectivo y valor en tarjeta no puedes ser menor que 0");
-                ventas = false;
+                alert("Campos obligatorios, Debe indicar un código de barra");
                 return null;
               }
-            }
-            if (this.generalSale.paymentType === "cash") {
-              this.generalSale.card = 0;
-              this.generalSale.cash = total;
-            }
-            if (this.generalSale.paymentType === "card") {
-              this.generalSale.cash = 0;
-              this.generalSale.card = total;
-            }
-            let totalComision = 0;
-
-            this.arraySelect.forEach(element => {
-               
-              if(element.comision_value > 0){
-                totalComision = totalComision + element.comision_value;
-              }
             });
-
-            this.arraySelectPlan.forEach(element => {
-              element.services.forEach(element => {
-                if(element.comision_value > 0){
-                  totalComision = totalComision + element.comision_value;
-                }  
-              });
-             
-            });
-            body = {
-              ...formValue,
-              plans: this.arraySelectPlan,
-              detail: this.arraySelect,
-              date: dateString,
-              hour: hour,
-              total: total,
-              state: "Activo",
-              efecty: this.generalSale.cash || null,
-              tarjeta: this.generalSale.card || null,
-              typepay: this.generalSale.paymentType || null,
-              zone: "Oficina",
-              vaucher: this.vaucher,
-              totalComison: totalComision,
-              idGeneralSale: saleIdentifier,
-            };
+    
             if (ventas) {
-              this.save(body);
-              this.code = "";
-            }
-
-            console.log("body", body);
-          } else {
-            alert("Campos obligatorios, Debe indicar un código de barra");
-            return null;
-          }
-        });
-
-        if (ventas) {
-          const sale = this._GeneralServiceService.createFirebase(
-            "generalSale",
-            this.generalSale
-          );
-          console.log(sale);
-          sale.then((result) => {
-            this._GeneralServiceService
-              .getById("generalSale", result.id)
-              .then((datas) => {
-                const generalSale = datas.data();
+              const sale = this._GeneralServiceService.createFirebase(
+                "generalSale",
+                this.generalSale
+              );
+              console.log(sale);
+              sale.then((result) => {
                 this._GeneralServiceService
-                  .getSaleByIdGenerated(
-                    "sales",
-                    "idGeneralSale",
-                    generalSale.idGenerated
-                  )
-                  .subscribe((res) => {
-                    const list = res.map((data) => data.payload.doc.data());
-                    console.log(list);
-
-                    this.ticke.pdf(generalSale, list);
+                  .getById("generalSale", result.id)
+                  .then((datas) => {
+                    const generalSale = datas.data();
+                    this._GeneralServiceService
+                      .getSaleByIdGenerated(
+                        "sales",
+                        "idGeneralSale",
+                        generalSale.idGenerated
+                      )
+                      .subscribe((res) => {
+                        const list = res.map((data) => data.payload.doc.data());
+                        console.log(list);
+                        
+                        this.ticke.pdf(generalSale, list, consecutivoUltimo);
+                      });
                   });
               });
+              //****************** Enviar WhatsApp **************************
+              //*********************************************************** */
+    
+              //1. Registrar cliente en la base de datos whatsapp
+              let cliente: clientWhastapp = { 
+                clientName: formValue.name, 
+                clientNumber: formValue.numeroCliente, 
+                clientEmail: formValue.emailCliente, 
+                clientIdentification: formValue.dni, 
+                date: dateString,
+                consentimiento: "PENDIENTE"
+                
+              };
+              if(cliente.clientNumber != "" && cliente.clientName != ""){
+                this._GeneralServiceService.createFirebase("ClientesWhatsapp", cliente);
+                //2. Enviar mensaje de WhatsApp
+                this.sendMessage(this._formEntity.value.numeroCliente);
+              }
+              
+              // ******************** Fin enviar whastapp *********************
+    
+              
+              alert("Venta creada. Su venta a sido registrada");
+              // this.receipt = true;
+              let total;
+              total = this.total + this.totalValue;
+              this.dataFormvalue = {
+                ...this._formEntity.value,
+                codes: this.barcodes,
+                plans: this.arraySelectPlan,
+                detail: this.arraySelect,
+                date: dateString,
+                total: total,
+                state: "Activo",
+              };
+              this.generalSale = {};
+              this.total = 0;
+              this.totalValue = 0;
+              this.arraySelectPlan = [];
+              this.arraySelect = [];
+              this.barcodes = [];
+              this.vaucher = "";
+              this._formEntity.reset();
+              this.initFomr();
+              this.showmixprice = false;
+            }
+
+            console.log('Consecutivo: ', consecutivo);
+          }, error => {
+            console.error('Error al obtener el consecutivo:', error);
           });
-          //****************** Enviar WhatsApp **************************
-          //*********************************************************** */
 
-          //1. Registrar cliente en la base de datos whatsapp
-          let cliente: clientWhastapp = { 
-            clientName: formValue.name, 
-            clientNumber: formValue.numeroCliente, 
-            clientEmail: formValue.emailCliente, 
-            clientIdentification: formValue.dni, 
-            date: dateString,
-            consentimiento: "PENDIENTE"
-            
-          };
-          if(cliente.clientNumber != "" && cliente.clientName != ""){
-            this._GeneralServiceService.createFirebase("ClientesWhatsapp", cliente);
-            //2. Enviar mensaje de WhatsApp
-            this.sendMessage(this._formEntity.value.numeroCliente);
-          }
-          
-          // ******************** Fin enviar whastapp *********************
-
-          
-          alert("Venta creada. Su venta a sido registrada");
-          // this.receipt = true;
-          let total;
-          total = this.total + this.totalValue;
-          this.dataFormvalue = {
-            ...this._formEntity.value,
-            codes: this.barcodes,
-            plans: this.arraySelectPlan,
-            detail: this.arraySelect,
-            date: dateString,
-            total: total,
-            state: "Activo",
-          };
-          this.generalSale = {};
-          this.total = 0;
-          this.totalValue = 0;
-          this.arraySelectPlan = [];
-          this.arraySelect = [];
-          this.barcodes = [];
-          this.vaucher = "";
-          this._formEntity.reset();
-          this.initFomr();
-          this.showmixprice = false;
-        }
       } else {
         alert("Campos obligatorios, Debe indicar un código de barra");
         return null;
@@ -749,7 +783,9 @@ export interface GeneralSale {
   id?: string;
   total?: number;
   date?: Date;
-  comisionista?:string
+  comisionista?:string;
+  zona?:string;
+  consecutivo?:number;
 }
 
 export interface clientWhastapp {
