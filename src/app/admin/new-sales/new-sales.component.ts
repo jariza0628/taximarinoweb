@@ -8,6 +8,8 @@ import { Tickets } from "src/utils/ticket";
 import { Commission } from "../models/commission.model";
 import { ZenviaService } from "../services/zenvia.service";
 import { timeStamp } from "console";
+import { Observable } from 'rxjs';
+import { map, startWith } from 'rxjs/operators';
 
 @Component({
   selector: "app-new-sales",
@@ -20,6 +22,10 @@ export class NewSalesComponent implements OnInit {
 
   public receipt: boolean;
   public _formEntity: FormGroup;
+
+  filteredOptions: Observable<any[]>;
+
+
   arraySelectPlan: any;
   arraySelect: any;
   services: any;
@@ -42,6 +48,7 @@ export class NewSalesComponent implements OnInit {
   sellers: any;
 
   arryTMP: any;
+  arryTMPagencias: any;
 
   seacrhData: any;
 
@@ -56,6 +63,7 @@ export class NewSalesComponent implements OnInit {
 
   checkrango:boolean;
   public datac: any;
+  public agencias: any;
   constructor(private _GeneralServiceService: GeneralServiceService, private zenviaService: ZenviaService) {
     this.receipt = false;
     this.arraySelectPlan = [];
@@ -64,6 +72,8 @@ export class NewSalesComponent implements OnInit {
     this.total = 0;
     this.barcodes = [];
     this.showmixprice = false;
+
+    this.agencias = [];
 
     this.typepay = "Efectivo";
 
@@ -82,6 +92,7 @@ export class NewSalesComponent implements OnInit {
     this.getSellers();
     this.getDataComisionitas();
     this.checmanual = false;
+    this.getAgencias();
     //this.sendMessage('573045268723');
     
   }
@@ -127,16 +138,16 @@ export class NewSalesComponent implements OnInit {
     this._formEntity = new FormGroup({
       name: new FormControl("", [
         Validators.maxLength(100),
-        //Validators.required,
+        Validators.required,
       ]),
       numeroCliente: new FormControl("", [
         Validators.maxLength(15),
         Validators.minLength(10),
-        //Validators.required,
+        Validators.required,
       ]),
       emailCliente: new FormControl("", [
         Validators.maxLength(100),
-        //Validators.required,
+        Validators.required,
       ]),
       comisionista: new FormControl("", [
         Validators.maxLength(100),
@@ -147,6 +158,7 @@ export class NewSalesComponent implements OnInit {
       ]),
       dni: new FormControl("", [
         Validators.maxLength(100),
+        Validators.required,
       ]),
     });
   }
@@ -178,6 +190,9 @@ export class NewSalesComponent implements OnInit {
   restDate() {
     this.arryTMP = this.services;
   }
+  restDateAgevias() {
+    this.arryTMPagencias = this.agencias;
+  }
   serach(dataToSearch) {
 
     if (!isNaN(dataToSearch)) {
@@ -203,6 +218,34 @@ export class NewSalesComponent implements OnInit {
     console.log("this.arryTMP", this.arryTMP);
     //this.dataSeacrh.nativeElement.value = '';
 
+    
+  }
+
+  serachAgencia(dataToSearch) {
+
+    // if (!isNaN(dataToSearch)) {
+    //   console.log("El parámetro es un número. Agregar lógica aquí si es necesario.");
+    //   // Puedes agregar tu lógica específica para el caso de números aquí.
+    //   console.log("dataToSearch", dataToSearch);
+    //   this.arryTMP = [];
+    //   this.agencias.forEach((element) => {
+    //     if (element.name == dataToSearch) {
+    //       this.arryTMP.push(element);
+    //     }
+    //   });
+    //   return;
+    // }
+     console.log("dataToSearch", dataToSearch);
+    this.arryTMPagencias = [];
+    this.agencias.forEach((element) => {
+      if (element.name.toLowerCase().includes(dataToSearch.toLowerCase())) {
+        this.arryTMPagencias.push(element);
+      }
+    });
+    console.log("this.arryTMPagencias", this.arryTMPagencias);
+    //this.dataSeacrh.nativeElement.value = '';
+    
+    this.agencias = this.arryTMPagencias;
     
   }
   getDataPlans() {
@@ -244,6 +287,14 @@ export class NewSalesComponent implements OnInit {
   onChangeServ(deviceValue) {
     console.log(deviceValue);
     this.addValueToArraySelect(deviceValue);
+  }
+
+  cargarAgencia(agencia: any) {
+    this._formEntity.get('name').setValue(agencia.name);
+    this._formEntity.get('numeroCliente').setValue(agencia.cellphone);
+    this._formEntity.get('emailCliente').setValue(agencia.email);
+    this._formEntity.get('dni').setValue(agencia.nit);
+
   }
 
   addValueToArraySelect(item) {
@@ -472,6 +523,7 @@ export class NewSalesComponent implements OnInit {
   async onSubmit1() {
     // let consecutivoinical = 100;
     // let consecutivoinical = 200;
+    let impresiones = 0;
 
     let consecutivo = 0;
     
@@ -507,7 +559,7 @@ export class NewSalesComponent implements OnInit {
         let consecutivoUltimo = 179;
         await this._GeneralServiceService.getLastFactura('sales').subscribe(consecutivo => {
 
-          debugger
+           
             consecutivoUltimo = consecutivo + 1;
             
             //****** VENTA */
@@ -650,8 +702,11 @@ export class NewSalesComponent implements OnInit {
                       .subscribe((res) => {
                         const list = res.map((data) => data.payload.doc.data());
                         console.log(list);
-                        
-                        this.ticke.pdf(generalSale, list, consecutivoUltimo);
+                        if(impresiones == 0){
+                          this.ticke.pdf(generalSale, list, consecutivoUltimo);
+                          impresiones = impresiones + 1;
+
+                        }
                       });
                   });
               });
@@ -735,7 +790,39 @@ export class NewSalesComponent implements OnInit {
           ...e.payload.doc.data(),
         } as any;
       });
+      //Configruar autocompleta
+       // Configurar el autocompletado una vez que los datos estén cargados
+        this.filteredOptions = this._formEntity.get('name').valueChanges.pipe(
+          startWith(''),
+          map(value => this._filter(value))
+        );
     });
+  }
+
+  getAgencias() {
+    this._GeneralServiceService.getFirebase('agency').subscribe(
+      data => {
+        // console.log('dara', data);
+        this.agencias = data.map(e => {
+          // console.log(e.payload.doc.data());
+          return {
+            id: e.payload.doc.id,
+            ...e.payload.doc.data()
+          } as any;
+        });
+        this.arryTMPagencias = this.agencias;
+      });
+  }
+
+  private _filter(value: string): any[] {
+    const filterValue = value.toLowerCase();
+    return this.sellers.filter(seller => 
+      seller.user.toLowerCase().includes(filterValue)
+    );
+  }
+
+  displayFn(seller: any): string {
+    return seller && seller.user ? seller.user : '';
   }
   getDataComisionitas() {
     this._GeneralServiceService.getFirebase('commissions').subscribe(

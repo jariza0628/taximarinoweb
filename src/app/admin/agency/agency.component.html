@@ -18,8 +18,8 @@
 
       <div class="col-sm">
         <div class="form-group">
-          <label for="exampleFormControlInput1">Descripcion</label>
-          <input type="text" class="form-control" formControlName="description" placeholder="Rodadero">
+          <label for="exampleFormControlInput1">Correo</label>
+          <input type="text" class="form-control" formControlName="email" placeholder="Rodadero">
         </div>
       </div>
     </div>
@@ -41,8 +41,8 @@
       </div>
       <div class="col-sm">
         <div class="form-group">
-          <label for="exampleFormControlInput1">Ciudad</label>
-          <input type="text" class="form-control" formControlName="city" placeholder="Santa Marta">
+          <label for="exampleFormControlInput1">Telefono</label>
+          <input type="text" class="form-control" formControlName="cellphone" placeholder="Santa Marta">
         </div>
       </div>
     </div>
@@ -68,20 +68,20 @@
         <thead>
           <tr>
             <th scope="col">Nombre Agencia</th>
-            <th scope="col">Descripcion</th>
+            <th scope="col">Email</th>
             <th scope="col">Nit</th>
             <th scope="col">Direccion</th>
-            <th scope="col">Ciudad</th>
+            <th scope="col">Telefono</th>
             <th scope="col">Opciones</th>
           </tr>
         </thead>
         <tbody>
           <tr *ngFor="let item of data">
             <th>{{item.name}}</th>
-            <td>{{item.description}}</td>
+            <td>{{item.email}}</td>
             <th>{{item.nit}}</th>
             <th>{{item.address}}</th>
-            <th>{{item.city}}</th>
+            <th>{{item.cellphone}}</th>
              <td><a class="hover-a" (click)="deleteUser(item.id)">Eliminar</a> &nbsp;
               <a class="hover-a" (click)="updateUserAct(item)">Editar</a></td>
           </tr>

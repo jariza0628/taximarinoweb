@@ -1,8 +1,8 @@
 export class Agency {
     id?: any;
     name: string;
-    description: any;
+    email: any;
     nit?: any;
     address: any;
-    city: any;
+    cellphone: any;
 }

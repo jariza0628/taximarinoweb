@@ -22,7 +22,7 @@ export class AgencyComponent implements OnInit {
         Validators.required,
         Validators.maxLength(100)
       ]),
-      description: new FormControl('', [
+      email: new FormControl('', [
         Validators.maxLength(100)
       ]),
       nit: new FormControl('', [
@@ -31,7 +31,7 @@ export class AgencyComponent implements OnInit {
       address: new FormControl('', [
         Validators.maxLength(100)
       ]),
-      city: new FormControl('', [
+      cellphone: new FormControl('', [
         Validators.maxLength(100)
       ]),
     });
@@ -87,7 +87,7 @@ export class AgencyComponent implements OnInit {
         Validators.required,
         Validators.maxLength(100)
       ]),
-      description: new FormControl(dataToEdit.description, [
+      email: new FormControl(dataToEdit.email, [
          Validators.maxLength(100)
       ]),
       nit: new FormControl(dataToEdit.nit, [
@@ -96,7 +96,7 @@ export class AgencyComponent implements OnInit {
       address: new FormControl(dataToEdit.address, [
         Validators.maxLength(100)
       ]),
-      city: new FormControl(dataToEdit.city, [
+      cellphone: new FormControl(dataToEdit.cellphone, [
         Validators.maxLength(100)
       ]),
     });

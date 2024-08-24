@@ -9,13 +9,13 @@ export class Tickets {
 
   pdf(generalSale: GeneralSale, listSale: Array<Sales>, consecutivo?: number) {
       // Calcula el alto necesario basado en la cantidad de información
-      let baseHeight = 200; // Altura base que incluye los textos iniciales
+      let baseHeight = 250; // Altura base que incluye los textos iniciales
       let totalHeight = baseHeight; 
 
       let consecutivoPrefix = "";
       let leyendaResolucion = "";
       let leyendaResolucion2 = "";
-      totalHeight = totalHeight + (listSale.length * 67);
+      totalHeight = totalHeight + (listSale.length * 90);
       
   
       // Crear el documento con la altura calculada
@@ -43,27 +43,39 @@ export class Tickets {
       doc.text(12, 5, 'CENTRO DE VIDA MARINA S.A.S');
       doc.text(20, 8, 'NIT: 819005753');
       doc.text(10, 11, 'CRA 1 #7-69 Rodadero - St Marta');
+    }else{
+      if(generalSale.zona == "TAXIMARINO") {
+        consecutivoPrefix = "FPO " + consecutivo;
+  
+        leyendaResolucion =  "Autorización de Numeración Facturación ";
+        leyendaResolucion2 = "Electrónica Numero 18764072089414";
+  
+        doc.text(18, 5, 'TAXIMARINO S.A.S');
+        doc.text(20, 8, 'NIT: 900668068');
+        doc.text(10, 11, 'CRA 1 #7-69 Rodadero - St Marta');
+      }else{
+        if(generalSale.zona == "CANOPY") {
+          consecutivoPrefix = "FECA " + consecutivo;
+    
+          leyendaResolucion =  "Autorización de Numeración Facturación ";
+          leyendaResolucion2 = "Electrónica Numero 18764059619771";
+    
+          doc.text(14, 5, 'CANOPY PLAYA BLANCA S.A.S');
+          doc.text(20, 8, 'NIT: 901001672');
+          doc.text(10, 11, 'CRA 1 #7-69 Rodadero - St Marta');
+        }else{
+          consecutivoPrefix = "FPO " + consecutivo;
+          leyendaResolucion =  "Autorización de Numeración Facturación ";
+          leyendaResolucion2 = "Electrónica Numero 18764072089414";
+
+          doc.text(18, 5, 'TAXIMARINO S.A.S');
+          doc.text(20, 8, 'NIT: 900668068');
+          doc.text(10, 11, 'CRA 1 #7-69 Rodadero - St Marta');
+        }
+      }
     }
-    if(generalSale.zona == "TAXIMARINO") {
-      consecutivoPrefix = "FPO " + consecutivo;
-
-      leyendaResolucion =  "Autorización de Numeración Facturación ";
-      leyendaResolucion2 = "Electrónica Numero 18764072089414";
-
-      doc.text(18, 5, 'TAXIMARINO S.A.S');
-      doc.text(20, 8, 'NIT: 900668068');
-      doc.text(10, 11, 'CRA 1 #7-69 Rodadero - St Marta');
-    }
-    if(generalSale.zona == "CANOPY") {
-      consecutivoPrefix = "FECA " + consecutivo;
-
-      leyendaResolucion =  "Autorización de Numeración Facturación ";
-      leyendaResolucion2 = "Electrónica Numero 18764059619771";
-
-      doc.text(14, 5, 'CANOPY PLAYA BLANCA S.A.S');
-      doc.text(20, 8, 'NIT: 901001672');
-      doc.text(10, 11, 'CRA 1 #7-69 Rodadero - St Marta');
-    }
+  
+    
 
     doc.setFontType('normal');
     doc.text(5, 16, 'CAJERO:');

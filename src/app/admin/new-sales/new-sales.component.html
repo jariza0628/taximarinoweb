@@ -74,15 +74,32 @@
       </div>
       <div class="row">
         <div class="col-sm">
-          <div class="form-group">
-            <label>Nombre cliente</label>
+          <div class="form">
+             <label>Nombre cliente</label>
             <input
+              #agenciaName
               type="text"
               class="form-control"
               formControlName="name"
               placeholder="Alan Brito"
-            />
+            /> 
           </div>
+        </div>
+        <div class="col-1">
+          <div class="form" style="padding-top: 31px;">
+      
+            
+            <button
+              type="button"
+              class="btn btn-primary"
+              data-toggle="modal"
+              data-target="#exampleModalAgencias"
+              (click)="restDateAgevias()"
+            >
+              ☺
+            </button>
+          </div>
+         
         </div>
         <div class="col-sm">
           <div class="form-group">
@@ -619,6 +636,105 @@
                     style="color: white"
                     class="btn btn-primary"
                     (click)="onChangeServ(item.id);dataSeacrh.value = ''"
+                    data-dismiss="modal"
+                    >Añadir</a
+                  >
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">
+          Cerrar
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div
+  class="modal"
+  id="exampleModalAgencias"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content" style="padding: 11px">
+      <div class="modal-header">
+        <div class="row">
+          <div class="form-group" style="width: 100%">
+            <label for="exampleInputPassword1">Buscar</label>
+            <input
+              type="text"
+              #dataSeacrh
+              class="form-control"
+              id="exampleInputPassword1"
+              placeholder="Buscar"
+             />
+          </div>
+          <button (click)="serachAgencia(dataSeacrh.value)" type="button">
+            Buscar
+          </button>
+        </div>
+        <div class="row">
+          <button
+            type="button"
+            class="close"
+            data-dismiss="modal"
+            aria-label="Close"
+          >
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+      </div>
+      <div class="modal-body">
+        <!--
+        <div class="row">
+
+
+          <div class="col-sm-8">
+            <div class="form-group">
+              <label for="inputPassword2" class="sr-only">Password</label>
+              <input type="password" class="form-control" id="inputPassword2" placeholder="Playa Blanca">
+            </div>
+          </div>
+          <div class="col-sm-4">
+            <div class="form-group">
+              <button type="submit" class="btn btn-primary mb-2">Buscar</button>
+            </div>
+          </div>
+        </div>
+         -->
+        <div class="row">
+          <table class="table table-sm table-hover">
+            <thead>
+              <tr>
+                <th scope="col">Agencia</th>
+                <th scope="col">Email</th>
+                <th scope="col">Nit</th>
+                <th scope="col">Telefono</th>
+                <th scope="col">Añadir</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of arryTMPagencias">
+                <th scope="row">{{ item.name | titlecase }}</th>
+                <td>{{ item.email   }}</td>
+                <td>
+                  {{ item.nit }}
+                </td>
+                <td>
+                  {{ item.cellphone }}
+                </td>
+                <td>
+                  <a
+                    style="color: white"
+                    class="btn btn-primary"
+                    (click)="cargarAgencia(item);dataSeacrh.value = ''"
                     data-dismiss="modal"
                     >Añadir</a
                   >

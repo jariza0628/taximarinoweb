@@ -40,7 +40,9 @@ import { ReporteComisionistasGeneralComponent } from './reporte-comisionistas-ge
 import { ZenviaService } from './services/zenvia.service';
 import { HttpClientModule } from '@angular/common/http';
 import { ClientWhatsappComponent } from './client-whatsapp/client-whatsapp.component';
- 
+import { MatAutocompleteModule, MatButtonModule, MatFormFieldModule, MatInputModule } from '@angular/material';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
 
 @NgModule({
   declarations: [
@@ -56,6 +58,11 @@ import { ClientWhatsappComponent } from './client-whatsapp/client-whatsapp.compo
     AngularFireDatabaseModule,
     FormsModule,
     ReactiveFormsModule,
+    MatAutocompleteModule,
+    BrowserAnimationsModule,
+    MatFormFieldModule,
+    MatInputModule,
+     MatButtonModule,
   ],
   providers: [
     ExcelService,
