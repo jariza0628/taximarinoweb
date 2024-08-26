@@ -1,4 +1,7 @@
 <div class="container">
+  <div class="col-12">
+    <button (click)="verificarDatos()">Verdiciar</button>
+  </div>
   <div class="row">
     <br />
     <br />
@@ -64,7 +67,7 @@
           [(ngModel)]="seletcSellers"
         >
           <ng-container *ngFor="let item of sellers">
-            <option *ngIf="item.type === 'Vendedor'" value="{{ item.user }}">
+            <option *ngIf="item.type === 'Vendedor' && item.status === 'Activo'" value="{{ item.user }}">
               {{ item.user | titlecase }}
             </option>
           </ng-container>
@@ -137,7 +140,7 @@
         <tbody>
           <tr *ngFor="let item of generalReport; let i = index">
             <th scope="row">{{ i + 1 }}</th>
-            <td>${{ item.efecty | number }}</td>
+            <td >${{ item.efecty | number }}</td>
             <td>${{ item.bank | number }}</td>
             <td>${{ item.vaucher | number }}</td>
             <td>{{ item.seller }}</td>

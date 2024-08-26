@@ -113,52 +113,40 @@ export class ReportSalesComponent implements OnInit {
     }
   }
 
+  verificarDatos() {
+     if(this.data){
+      this.data.forEach(element => {
+        if(element.efecty == null){
+          
+          console.log('element', element);
+          
+           
+        }
+      });
+     }
+  }
+
   reportGeneral() {
     this.individualService = [];
     this.generalReport = [];
-    this.data.forEach((sale) => {
-      //Contar por departamentos
-      switch (this.useremail) {
-        case "taximarino2020@gmail.com":
-          if (
-            sale.seller === "taquillaAcuario" ||
-            sale.seller === "LUIS CANOPY" ||
-            sale.seller === "Andres de la hoz "
-          ) {
-            console.log("Excluye", sale.seller);
-          } else {
-            sale.plans.forEach((plan) => {
-              plan.services.forEach((element) => {
-                this.individualService.push({
-                  codebar: sale.codebar,
-                  nameClient: sale.name,
-                  vaucher: sale.vaucher,
-                  seller: sale.seller,
-                  date: sale.date,
-                  ...element,
-                });
-              });
-            });
-            sale.detail.forEach((serviceItem) => {
-              this.individualService.push({
-                codebar: sale.codebar,
-                nameClient: sale.name,
-                vaucher: sale.vaucher,
-                seller: sale.seller,
-                date: sale.date,
-                comision_value: serviceItem.comision_value,
-                ...serviceItem,
-              });
-            });
-          }
-          break;
-        case "canopysistema2020@gmail.com":
-          if (sale.seller === "taquillaAcuario") {
-            console.log("Excluye", sale.seller);
-          } else {
-            sale.plans.forEach((plan) => {
-              plan.services.forEach((element) => {
-                if (element.department === "Canopy") {
+    try {
+      this.data.forEach((sale) => {
+        if(sale.seller == "" || sale.seller == null || sale.seller == undefined){
+           
+
+        }
+        //Contar por departamentos
+        switch (this.useremail) {
+          case "taximarino2020@gmail.com":
+            if (
+              sale.seller === "taquillaAcuario" ||
+              sale.seller === "LUIS CANOPY" ||
+              sale.seller === "Andres de la hoz "
+            ) {
+              console.log("Excluye", sale.seller);
+            } else {
+              sale.plans.forEach((plan) => {
+                plan.services.forEach((element) => {
                   this.individualService.push({
                     codebar: sale.codebar,
                     nameClient: sale.name,
@@ -167,11 +155,9 @@ export class ReportSalesComponent implements OnInit {
                     date: sale.date,
                     ...element,
                   });
-                }
+                });
               });
-            });
-            sale.detail.forEach((serviceItem) => {
-              if (serviceItem.department === "Canopy") {
+              sale.detail.forEach((serviceItem) => {
                 this.individualService.push({
                   codebar: sale.codebar,
                   nameClient: sale.name,
@@ -181,17 +167,75 @@ export class ReportSalesComponent implements OnInit {
                   comision_value: serviceItem.comision_value,
                   ...serviceItem,
                 });
-              }
-            });
-          }
-          break;
-        case "acuariosistema2020@gmail.com":
-          if (
-            sale.seller === "LUIS CANOPY" ||
-            sale.seller === "Andres de la hoz "
-          ) {
-            console.log("Excluye", sale.seller);
-          } else {
+              });
+            }
+            break;
+          case "canopysistema2020@gmail.com":
+            if (sale.seller === "taquillaAcuario") {
+              console.log("Excluye", sale.seller);
+            } else {
+              sale.plans.forEach((plan) => {
+                plan.services.forEach((element) => {
+                  if (element.department === "Canopy") {
+                    this.individualService.push({
+                      codebar: sale.codebar,
+                      nameClient: sale.name,
+                      vaucher: sale.vaucher,
+                      seller: sale.seller,
+                      date: sale.date,
+                      ...element,
+                    });
+                  }
+                });
+              });
+              sale.detail.forEach((serviceItem) => {
+                if (serviceItem.department === "Canopy") {
+                  this.individualService.push({
+                    codebar: sale.codebar,
+                    nameClient: sale.name,
+                    vaucher: sale.vaucher,
+                    seller: sale.seller,
+                    date: sale.date,
+                    comision_value: serviceItem.comision_value,
+                    ...serviceItem,
+                  });
+                }
+              });
+            }
+            break;
+          case "acuariosistema2020@gmail.com":
+            if (
+              sale.seller === "LUIS CANOPY" ||
+              sale.seller === "Andres de la hoz "
+            ) {
+              console.log("Excluye", sale.seller);
+            } else {
+              sale.plans.forEach((plan) => {
+                plan.services.forEach((element) => {
+                  this.individualService.push({
+                    codebar: sale.codebar,
+                    nameClient: sale.name,
+                    vaucher: sale.vaucher,
+                    seller: sale.seller,
+                    date: sale.date,
+                    ...element,
+                  });
+                });
+              });
+              sale.detail.forEach((serviceItem) => {
+                this.individualService.push({
+                  codebar: sale.codebar,
+                  nameClient: sale.name,
+                  vaucher: sale.vaucher,
+                  seller: sale.seller,
+                  date: sale.date,
+                  comision_value: serviceItem.comision_value,
+                  ...serviceItem,
+                });
+              });
+            }
+            break;
+          case "jefferariza@outlook.com":
             sale.plans.forEach((plan) => {
               plan.services.forEach((element) => {
                 this.individualService.push({
@@ -215,47 +259,208 @@ export class ReportSalesComponent implements OnInit {
                 ...serviceItem,
               });
             });
-          }
-          break;
-        case "jefferariza@outlook.com":
-          sale.plans.forEach((plan) => {
-            plan.services.forEach((element) => {
-              this.individualService.push({
-                codebar: sale.codebar,
-                nameClient: sale.name,
-                vaucher: sale.vaucher,
-                seller: sale.seller,
-                date: sale.date,
-                ...element,
+            break;
+          default:
+            break;
+        }
+        // SW Para la suma de Reporte general de vevndedor
+        switch (this.useremail) {
+          case "taximarino2020@gmail.com":
+            if (
+              sale.seller === "taquillaAcuario" ||
+              sale.seller === "LUIS CANOPY" ||
+              sale.seller === "Andres de la hoz "
+            ) {
+              console.log("Excluye", sale.seller);
+            } else {
+              // Buscar vendedor y sumar datos
+              let finReg = false;
+              this.generalReport.forEach((report) => {
+                if (sale.seller === report.seller) {
+                  finReg = true;
+                  if (sale.typepay === "cash") {
+                    report.efecty += this.calcValueSale(sale);
+                  }
+                  if (sale.typepay === "credit") {
+                    report.vaucher += this.calcValueSale(sale);
+                  }
+                  if (sale.typepay === "card") {
+                    report.bank += this.calcValueSale(sale);
+                  }
+                  if (sale.typepay === "mixted" || sale.typepay === "mixed" ) {
+                    report.efecty += Number(sale.efecty);
+                    report.bank += Number(sale.tarjeta);
+                  }
+                }
               });
-            });
-          });
-          sale.detail.forEach((serviceItem) => {
-            this.individualService.push({
-              codebar: sale.codebar,
-              nameClient: sale.name,
-              vaucher: sale.vaucher,
-              seller: sale.seller,
-              date: sale.date,
-              comision_value: serviceItem.comision_value,
-              ...serviceItem,
-            });
-          });
-          break;
-        default:
-          break;
-      }
-      // SW Para la suma de Reporte general de vevndedor
-      switch (this.useremail) {
-        case "taximarino2020@gmail.com":
-          if (
-            sale.seller === "taquillaAcuario" ||
-            sale.seller === "LUIS CANOPY" ||
-            sale.seller === "Andres de la hoz "
-          ) {
-            console.log("Excluye", sale.seller);
-          } else {
-            // Buscar vendedor y sumar datos
+              // Si no lo encuentra añadirlo a generalReport
+              if (finReg === false) {
+                let reportTemp: GeneralReport;
+                if (sale.typepay === "cash") {
+                  reportTemp = {
+                    bank: 0,
+                    efecty: this.calcValueSale(sale),
+                    seller: sale.seller,
+                    vaucher: 0,
+                  };
+                }
+                if (sale.typepay === "credit") {
+                  reportTemp = {
+                    bank: 0,
+                    efecty: 0,
+                    seller: sale.seller,
+                    vaucher: this.calcValueSale(sale),
+                  };
+                }
+                if (sale.typepay === "card") {
+                  reportTemp = {
+                    bank: this.calcValueSale(sale),
+                    efecty: 0,
+                    seller: sale.seller,
+                    vaucher: 0,
+                  };
+                }
+                if (sale.typepay === "mixted"  || sale.typepay === "mixed") {
+                  reportTemp = {
+                    bank: sale.tarjeta,
+                    efecty: sale.efecty,
+                    seller: sale.seller,
+                    vaucher: 0,
+                  };
+                }
+                this.generalReport.push(reportTemp);
+              }
+            }
+            break;
+          case "canopysistema2020@gmail.com":
+            if (sale.seller === "taquillaAcuario") {
+              console.log("Excluye", sale.seller);
+            } else {
+              // Buscar vendedor y sumar datos
+              let finReg = false;
+              this.generalReport.forEach((report) => {
+                if (sale.seller === report.seller) {
+                  finReg = true;
+                  if (sale.typepay === "cash") {
+                    report.efecty += this.calcValueSale(sale);
+                  }
+                  if (sale.typepay === "credit") {
+                    report.vaucher += this.calcValueSale(sale);
+                  }
+                  if (sale.typepay === "card") {
+                    report.bank += this.calcValueSale(sale);
+                  }
+                  if (sale.typepay === "mixted"  || sale.typepay === "mixed") {
+                    report.efecty += Number(sale.efecty);
+                    report.bank += Number(sale.tarjeta);
+                  }
+                }
+              });
+              // Si no lo encuentra añadirlo a generalReport
+              if (finReg === false) {
+                let reportTemp: GeneralReport;
+                if (sale.typepay === "cash") {
+                  reportTemp = {
+                    bank: 0,
+                    efecty: this.calcValueSale(sale),
+                    seller: sale.seller,
+                    vaucher: 0,
+                  };
+                }
+                if (sale.typepay === "credit") {
+                  reportTemp = {
+                    bank: 0,
+                    efecty: 0,
+                    seller: sale.seller,
+                    vaucher: this.calcValueSale(sale),
+                  };
+                }
+                if (sale.typepay === "card") {
+                  reportTemp = {
+                    bank: this.calcValueSale(sale),
+                    efecty: 0,
+                    seller: sale.seller,
+                    vaucher: 0,
+                  };
+                }
+                if (sale.typepay === "mixted"  || sale.typepay === "mixed") {
+                  reportTemp = {
+                    bank: sale.tarjeta,
+                    efecty: sale.efecty,
+                    seller: sale.seller,
+                    vaucher: 0,
+                  };
+                }
+                this.generalReport.push(reportTemp);
+              }
+            }
+            break;
+          case "acuariosistema2020@gmail.com":
+            if (
+              sale.seller === "LUIS CANOPY" ||
+              sale.seller === "Andres de la hoz "
+            ) {
+              console.log("excluye");
+            } else {
+              // Buscar vendedor y sumar datos
+              let finReg = false;
+              this.generalReport.forEach((report) => {
+                if (sale.seller === report.seller) {
+                  finReg = true;
+                  if (sale.typepay === "cash") {
+                    report.efecty += this.calcValueSale(sale);
+                  }
+                  if (sale.typepay === "credit") {
+                    report.vaucher += this.calcValueSale(sale);
+                  }
+                  if (sale.typepay === "card") {
+                    report.bank += this.calcValueSale(sale);
+                  }
+                  if (sale.typepay === "mixted"  || sale.typepay === "mixed") {
+                    report.efecty += Number(sale.efecty);
+                    report.bank += Number(sale.tarjeta);
+                  }
+                }
+              });
+              if (finReg === false) {
+                let reportTemp: GeneralReport;
+                if (sale.typepay === "cash") {
+                  reportTemp = {
+                    bank: 0,
+                    efecty: this.calcValueSale(sale),
+                    seller: sale.seller,
+                    vaucher: 0,
+                  };
+                }
+                if (sale.typepay === "credit") {
+                  reportTemp = {
+                    bank: 0,
+                    efecty: 0,
+                    seller: sale.seller,
+                    vaucher: this.calcValueSale(sale),
+                  };
+                }
+                if (sale.typepay === "card") {
+                  reportTemp = {
+                    bank: this.calcValueSale(sale),
+                    efecty: 0,
+                    seller: sale.seller,
+                    vaucher: 0,
+                  };
+                }
+                if (sale.typepay === "mixted"  || sale.typepay === "mixed") {
+                  reportTemp = {
+                    bank: sale.tarjeta,
+                    efecty: sale.efecty,
+                    seller: sale.seller,
+                    vaucher: 0,
+                  };
+                }
+                this.generalReport.push(reportTemp);
+              }
+            }
+            break;
+          case "jefferariza@outlook.com":
             let finReg = false;
             this.generalReport.forEach((report) => {
               if (sale.seller === report.seller) {
@@ -269,13 +474,12 @@ export class ReportSalesComponent implements OnInit {
                 if (sale.typepay === "card") {
                   report.bank += this.calcValueSale(sale);
                 }
-                if (sale.typepay === "mixted") {
+                if (sale.typepay === "mixted"  || sale.typepay === "mixed") {
                   report.efecty += Number(sale.efecty);
                   report.bank += Number(sale.tarjeta);
                 }
               }
             });
-            // Si no lo encuentra añadirlo a generalReport
             if (finReg === false) {
               let reportTemp: GeneralReport;
               if (sale.typepay === "cash") {
@@ -302,7 +506,7 @@ export class ReportSalesComponent implements OnInit {
                   vaucher: 0,
                 };
               }
-              if (sale.typepay === "mixted") {
+              if (sale.typepay === "mixted"  || sale.typepay === "mixed") {
                 reportTemp = {
                   bank: sale.tarjeta,
                   efecty: sale.efecty,
@@ -312,198 +516,19 @@ export class ReportSalesComponent implements OnInit {
               }
               this.generalReport.push(reportTemp);
             }
-          }
-          break;
-        case "canopysistema2020@gmail.com":
-          if (sale.seller === "taquillaAcuario") {
-            console.log("Excluye", sale.seller);
-          } else {
-            // Buscar vendedor y sumar datos
-            let finReg = false;
-            this.generalReport.forEach((report) => {
-              if (sale.seller === report.seller) {
-                finReg = true;
-                if (sale.typepay === "cash") {
-                  report.efecty += this.calcValueSale(sale);
-                }
-                if (sale.typepay === "credit") {
-                  report.vaucher += this.calcValueSale(sale);
-                }
-                if (sale.typepay === "card") {
-                  report.bank += this.calcValueSale(sale);
-                }
-                if (sale.typepay === "mixted") {
-                  report.efecty += Number(sale.efecty);
-                  report.bank += Number(sale.tarjeta);
-                }
-              }
-            });
-            // Si no lo encuentra añadirlo a generalReport
-            if (finReg === false) {
-              let reportTemp: GeneralReport;
-              if (sale.typepay === "cash") {
-                reportTemp = {
-                  bank: 0,
-                  efecty: this.calcValueSale(sale),
-                  seller: sale.seller,
-                  vaucher: 0,
-                };
-              }
-              if (sale.typepay === "credit") {
-                reportTemp = {
-                  bank: 0,
-                  efecty: 0,
-                  seller: sale.seller,
-                  vaucher: this.calcValueSale(sale),
-                };
-              }
-              if (sale.typepay === "card") {
-                reportTemp = {
-                  bank: this.calcValueSale(sale),
-                  efecty: 0,
-                  seller: sale.seller,
-                  vaucher: 0,
-                };
-              }
-              if (sale.typepay === "mixted") {
-                reportTemp = {
-                  bank: sale.tarjeta,
-                  efecty: sale.efecty,
-                  seller: sale.seller,
-                  vaucher: 0,
-                };
-              }
-              this.generalReport.push(reportTemp);
-            }
-          }
-          break;
-        case "acuariosistema2020@gmail.com":
-          if (
-            sale.seller === "LUIS CANOPY" ||
-            sale.seller === "Andres de la hoz "
-          ) {
-            console.log("excluye");
-          } else {
-            // Buscar vendedor y sumar datos
-            let finReg = false;
-            this.generalReport.forEach((report) => {
-              if (sale.seller === report.seller) {
-                finReg = true;
-                if (sale.typepay === "cash") {
-                  report.efecty += this.calcValueSale(sale);
-                }
-                if (sale.typepay === "credit") {
-                  report.vaucher += this.calcValueSale(sale);
-                }
-                if (sale.typepay === "card") {
-                  report.bank += this.calcValueSale(sale);
-                }
-                if (sale.typepay === "mixted") {
-                  report.efecty += Number(sale.efecty);
-                  report.bank += Number(sale.tarjeta);
-                }
-              }
-            });
-            if (finReg === false) {
-              let reportTemp: GeneralReport;
-              if (sale.typepay === "cash") {
-                reportTemp = {
-                  bank: 0,
-                  efecty: this.calcValueSale(sale),
-                  seller: sale.seller,
-                  vaucher: 0,
-                };
-              }
-              if (sale.typepay === "credit") {
-                reportTemp = {
-                  bank: 0,
-                  efecty: 0,
-                  seller: sale.seller,
-                  vaucher: this.calcValueSale(sale),
-                };
-              }
-              if (sale.typepay === "card") {
-                reportTemp = {
-                  bank: this.calcValueSale(sale),
-                  efecty: 0,
-                  seller: sale.seller,
-                  vaucher: 0,
-                };
-              }
-              if (sale.typepay === "mixted") {
-                reportTemp = {
-                  bank: sale.tarjeta,
-                  efecty: sale.efecty,
-                  seller: sale.seller,
-                  vaucher: 0,
-                };
-              }
-              this.generalReport.push(reportTemp);
-            }
-          }
-          break;
-        case "jefferariza@outlook.com":
-          let finReg = false;
-          this.generalReport.forEach((report) => {
-            if (sale.seller === report.seller) {
-              finReg = true;
-              if (sale.typepay === "cash") {
-                report.efecty += this.calcValueSale(sale);
-              }
-              if (sale.typepay === "credit") {
-                report.vaucher += this.calcValueSale(sale);
-              }
-              if (sale.typepay === "card") {
-                report.bank += this.calcValueSale(sale);
-              }
-              if (sale.typepay === "mixted") {
-                report.efecty += Number(sale.efecty);
-                report.bank += Number(sale.tarjeta);
-              }
-            }
-          });
-          if (finReg === false) {
-            let reportTemp: GeneralReport;
-            if (sale.typepay === "cash") {
-              reportTemp = {
-                bank: 0,
-                efecty: this.calcValueSale(sale),
-                seller: sale.seller,
-                vaucher: 0,
-              };
-            }
-            if (sale.typepay === "credit") {
-              reportTemp = {
-                bank: 0,
-                efecty: 0,
-                seller: sale.seller,
-                vaucher: this.calcValueSale(sale),
-              };
-            }
-            if (sale.typepay === "card") {
-              reportTemp = {
-                bank: this.calcValueSale(sale),
-                efecty: 0,
-                seller: sale.seller,
-                vaucher: 0,
-              };
-            }
-            if (sale.typepay === "mixted") {
-              reportTemp = {
-                bank: sale.tarjeta,
-                efecty: sale.efecty,
-                seller: sale.seller,
-                vaucher: 0,
-              };
-            }
-            this.generalReport.push(reportTemp);
-          }
-          break;
+            break;
+  
+          default:
+            break;
+        }
+      });
+    } catch (error) {
 
-        default:
-          break;
-      }
-    });
+       
+      console.log('error', error);
+      
+    }
+   
 
     //Sumar Totales primera tabla
     this.totalBank = 0;
@@ -883,9 +908,10 @@ export class ReportSalesComponent implements OnInit {
       this.dataFilter = [];
       this.dataFilter2 = [];
       // filtar las ventas por vendedor
-      this.seletcSellers.forEach((sellers) => {
-        this.filter(sellers);
+      this.seletcSellers.forEach((seller) => {
+        this.filter(seller);
       });
+      
       if (this.selectService && this.selectService.length > 0) {
         this.total = 0;
         this.selectService.forEach((service) => {
