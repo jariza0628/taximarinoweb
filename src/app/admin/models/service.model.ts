@@ -12,6 +12,7 @@ export class Service {
   verificador?: any;
   codebar?: any;
   comision_value?:any;
+  iva?:any;
 }
 
 export class ServiceCopy {

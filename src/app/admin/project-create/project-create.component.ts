@@ -45,8 +45,10 @@ export class ProjectCreateComponent implements OnInit {
       typeverify: new FormControl('', [
         Validators.required,
       ]),
-
-
+      cuentaFinaciera: new FormControl('', [
+        Validators.required,
+      ]),
+      status: new FormControl('Activo')
     });
   }
 

@@ -61,6 +61,8 @@ export class NewSalesComponent implements OnInit {
   codinicial:number;
   codfinal:number;
 
+  usrmail: any;
+
   checkrango:boolean;
   public datac: any;
   public agencias: any;
@@ -82,7 +84,7 @@ export class NewSalesComponent implements OnInit {
     this.codfinal = 0;
     this.initFomr();
     this.sellerSelected = localStorage.getItem('sellerSelected');
-
+    this.usrmail = localStorage.getItem("userlog");
   }
 
   ngOnInit() {
@@ -94,6 +96,7 @@ export class NewSalesComponent implements OnInit {
     this.checmanual = false;
     this.getAgencias();
     //this.sendMessage('573045268723');
+    console.log(' this.usrmail', this.usrmail);
     
   }
 
@@ -782,7 +785,25 @@ export class NewSalesComponent implements OnInit {
   }
 
   getSellers() {
-    this._GeneralServiceService.getSeller().subscribe((data) => {
+    if(this.usrmail === 'jefferariza@outlook.com' || this.usrmail === 'taximarinomsr@gmail.com' || this.usrmail === 'hadarraga@gmail.com'){
+      this._GeneralServiceService.getSeller().subscribe((data) => {
+        this.sellers = data.map((e) => {
+          console.log("users", e.payload.doc.data());
+          return {
+            id: e.payload.doc.id,
+            ...e.payload.doc.data(),
+          } as any;
+        });
+        //Configruar autocompleta
+         // Configurar el autocompletado una vez que los datos estén cargados
+          this.filteredOptions = this._formEntity.get('name').valueChanges.pipe(
+            startWith(''),
+            map(value => this._filter(value))
+          );
+      });
+      return null;
+    }
+    this._GeneralServiceService.getSellerByCuenta(this.usrmail).subscribe((data) => {
       this.sellers = data.map((e) => {
         console.log("users", e.payload.doc.data());
         return {

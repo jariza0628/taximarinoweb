@@ -108,6 +108,17 @@
            </select>
         </div>
       </div>
+      <div class="col-sm">
+        <div class="form-group">
+          <label for="">IVA %</label>
+          <input
+            type="number"
+            class="form-control"
+            formControlName="iva"
+            placeholder="19"
+            />
+        </div>
+      </div>
     </div>
 
     <div class="col-sm" *ngIf="!edit">
@@ -150,6 +161,7 @@
             <th scope="col">Tipo verificador</th>
             <th scope="col">Departamento</th>
             <th scope="col">Código</th>
+            <th scope="col">IVA</th>
             <th scope="col">Opciones</th>
           </tr>
         </thead>
@@ -161,6 +173,7 @@
             <td>{{ item.typeverify }}</td>
             <td>{{ item.department }}</td>
             <td>{{ item.code }}</td>
+            <td>{{ item.iva }}</td>
             <td>
               <a style="color: white;" class="hover-a btn btn-danger" (click)="deleteUser(item.id)">Eliminar</a>
               &nbsp; <a style="color: white;" class="hover-a btn btn-warning" (click)="updateUserAct(item)">Editar</a>

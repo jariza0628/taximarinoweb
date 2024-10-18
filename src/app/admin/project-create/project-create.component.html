@@ -77,6 +77,14 @@
           </select>
         </div>
       </div>
+      <div class="col-sm">
+        <div class="form-group">
+              <label for="exampleFormControlInput1">Cuenta Financiera</label>
+            <input type="email" class="form-control" formControlName="cuentaFinaciera" placeholder="corroe@correo.com">
+            
+         
+        </div>
+      </div>
     </div>
     <div class="col-sm" *ngIf="!editUser">
       <button type="submit" (click)="saveUser()" [disabled]="_formEntity.invalid"
@@ -102,7 +110,8 @@
             <th scope="col">Zona</th>
             <th scope="col">Tipo</th>
             <th scope="col">Tipo Ser. Verificador</th>
-            <th scope="col">Acciones</th>
+            <th scope="col">Cta Financiera</th>
+            <!-- <th scope="col">Acciones</th> -->
           </tr>
         </thead>
         <tbody>
@@ -112,8 +121,10 @@
             <td>{{item.zone}}</td>
             <td>{{item.type}}</td>
             <td>{{item.typeverify}}</td>
-            <td>
-              <!-- 
+            <td>{{item.cuentaFinaciera}}</td>
+
+             <!--<td>
+              
               <a class="hover-a" (click)="deleteUser(item.id)">Eliminar</a> &nbsp;
               <a class="hover-a" (click)="updateUserAct(item)">Editar</a></td>
               -->

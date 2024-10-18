@@ -7,6 +7,7 @@ import { Component, OnInit } from "@angular/core";
 })
 export class ProjectComponent implements OnInit {
   menuOptions: any;
+  menuOptionsAcuario: any;
   usrmail: any;
   mail = "jefferariza@outlook.com";
   constructor() {
@@ -124,9 +125,32 @@ export class ProjectComponent implements OnInit {
         icon: "fa fa-bell",
       }
     ];
+
+
+    this.menuOptionsAcuario = [
+      
+      {
+        name: "Crear Venta",
+        link: "new-sales",
+        rol: "user",
+        icon: "fa fa-dashboard fa-lg",
+      },
+       
+      {
+        name: "Reportes Diarios",
+        link: "daily-reports",
+        rol: "user",
+        icon: "fa fa-bell",
+      },
+       
+    ];
   }
 
   ngOnInit() {
     this.usrmail = localStorage.getItem("userlog");
+    if (this.usrmail == 'sistemaacuarioaudiovisual@gmail.com' || this.usrmail == 'ccajacanopy@gmail.com' 
+      || this.usrmail == 'cajaactividadacuario@gmail.com' || this.usrmail == 'audiovisualcaja@gmail.com' || this.usrmail == 'cajataquillaacuario@gmail.com') {
+      this.menuOptions = this.menuOptionsAcuario;
+    }
   }
 }

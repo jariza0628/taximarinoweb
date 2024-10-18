@@ -44,6 +44,12 @@ export class IndividualServicesComponent implements OnInit {
         Validators.required,
         Validators.maxLength(3),
         Validators.minLength(2)
+      ]),
+      iva: new FormControl(null, [
+        Validators.required,
+        Validators.maxLength(3),
+        Validators.minLength(1),
+        Validators.pattern('^[0-9]*$')
       ])
       
       
@@ -126,6 +132,12 @@ export class IndividualServicesComponent implements OnInit {
         Validators.required,
         Validators.maxLength(3),
         Validators.minLength(2)
+      ]),
+      iva: new FormControl(null, [
+        Validators.required,
+        Validators.maxLength(3),
+        Validators.minLength(1),
+        Validators.pattern('^[0-9]*$')
       ])
 
 

@@ -10,4 +10,5 @@ export class Plan {
     agency?: any;
     services: Service[];
     code?: string;
+    iva?:number;
 }

@@ -26,14 +26,18 @@ export class ReportsComponent implements OnInit {
 
   acumuladoComisionistas: { name: string; valorAcumulado: number }[] = [];
 
-
+  usrmail: string;
   totalNoVauches: any;
   @ViewChild("report", { static: true }) report: ElementRef;
 
   constructor(
     private GN: GeneralServiceService,
     private _ExcelService: ExcelService
-    ) {}
+    ) {
+
+      this.usrmail = localStorage.getItem("userlog");
+
+    }
 
   ngOnInit() {
     this.getsellers();
@@ -85,16 +89,43 @@ export class ReportsComponent implements OnInit {
     }
   }
 
+  // getsellers() {
+  //   this.GN.getFirebase("users").subscribe((data) => {
+  //     // console.log('dara', data);
+  //     this.users = data.map((e) => {
+  //       console.log(e.payload.doc.data());
+  //       return {
+  //         id: e.payload.doc.id,
+  //         ...e.payload.doc.data(),
+  //       } as any;
+  //     });
+  //   });
+  // }
+
   getsellers() {
-    this.GN.getFirebase("users").subscribe((data) => {
-      // console.log('dara', data);
+    if(this.usrmail === 'jefferariza@outlook.com' || this.usrmail === 'taximarinomsr@gmail.com' || this.usrmail === 'hadarraga@gmail.com'){
+      this.GN.getSeller().subscribe((data) => {
+        this.users = data.map((e) => {
+          console.log("users", e.payload.doc.data());
+          return {
+            id: e.payload.doc.id,
+            ...e.payload.doc.data(),
+          } as any;
+        });
+           
+      });
+      return null;
+    }
+     
+    this.GN.getSellerByCuenta(this.usrmail).subscribe((data) => {
       this.users = data.map((e) => {
-        console.log(e.payload.doc.data());
+        console.log("users", e.payload.doc.data());
         return {
           id: e.payload.doc.id,
           ...e.payload.doc.data(),
         } as any;
       });
+      
     });
   }
 

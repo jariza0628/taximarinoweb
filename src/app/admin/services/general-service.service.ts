@@ -143,6 +143,12 @@ export class GeneralServiceService {
       .snapshotChanges();
   }
 
+  getSellerByCuenta(emailCunta: string) {
+    return this.firestore
+      .collection("users", (ref) => ref.where("cuentaFinaciera", "==", emailCunta))
+      .snapshotChanges();
+  }
+
   getLastFactura(entity: string): Observable<number | null> {
     return this.firestore.collection(entity, ref => 
       ref.orderBy('timeStamp', 'desc').limit(1)

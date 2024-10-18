@@ -205,6 +205,98 @@
               <div class="card">
                 <div class="card-body">
                   <ng-container *ngFor="let item of services; let i = index">
+                    <ng-container *ngIf="sellerSelected === 'TAQUILLAACUARIO2' || sellerSelected === 'TAQUILLACUEVA'
+                    || sellerSelected === 'OFICINAACUARIO'|| sellerSelected === 'ALJADISTAQUILLA'">
+                      <ng-container
+                        *ngIf="
+                           item.code === '101' ||
+                           item.code === '102' ||
+                           item.code === '103' ||
+                           item.code === '133' ||
+                           item.code === '131' ||
+                          
+                           item.code === '130' ||
+                           item.code === '132' ||
+                           item.code === '134' || 
+                           item.code === '700' 
+                        "
+                      >
+                        <button
+                          style="margin-right: 5px; margin-bottom: 5px"
+                          type="button"
+                          (click)="onChangeServ(item.id)"
+                          class="btn btn-secondary btn-sm"
+                        >
+                          {{ item.name | titlecase }}
+                        </button>
+                      </ng-container>
+                    </ng-container>
+
+                    <ng-container *ngIf="sellerSelected === 'AUDIOVISUALCAJA1' || sellerSelected === 'AUDIOVISUALCAJA2'">
+                      <ng-container
+                        *ngIf="
+                           item.code === '280' ||
+                           item.code === '281' ||
+                           item.code === '282' 
+                         
+                        "
+                      >
+                        <button
+                          style="margin-right: 5px; margin-bottom: 5px"
+                          type="button"
+                          (click)="onChangeServ(item.id)"
+                          class="btn btn-secondary btn-sm"
+                        >
+                          {{ item.name | titlecase }}
+                        </button>
+                      </ng-container>
+                    </ng-container>
+                    <ng-container *ngIf="sellerSelected === 'ACTIVIDADACUARIO1' || sellerSelected === 'ACTIVIDADACUARIO2'">
+                      <ng-container
+                        *ngIf="
+                           item.code === '283' ||
+                           item.code === '284' ||
+                           item.code === '285' 
+                         
+                        "
+                      >
+                        <button
+                          style="margin-right: 5px; margin-bottom: 5px"
+                          type="button"
+                          (click)="onChangeServ(item.id)"
+                          class="btn btn-secondary btn-sm"
+                        >
+                          {{ item.name | titlecase }}
+                        </button>
+                      </ng-container>
+                    </ng-container>
+                    <ng-container *ngIf="sellerSelected === 'Canopyacuario' || sellerSelected === 'Canopyplayablanca'
+                    || sellerSelected === 'Canopytorre'|| sellerSelected === 'Canopyplataforma'">
+               
+                      <ng-container
+                        *ngIf="
+                          item.code === '204' ||
+                          item.code === '203' ||
+                          item.code === '215' ||
+                          item.code === '216' ||
+                          item.code === '337' ||
+                          item.code === '214' ||
+                          item.code === '205' ||
+                          item.code === '217' 
+                         
+                        "
+                      >
+                        <button
+                          style="margin-right: 5px; margin-bottom: 5px"
+                          type="button"
+                          (click)="onChangeServ(item.id)"
+                          class="btn btn-secondary btn-sm"
+                        >
+                          {{ item.name | titlecase }}
+                        </button>
+                      </ng-container>
+                    </ng-container>
+
                     <ng-container *ngIf="sellerSelected === 'taquillaAcuario'">
                       <ng-container
                         *ngIf="
@@ -233,7 +325,19 @@
                     <ng-container
                       *ngIf="
                         sellerSelected !== 'Oficina Agencias' &&
-                        sellerSelected !== 'taquillaAcuario'
+                        sellerSelected !== 'taquillaAcuario' &&
+                        sellerSelected !== 'Canopyacuario' && 
+                        sellerSelected !== 'Canopyplayablanca' && 
+                        sellerSelected !== 'Canopytorre'&& 
+                        sellerSelected !== 'Canopyplataforma' &&
+                        sellerSelected !== 'TAQUILLAACUARIO2' && 
+                        sellerSelected !== 'TAQUILLACUEVA' && 
+                        sellerSelected !== 'OFICINAACUARIO'&& 
+                        sellerSelected !== 'ALJADISTAQUILLA' &&
+                        sellerSelected !== 'AUDIOVISUALCAJA1' && 
+                        sellerSelected !== 'AUDIOVISUALCAJA2' &&
+                        sellerSelected !== 'ACTIVIDADACUARIO1' && 
+                        sellerSelected !== 'ACTIVIDADACUARIO2'  
                       "
                     >
                       <ng-container
