@@ -26,7 +26,7 @@ export class CodebarComponent implements OnInit {
     this.itemToedit = -1;
     this.itemToeditPlans = -1;
   }
-
+  usrmail: any;
   ngOnInit() {
     this.initForm();
     this.getData();
@@ -34,12 +34,12 @@ export class CodebarComponent implements OnInit {
     this.initFormEditItem();
     if(this.router.url === '/admin/codebar'){
       let email = localStorage.getItem('userlog');
-      if(email !== 'jefferariza@outlook.com'){
-        return this.router.navigateByUrl('/admin/new-sales');
+      // if(email !== 'jefferariza@outlook.com'){
+      //   return this.router.navigateByUrl('/admin/new-sales');
 
-      }
+      // }
     }
-
+    this.usrmail = localStorage.getItem("userlog");
   }
   initFormEditItem(){
     this._formEntityEdit = new FormGroup({
@@ -276,6 +276,11 @@ export class CodebarComponent implements OnInit {
     this.itemToeditPlans = -1;
   }
   editSale(){
+    if(this.usrmail == 'jefferariza@outlook.com'){
+
+    }else{
+      return this.router.navigateByUrl('/admin/new-sales');
+    }
     let formValue: Sales = this._formEntity.value;
     this.data[0].name = formValue.name;
     this.data[0].typepay = formValue.typepay;

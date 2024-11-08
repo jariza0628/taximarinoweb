@@ -6,7 +6,7 @@ import { AuthService } from '../auth/auth.service';
 @Injectable({
   providedIn: 'root'
 })
-export class AdminGuard implements CanActivate {
+export class adminPuntoVentasGuard implements CanActivate {
   usrmail: any;
 
   constructor(private authService: AuthService, private router: Router) { }
@@ -18,11 +18,7 @@ export class AdminGuard implements CanActivate {
 
       const targetUrl: string = state.url;
      if (this.authService.isLoggedIn) {
-      if (this.usrmail == 'sistemaacuarioaudiovisual@gmail.com' || this.usrmail == 'ccajacanopy@gmail.com' 
-        || this.usrmail == 'cajaactividadacuario@gmail.com' || this.usrmail == 'audiovisualcaja@gmail.com' || this.usrmail == 'cajataquillaacuario@gmail.com') {
-          return this.router.parseUrl('/admin/new-sales');
-
-      }
+       
       return true;
       
 

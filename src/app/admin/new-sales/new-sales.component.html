@@ -3,7 +3,7 @@
     <div class="row">
       <br />
       <br />
-      <h3 style="padding: 20px 10px">Nueva venta</h3>
+      <h3 style="padding: 20px 10px">Crear una venta</h3>
       <!-- Button trigger modal -->
       <button
         style="height: 42px; margin-top: 22px; position: absolute; right: 23px"
@@ -218,7 +218,11 @@
                            item.code === '130' ||
                            item.code === '132' ||
                            item.code === '134' || 
-                           item.code === '700' 
+                           item.code === '700' ||
+                           item.code === '105' ||
+                            item.code === '107' ||  
+                            item.code === '290' || 
+                            item.code === '110'
                         "
                       >
                         <button
@@ -232,13 +236,16 @@
                       </ng-container>
                     </ng-container>
 
-                    <ng-container *ngIf="sellerSelected === 'AUDIOVISUALCAJA1' || sellerSelected === 'AUDIOVISUALCAJA2'">
+                    <ng-container *ngIf="sellerSelected === '0' || sellerSelected === 'AUDIOVISUALCAJA2'">
                       <ng-container
                         *ngIf="
                            item.code === '280' ||
                            item.code === '281' ||
-                           item.code === '282' 
-                         
+                           item.code === '282' ||
+                            item.code === '286' ||
+                            item.code === '287' ||  
+                            item.code === '288' || 
+                            item.code === '289'  
                         "
                       >
                         <button
@@ -256,7 +263,11 @@
                         *ngIf="
                            item.code === '283' ||
                            item.code === '284' ||
-                           item.code === '285' 
+                           item.code === '285' ||
+                            item.code === '105' ||
+                            item.code === '107' ||  
+                            item.code === '290' || 
+                            item.code === '110'
                          
                         "
                       >
@@ -270,7 +281,7 @@
                         </button>
                       </ng-container>
                     </ng-container>
-                    <ng-container *ngIf="sellerSelected === 'Canopyacuario' || sellerSelected === 'Canopyplayablanca'
+                    <ng-container *ngIf="sellerSelected === 'canopyacuario' || sellerSelected === 'canopyplayablanca'
                     || sellerSelected === 'Canopytorre'|| sellerSelected === 'Canopyplataforma'">
                
                       <ng-container
@@ -326,8 +337,8 @@
                       *ngIf="
                         sellerSelected !== 'Oficina Agencias' &&
                         sellerSelected !== 'taquillaAcuario' &&
-                        sellerSelected !== 'Canopyacuario' && 
-                        sellerSelected !== 'Canopyplayablanca' && 
+                        sellerSelected !== 'canopyacuario' && 
+                        sellerSelected !== 'canopyplayablanca' && 
                         sellerSelected !== 'Canopytorre'&& 
                         sellerSelected !== 'Canopyplataforma' &&
                         sellerSelected !== 'TAQUILLAACUARIO2' && 

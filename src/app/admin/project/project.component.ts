@@ -16,7 +16,7 @@ export class ProjectComponent implements OnInit {
         name: "Users",
         link: "create",
         rol: "admin",
-        icon: "fa fa-user fa-lg",
+        icon: "fa fa-user",
       },
       {
         name: "Planes o combos",
@@ -57,6 +57,12 @@ export class ProjectComponent implements OnInit {
         link: "new-sales",
         rol: "user",
         icon: "fa fa-dashboard fa-lg",
+      },
+      {
+        name: "Buscar Código (Venta)",
+        link: "codebar",
+        rol: "user",
+        icon: "fa fa-bell",
       },
       {
         name: "Informes",
@@ -119,11 +125,12 @@ export class ProjectComponent implements OnInit {
         icon: "fa fa-bell",
       },
       {
-        name: "clientes Whatsapp",
+        name: "Clientes Whatsapp",
         link: "clienteswhatsapp",
         rol: "user",
         icon: "fa fa-bell",
-      }
+      },
+     
     ];
 
 
@@ -142,7 +149,12 @@ export class ProjectComponent implements OnInit {
         rol: "user",
         icon: "fa fa-bell",
       },
-       
+      {
+        name: "Buscar Código (Venta)",
+        link: "codebar",
+        rol: "user",
+        icon: "fa fa-bell",
+      },
     ];
   }
 

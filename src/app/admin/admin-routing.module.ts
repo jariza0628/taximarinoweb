@@ -32,6 +32,8 @@ import { ManillasComponent } from "./manillas/manillas.component";
 import { ReportComisionistasComponent } from "./report-comisionistas/report-comisionistas.component";
 import { ReporteComisionistasGeneralComponent } from "./reporte-comisionistas-general/reporte-comisionistas-general.component";
 import { ClientWhatsappComponent } from "./client-whatsapp/client-whatsapp.component";
+import { AdminRutaGuard } from "./adminRuta.guard";
+import { adminPuntoVentasGuard } from "./adminPuntoVentas.guard";
 
 const routes: Routes = [
   {
@@ -66,18 +68,18 @@ const routes: Routes = [
       {
         path: "agency",
         component: AgencyComponent,
-        canActivate: [AdminGuard],
+        canActivate: [ AdminRutaGuard],
       },
 
       {
         path: "services",
         component: IndividualServicesComponent,
-        canActivate: [AdminGuard],
+        canActivate: [ AdminRutaGuard],
       },
       {
         path: "plans",
         component: PlansComponent,
-        canActivate: [AdminGuard],
+        canActivate: [ AdminRutaGuard],
       },
       {
         path: "comision",
@@ -87,7 +89,7 @@ const routes: Routes = [
       {
         path: "new-sales",
         component: NewSalesComponent,
-        canActivate: [AdminGuard],
+        canActivate: [adminPuntoVentasGuard],
       },
       {
         path: "reports",
@@ -107,13 +109,13 @@ const routes: Routes = [
       {
         path: "daily-reports",
         loadChildren: "./reports/reports.module#ReportsModule",
-        canActivate: [AdminGuard],
+        canActivate: [adminPuntoVentasGuard],
       },
 
       {
         path: "codebar",
         component: CodebarComponent,
-        canActivate: [AdminGuard],
+        canActivate: [adminPuntoVentasGuard],
       },
       {
         path: "inventory",
@@ -144,7 +146,7 @@ const routes: Routes = [
       {
         path: "reportseller",
         component: ReportSalesComponent,
-        canActivate: [AdminGuard],
+        canActivate: [ AdminRutaGuard],
       },
       {
         path: "used",
