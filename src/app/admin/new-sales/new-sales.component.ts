@@ -64,6 +64,11 @@ export class NewSalesComponent implements OnInit {
   usrmail: any;
 
   checkrango:boolean;
+
+  private timeout: any;
+  private lastKeyTime: number = 0;
+  private typingThreshold: number = 70; // Milisegundos para distinguir manual de escáner
+
   public datac: any;
   public agencias: any;
   constructor(private _GeneralServiceService: GeneralServiceService, private zenviaService: ZenviaService) {
@@ -108,6 +113,25 @@ export class NewSalesComponent implements OnInit {
       
     }
   }
+
+  onCodeInput(event: KeyboardEvent) {
+    const currentTime = new Date().getTime();
+
+    // Verifica el tiempo entre pulsaciones de teclas
+    if (currentTime - this.lastKeyTime < this.typingThreshold) {
+      // Reinicia el temporizador para escáner
+      clearTimeout(this.timeout);
+      this.timeout = setTimeout(() => {
+        this.validaeCod(true);
+      }, 200); // Tiempo para determinar fin del ingreso
+    } else {
+      // Para ingreso manual, reinicia el temporizador pero no dispara validaeCod
+      clearTimeout(this.timeout);
+    }
+
+    this.lastKeyTime = currentTime; // Actualiza el tiempo de la última tecla presionada
+  }
+
   sendMessage(nuerocliente: string) {
     const from = '573165228827';
     //const to = '573045268764';
@@ -153,6 +177,12 @@ export class NewSalesComponent implements OnInit {
         Validators.required,
       ]),
       comisionista: new FormControl("", [
+        Validators.maxLength(100),
+      ]),
+      guia: new FormControl("", [
+        Validators.maxLength(100),
+      ]),
+      guiaTelefono: new FormControl("", [
         Validators.maxLength(100),
       ]),
       seller: new FormControl(usuaerSelect, [
@@ -585,12 +615,15 @@ export class NewSalesComponent implements OnInit {
               clientEmail: this._formEntity.value.emailCliente,
               sellerName: this._formEntity.value.seller,
               comisionista: this._formEntity.value.comisionista,
+              guia: this._formEntity.value.guia,
+              guiaTelefono: this._formEntity.value.guiaTelefono,
               total: (this.totalValue + this.total) * this.barcodes.length,
               idGenerated: saleIdentifier,
               date: dateString,
               clientIdentification: this._formEntity.value.dni,
               consecutivo: consecutivoUltimo,
-              zona: foundUser.zone
+              zona: foundUser.zone,
+              
             };
     
        
@@ -605,30 +638,46 @@ export class NewSalesComponent implements OnInit {
                 total = (this.totalValue + this.total) * this.barcodes.length;
                 formValue.codebar = "" + element.code;
     
-                if (this.generalSale.paymentType === "mixed") {
-                  if (this.generalSale.card > 0 && this.generalSale.cash > 0) {
-                    let totaltmp;
-                    totaltmp = this.generalSale.card + this.generalSale.cash;
-                    if (totaltmp !== total) {
-                      alert(
-                        "Los valores indicados no suman el total de la factura."
-                      );
+                if (this.generalSale.paymentType === "mixted") {
+                  let totaltmp = this.generalSale.card + this.generalSale.cash + this.generalSale.transferencia;
+                  debugger
+                  if (totaltmp !== total) {
+                      alert("Los valores ingresados no suman el total de la factura.");
                       ventas = false;
-                      return null;
-                    }
-                  } else {
-                    alert("Efectivo y valor en tarjeta no puedes ser menor que 0");
-                    ventas = false;
-                    return null;
+                  } else if (this.generalSale.card < 0 || this.generalSale.cash < 0 || this.generalSale.transferencia < 0) {
+                      alert("Efectivo, tarjeta o transferencia no pueden ser menores que 0.");
+                      ventas = false;
                   }
+                  // if (this.generalSale.card > 0 || this.generalSale.cash > 0 || this.generalSale.transferencia > 0) {
+                  //   let totaltmp;
+                  //   totaltmp = this.generalSale.card + this.generalSale.cash  + this.generalSale.transferencia;
+                  //   if (totaltmp !== total) {
+                  //     alert(
+                  //       "Los valores indicados no suman el total de la factura."
+                  //     );
+                  //     ventas = false;
+                  //     //return null;
+                  //   }
+                  // } else {
+                  //   alert("Efectivo y valor en tarjeta no puedes ser menor que 0");
+                  //   ventas = false;
+                  //   //return null;
+                  // }
                 }
                 if (this.generalSale.paymentType === "cash") {
                   this.generalSale.card = 0;
+                  this.generalSale.transferencia = 0;
                   this.generalSale.cash = total;
                 }
                 if (this.generalSale.paymentType === "card") {
                   this.generalSale.cash = 0;
+                  this.generalSale.transferencia = 0;
                   this.generalSale.card = total;
+                }
+                if (this.generalSale.paymentType === "transferencia") {
+                  this.generalSale.cash = 0;
+                  this.generalSale.card = 0;
+                  this.generalSale.transferencia = total;
                 }
                 let totalComision = 0;
     
@@ -658,12 +707,14 @@ export class NewSalesComponent implements OnInit {
                   efecty: this.generalSale.cash || null,
                   tarjeta: this.generalSale.card || null,
                   typepay: this.generalSale.paymentType || null,
+                  transferencia:this.generalSale.transferencia || null,
                   zone: "Oficina",
                   vaucher: this.vaucher,
                   totalComison: totalComision,
                   idGeneralSale: saleIdentifier,
                   timeStamp: new Date().getTime(),
                   consecutivo: consecutivoUltimo,
+                  observaciones: this.generalSale.observaciones
                 };
                 if (ventas) {
                
@@ -884,7 +935,7 @@ export interface GeneralSale {
   clientEmail?: string;
   clientIdentification?: string;
   sellerName?: string;
-  paymentType?: "card" | "credit" | "cash" | "mixed";
+  paymentType?: "card" | "credit" | "cash" | "mixted" | "transferencia";
   card?: number;
   cash?: number;
   idGenerated?: string;
@@ -894,6 +945,10 @@ export interface GeneralSale {
   comisionista?:string;
   zona?:string;
   consecutivo?:number;
+  guia?: string;
+  guiaTelefono?: string;
+  observaciones?: string
+  transferencia?: number;
 }
 
 export interface clientWhastapp {
@@ -911,5 +966,5 @@ export enum paymentType {
   "card",
   "credit",
   "cash",
-  "mixed",
+  "mixted",
 }

@@ -15,8 +15,15 @@ export class GeneralServiceService {
   }
 
   createFirebase(entiti, data: any) {
-    delete data.id;
-    return this.firestore.collection(entiti).add(data);
+    
+    try {
+      delete data.id;
+      return this.firestore.collection(entiti).add(data);
+    } catch (error) {
+      debugger
+      console.log(error);
+      
+    }
   }
 
   deleteFirebase(entiti, id: string) {

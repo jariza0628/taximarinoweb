@@ -24,6 +24,7 @@ export interface Sales {
   description?: any;
   comisionista?:any;
   totalComison?:any;
+  transferencia?: any;
 }
 
  

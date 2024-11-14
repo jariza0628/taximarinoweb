@@ -4,6 +4,22 @@
   <meta charset="utf-8">
   <title>Taxi Marino Ventas</title>
   <base href="/">
+  <script>
+    (function(d,t) {
+      var BASE_URL="http://20.171.24.104:3000";
+      var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
+      g.src=BASE_URL+"/packs/js/sdk.js";
+      g.defer = true;
+      g.async = true;
+      s.parentNode.insertBefore(g,s);
+      g.onload=function(){
+        window.chatwootSDK.run({
+          websiteToken: 'eDptSSCkqZuaSjeNcNYjwm7G',
+          baseUrl: BASE_URL
+        })
+      }
+    })(document,"script");
+  </script>
  <!-- CSS only -->
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
 

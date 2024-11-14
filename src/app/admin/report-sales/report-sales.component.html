@@ -130,6 +130,7 @@
             <th scope="col">#</th>
             <th scope="col">Efectivo</th>
             <th scope="col">Banco</th>
+            <th scope="col">TransFerencia</th>
             <th scope="col">Agencia Credito</th>
             <th scope="col">Vendedor</th>
             <th scope="col">Total</th>
@@ -140,6 +141,7 @@
             <th scope="row">{{ i + 1 }}</th>
             <td >${{ item.efecty | number }}</td>
             <td>${{ item.bank | number }}</td>
+            <td>${{ item.transferencia | number }}</td>
             <td>${{ item.vaucher | number }}</td>
             <td>{{ item.seller }}</td>
             <td>${{ item.efecty + item.bank + item.vaucher | number }}</td>
@@ -148,11 +150,12 @@
             <th scope="row">Suma</th>
             <td>${{ totalefecty | number }}</td>
             <td>${{ totalBank | number }}</td>
+            <td>${{ totaltransferencia | number }}</td>
             <td>${{ totalVaoucher | number }}</td>
             <td><strong>TOTAL:</strong></td>
             <td>
               <strong
-                >${{ totalefecty + totalBank + totalVaoucher | number }}</strong
+                >${{ totalefecty + totalBank + totalVaoucher + totaltransferencia | number }}</strong
               >
             </td>
           </tr>

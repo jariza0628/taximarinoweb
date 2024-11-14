@@ -42,6 +42,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { ClientWhatsappComponent } from './client-whatsapp/client-whatsapp.component';
 import { MatAutocompleteModule, MatButtonModule, MatFormFieldModule, MatInputModule } from '@angular/material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import {MatIconModule} from '@angular/material/icon';
 
 
 @NgModule({
@@ -63,6 +64,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     MatFormFieldModule,
     MatInputModule,
      MatButtonModule,
+     MatIconModule
   ],
   providers: [
     ExcelService,

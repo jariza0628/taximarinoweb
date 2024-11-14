@@ -41,4 +41,7 @@ export class GeneralReport {
   bank?: number;
   vaucher?: number;
   seller?: string;
+  transferencia?:number;
+
+
 }

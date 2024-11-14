@@ -64,11 +64,12 @@
         <div class="col-lg-2 col-md-2 font-weight-bold">CLIENTE</div>
         <div class="col-lg-2 col-md-2 font-weight-bold">SERVICIO</div>
         <div class="col-lg-2 col-md-2 font-weight-bold">TOTAL SERVICIO</div>
-        <div class="col-lg-2 col-md-2 font-weight-bold">TIPO PAGO</div>
+        <div class="col-lg-1 col-md-1 font-weight-bold">TIPO PAGO</div>
         
         <div class="col-lg-1 col-md-1 font-weight-bold">VOUCHER</div>
-        <div class="col-lg-1 col-md-1 font-weight-bold">COMISIONISTA</div>
+        <div class="col-lg-1 col-md-1 font-weight-bold">COMISIONIST</div>
         <div class="col-lg-1 col-md-1 font-weight-bold">COMISION</div>
+        <div class="col-lg-1 col-md-1 font-weight-bold">GUIA</div>
 
         <ng-container *ngFor="let sale of data; let i = index">
           <div
@@ -97,7 +98,7 @@
           </div>
           <div
             style="border-bottom: 1px solid rgb(190, 190, 190)"
-            class="col-lg-2 col-md-2"
+            class="col-lg-1 col-md-1"
           >
             {{ typePayment(sale) }}
           </div>
@@ -119,6 +120,13 @@
           >
             {{ sale.totalComison }}
           </div>
+          <div
+          style="border-bottom: 1px solid rgb(190, 190, 190)"
+          class="col-lg-1 col-md-1"
+        >
+          {{ sale.guia }} <ng-container *ngIf="sale.guiaTelefono != ''">/</ng-container>
+            {{sale.guiaTelefono}}
+        </div>
         </ng-container>
         <div class="col-lg-2 col-md-2 font-weight-bold"></div>
         <div class="col-lg-1 col-md-1 font-weight-bold"></div>
@@ -191,9 +199,15 @@
           ${{ totalByTypePayment(paymentType.credit) | number }}
         </div>-->
         <div class="col-lg-5 col-md-5 font-weight-bold"></div>
-        <div class="col-lg-3 col-md-3 font-weight-bold">TOTAL PAGO BANCO</div>
+        <div class="col-lg-3 col-md-3 font-weight-bold">TOTAL PAGO DATAFONO</div>
         <div class="col-lg-4 col-md-4 font-weight-bold">
           ${{ calcTypePay("card") + calcMixed("tarjeta") | number }}
+        </div>
+
+        <div class="col-lg-5 col-md-5 font-weight-bold"></div>
+        <div class="col-lg-3 col-md-3 font-weight-bold">TOTAL PAGO TRANSFERENCIAS</div>
+        <div class="col-lg-4 col-md-4 font-weight-bold">
+          ${{ calcTypePay("transferencia") + calcMixed("transferencia") | number }}
         </div>
 
         <div class="col-lg-5 col-md-5 font-weight-bold"></div>

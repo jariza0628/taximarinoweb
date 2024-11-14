@@ -156,8 +156,14 @@ export class ReportsComponent implements OnInit {
       case "mixed":
         return "Mixto";
         break;
+      case "mixted":
+        return "Mixto";
+        break;
+      case "transferencia":
+        return "Mixto";
+        break;  
       default:
-        return "Efectivo";
+        return sale.typepay;
         break;
     }
   }
@@ -357,6 +363,7 @@ export class ReportsComponent implements OnInit {
   calcMixed(tarjeta) {
     let total = 0;
     let totalMixed = 0;
+    let totaltransferencia = 0;
     this.data.forEach((sale) => {
       if (sale.typepay === 'mixed') {
         if(tarjeta==='tarjeta'){
@@ -364,6 +371,9 @@ export class ReportsComponent implements OnInit {
         }
         if(tarjeta==='efectivo'){
           totalMixed = totalMixed + sale.efecty;
+        }
+        if(tarjeta==='transferencia'){
+          totalMixed = totalMixed + sale.transferencia;
         }
         sale.plans.forEach((plan) => {
           total += plan.totalvalue;

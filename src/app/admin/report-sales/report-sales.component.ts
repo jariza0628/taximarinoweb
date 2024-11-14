@@ -47,6 +47,7 @@ export class ReportSalesComponent implements OnInit {
   totalBank: number;
   totalefecty: number;
   totalVaoucher: number;
+  totaltransferencia: number;
 
   btnreport: string;
 
@@ -65,6 +66,7 @@ export class ReportSalesComponent implements OnInit {
     this.totalBank = 0;
     this.totalefecty = 0;
     this.totalVaoucher = 0;
+    this.totaltransferencia = 0;
 
     this.totalAcuario = 0;
     this.totalPikua = 0;
@@ -127,6 +129,7 @@ export class ReportSalesComponent implements OnInit {
   }
 
   reportGeneral() {
+    debugger;
     this.individualService = [];
     this.generalReport = [];
     try {
@@ -273,6 +276,7 @@ export class ReportSalesComponent implements OnInit {
             ) {
               console.log("Excluye", sale.seller);
             } else {
+               
               // Buscar vendedor y sumar datos
               let finReg = false;
               this.generalReport.forEach((report) => {
@@ -287,9 +291,13 @@ export class ReportSalesComponent implements OnInit {
                   if (sale.typepay === "card") {
                     report.bank += this.calcValueSale(sale);
                   }
+                  if (sale.typepay === "transferencia") {
+                    report.transferencia += this.calcValueSale(sale);
+                  }
                   if (sale.typepay === "mixted" || sale.typepay === "mixed" ) {
                     report.efecty += Number(sale.efecty);
                     report.bank += Number(sale.tarjeta);
+                    report.transferencia += Number(sale.transferencia);
                   }
                 }
               });
@@ -302,6 +310,8 @@ export class ReportSalesComponent implements OnInit {
                     efecty: this.calcValueSale(sale),
                     seller: sale.seller,
                     vaucher: 0,
+                    transferencia:0
+
                   };
                 }
                 if (sale.typepay === "credit") {
@@ -310,6 +320,7 @@ export class ReportSalesComponent implements OnInit {
                     efecty: 0,
                     seller: sale.seller,
                     vaucher: this.calcValueSale(sale),
+                    transferencia:0
                   };
                 }
                 if (sale.typepay === "card") {
@@ -318,6 +329,16 @@ export class ReportSalesComponent implements OnInit {
                     efecty: 0,
                     seller: sale.seller,
                     vaucher: 0,
+                    transferencia:0
+                  };
+                }
+                if (sale.typepay === "transferencia") {
+                  reportTemp = {
+                    bank: 0,
+                    efecty: 0,
+                    seller: sale.seller,
+                    vaucher: 0,
+                    transferencia:this.calcValueSale(sale)
                   };
                 }
                 if (sale.typepay === "mixted"  || sale.typepay === "mixed") {
@@ -326,6 +347,7 @@ export class ReportSalesComponent implements OnInit {
                     efecty: sale.efecty,
                     seller: sale.seller,
                     vaucher: 0,
+                    transferencia:sale.transferencia
                   };
                 }
                 this.generalReport.push(reportTemp);
@@ -350,9 +372,13 @@ export class ReportSalesComponent implements OnInit {
                   if (sale.typepay === "card") {
                     report.bank += this.calcValueSale(sale);
                   }
+                  if (sale.typepay === "transferencia") {
+                    report.transferencia += this.calcValueSale(sale);
+                  }
                   if (sale.typepay === "mixted"  || sale.typepay === "mixed") {
                     report.efecty += Number(sale.efecty);
                     report.bank += Number(sale.tarjeta);
+                    report.transferencia += Number(sale.transferencia);
                   }
                 }
               });
@@ -365,6 +391,8 @@ export class ReportSalesComponent implements OnInit {
                     efecty: this.calcValueSale(sale),
                     seller: sale.seller,
                     vaucher: 0,
+                    transferencia: 0
+
                   };
                 }
                 if (sale.typepay === "credit") {
@@ -373,6 +401,8 @@ export class ReportSalesComponent implements OnInit {
                     efecty: 0,
                     seller: sale.seller,
                     vaucher: this.calcValueSale(sale),
+                    transferencia: 0
+
                   };
                 }
                 if (sale.typepay === "card") {
@@ -381,6 +411,8 @@ export class ReportSalesComponent implements OnInit {
                     efecty: 0,
                     seller: sale.seller,
                     vaucher: 0,
+                    transferencia: 0
+
                   };
                 }
                 if (sale.typepay === "mixted"  || sale.typepay === "mixed") {
@@ -389,6 +421,8 @@ export class ReportSalesComponent implements OnInit {
                     efecty: sale.efecty,
                     seller: sale.seller,
                     vaucher: 0,
+                    transferencia: sale.transferencia
+
                   };
                 }
                 this.generalReport.push(reportTemp);
@@ -416,9 +450,13 @@ export class ReportSalesComponent implements OnInit {
                   if (sale.typepay === "card") {
                     report.bank += this.calcValueSale(sale);
                   }
+                  if (sale.typepay === "transferencia") {
+                    report.transferencia += this.calcValueSale(sale);
+                  }
                   if (sale.typepay === "mixted"  || sale.typepay === "mixed") {
                     report.efecty += Number(sale.efecty);
                     report.bank += Number(sale.tarjeta);
+                    report.transferencia += Number(sale.transferencia);
                   }
                 }
               });
@@ -430,6 +468,7 @@ export class ReportSalesComponent implements OnInit {
                     efecty: this.calcValueSale(sale),
                     seller: sale.seller,
                     vaucher: 0,
+                    transferencia: 0
                   };
                 }
                 if (sale.typepay === "credit") {
@@ -438,6 +477,7 @@ export class ReportSalesComponent implements OnInit {
                     efecty: 0,
                     seller: sale.seller,
                     vaucher: this.calcValueSale(sale),
+                    transferencia: 0
                   };
                 }
                 if (sale.typepay === "card") {
@@ -446,6 +486,7 @@ export class ReportSalesComponent implements OnInit {
                     efecty: 0,
                     seller: sale.seller,
                     vaucher: 0,
+                    transferencia: 0
                   };
                 }
                 if (sale.typepay === "mixted"  || sale.typepay === "mixed") {
@@ -454,6 +495,7 @@ export class ReportSalesComponent implements OnInit {
                     efecty: sale.efecty,
                     seller: sale.seller,
                     vaucher: 0,
+                    transferencia: sale.transferencia
                   };
                 }
                 this.generalReport.push(reportTemp);
@@ -477,6 +519,8 @@ export class ReportSalesComponent implements OnInit {
                 if (sale.typepay === "mixted"  || sale.typepay === "mixed") {
                   report.efecty += Number(sale.efecty);
                   report.bank += Number(sale.tarjeta);
+                  report.transferencia += Number(sale.transferencia);
+
                 }
               }
             });
@@ -488,6 +532,8 @@ export class ReportSalesComponent implements OnInit {
                   efecty: this.calcValueSale(sale),
                   seller: sale.seller,
                   vaucher: 0,
+                  transferencia: 0
+
                 };
               }
               if (sale.typepay === "credit") {
@@ -496,6 +542,8 @@ export class ReportSalesComponent implements OnInit {
                   efecty: 0,
                   seller: sale.seller,
                   vaucher: this.calcValueSale(sale),
+                  transferencia: 0
+
                 };
               }
               if (sale.typepay === "card") {
@@ -504,6 +552,8 @@ export class ReportSalesComponent implements OnInit {
                   efecty: 0,
                   seller: sale.seller,
                   vaucher: 0,
+                  transferencia: 0
+
                 };
               }
               if (sale.typepay === "mixted"  || sale.typepay === "mixed") {
@@ -512,6 +562,7 @@ export class ReportSalesComponent implements OnInit {
                   efecty: sale.efecty,
                   seller: sale.seller,
                   vaucher: 0,
+                  transferencia: sale.transferencia
                 };
               }
               this.generalReport.push(reportTemp);
@@ -534,10 +585,13 @@ export class ReportSalesComponent implements OnInit {
     this.totalBank = 0;
     this.totalefecty = 0;
     this.totalVaoucher = 0;
+    this.totaltransferencia = 0;
     this.generalReport.forEach((element) => {
       this.totalBank += Number(element.bank);
       this.totalVaoucher += Number(element.vaucher);
       this.totalefecty = this.totalefecty + Number(element.efecty);
+      this.totaltransferencia += Number(element.transferencia);
+
     });
 
     //Ordenar
@@ -728,16 +782,19 @@ export class ReportSalesComponent implements OnInit {
         this.data.forEach((element) => {
           let services = '';
           let total = 0;
-
+          let totalComison = 0;
           element.detail.forEach(ser => {
             services = services + ' ' +ser.name;
             total = total + ser.publicvalue
+            totalComison = totalComison + ser.comision_value
           });
 
           element.plans.forEach(plans => {
             services = services + 'Combo: ' +plans.name;
             plans.services.forEach(ser => {
               total = total + ser.publicvalue
+              totalComison = totalComison + ser.comision_value
+
             });
           });
            
@@ -750,7 +807,11 @@ export class ReportSalesComponent implements OnInit {
             precio: total,
             voucher: element.vaucher,
             date: element.date,
+            efectivo: element.efecty,
+            trajeta: element.tarjeta,
+            transferencia: element.transferencia,
             tipopago: this.chagenTypePay(element.typepay),
+            comision: totalComison
 
           });
         });
@@ -940,6 +1001,7 @@ export class ReportSalesComponent implements OnInit {
       this.totalTaxiMarino = 0;
       this.totalCanopy = 0;
       this.totalBank = 0;
+      this.totaltransferencia = 0;
       this.totalefecty = 0;
       this.totalVaoucher = 0;
       this.total = 0;
@@ -998,9 +1060,16 @@ export class ReportSalesComponent implements OnInit {
     if(data==='credit'){
       return 'Credito'
     }
+    if(data==='mixted'){
+      return 'Mixto'
+    }
     if(data==='cash'){
       return 'Efectivo'
     }
+    if(data==='transferencia'){
+      return 'transferencia'
+    }
+    return data
   }
   ordenar() {
     this.service = this.service
