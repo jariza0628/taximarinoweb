@@ -5,6 +5,7 @@ import { ReportsRoutingModule } from './reports-routing.module';
 import { ReportsComponent } from './reports.component';
 import {FormsModule} from '@angular/forms';
 import {PerfectScrollbarModule} from 'ngx-perfect-scrollbar';
+import {MatTooltipModule} from '@angular/material/tooltip';
 
 @NgModule({
   declarations: [ReportsComponent],
@@ -12,7 +13,8 @@ import {PerfectScrollbarModule} from 'ngx-perfect-scrollbar';
     CommonModule,
     ReportsRoutingModule,
     FormsModule,
-    PerfectScrollbarModule
+    PerfectScrollbarModule,
+    MatTooltipModule
   ]
 })
 export class ReportsModule { }

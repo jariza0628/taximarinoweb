@@ -56,9 +56,14 @@
             <input class="form-control" type="text" formControlName="efecty" />
           </div>
           <div class="col-sm">
+            <label for="exampleInputPassword1">Transferencia</label>
+            <input class="form-control" type="text" formControlName="transferencia" />
+          </div>
+          <div class="col-sm">
             <label for="exampleInputPassword1">total</label>
             <input class="form-control" type="text" formControlName="total" />
           </div>
+          
         </div>
         <div class="row" [ngClass]="{'no-pointer-events': usrmail !== 'jefferariza@outlook.com'}">
           <div class="col-sm">
@@ -73,15 +78,23 @@
             <label for="exampleInputPassword1">Vaucher</label>
             <input class="form-control" type="text" formControlName="vaucher" />
           </div>
+          <div class="col-sm">
+            <label for="exampleInputPassword1">Observación</label>
+            <input class="form-control" type="text" formControlName="observaciones" />
+          </div>
         </div>
         <div class="row" [ngClass]="{'no-pointer-events': usrmail !== 'jefferariza@outlook.com'}">
           <div class="col-sm">
-            <label for="exampleInputPassword1">Identificacion</label>
+            <label for="exampleInputPassword1">Identificación</label>
             <input class="form-control" type="text" formControlName="dni" />
           </div>
           <div class="col-sm">
             <label for="exampleInputPassword1">Cliente o Agencia</label>
             <input class="form-control" type="text" formControlName="name" />
+          </div>
+          <div class="col-sm">
+            <label for="exampleInputPassword1">Teléfono</label>
+            <input class="form-control" type="text" formControlName="numeroCliente" />
           </div>
           <div class="col-sm">
             <label for="exampleInputPassword1">Descripcion Promos</label>
@@ -91,6 +104,22 @@
               formControlName="description"
             />
           </div>
+        </div>
+
+        <div class="row" [ngClass]="{'no-pointer-events': usrmail !== 'jefferariza@outlook.com'}">
+          <div class="col-sm">
+            <label for="exampleInputPassword1">Comisonistas </label>
+            <input class="form-control" type="text" formControlName="comisionista" />
+          </div>
+          <div class="col-sm">
+            <label for="exampleInputPassword1">Guia</label>
+            <input class="form-control" type="text" formControlName="guia" />
+          </div>
+          <div class="col-sm">
+            <label for="exampleInputPassword1">Valor comisión</label>
+            <input class="form-control" type="text" formControlName="totalComison" />
+          </div>
+           
         </div>
       </form>
       <div class="row"></div>

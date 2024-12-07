@@ -415,6 +415,15 @@ export class ReportSalesComponent implements OnInit {
 
                   };
                 }
+                if (sale.typepay === "transferencia") {
+                  reportTemp = {
+                    bank: 0,
+                    efecty: 0,
+                    seller: sale.seller,
+                    vaucher: 0,
+                    transferencia:this.calcValueSale(sale)
+                  };
+                }
                 if (sale.typepay === "mixted"  || sale.typepay === "mixed") {
                   reportTemp = {
                     bank: sale.tarjeta,
@@ -489,6 +498,15 @@ export class ReportSalesComponent implements OnInit {
                     transferencia: 0
                   };
                 }
+                if (sale.typepay === "transferencia") {
+                  reportTemp = {
+                    bank: 0,
+                    efecty: 0,
+                    seller: sale.seller,
+                    vaucher: 0,
+                    transferencia:this.calcValueSale(sale)
+                  };
+                }
                 if (sale.typepay === "mixted"  || sale.typepay === "mixed") {
                   reportTemp = {
                     bank: sale.tarjeta,
@@ -515,6 +533,9 @@ export class ReportSalesComponent implements OnInit {
                 }
                 if (sale.typepay === "card") {
                   report.bank += this.calcValueSale(sale);
+                }
+                if (sale.typepay === "transferencia") {
+                  report.transferencia += this.calcValueSale(sale);
                 }
                 if (sale.typepay === "mixted"  || sale.typepay === "mixed") {
                   report.efecty += Number(sale.efecty);
@@ -554,6 +575,15 @@ export class ReportSalesComponent implements OnInit {
                   vaucher: 0,
                   transferencia: 0
 
+                };
+              }
+              if (sale.typepay === "transferencia") {
+                reportTemp = {
+                  bank: 0,
+                  efecty: 0,
+                  seller: sale.seller,
+                  vaucher: 0,
+                  transferencia:this.calcValueSale(sale)
                 };
               }
               if (sale.typepay === "mixted"  || sale.typepay === "mixed") {

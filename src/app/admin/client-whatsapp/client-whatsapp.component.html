@@ -61,6 +61,17 @@
     </form>
   </div>
   <div class="row">
+    <div class="col-sm" *ngIf="result.length > 0">
+      <button
+      style="margin-top: 8px"
+      class="btn-danger btn"
+      (click)="exportExcel('totalreport')"
+      >
+      Generar Excel  
+      </button>
+    </div>
+  </div>
+  <div class="row">
     <div class="col-sm">
       <h4>Resultados encontrados </h4>
 

@@ -73,11 +73,18 @@
 
         <ng-container *ngFor="let sale of data; let i = index">
           <div
-            style="border-bottom: 1px solid rgb(190, 190, 190)"
+            style="border-bottom: 1px solid rgb(190, 190, 190);position: relative;"
             class="col-lg-1 col-md-1"
           >
             {{ sale.codebar }}
+            <div class="toll" *ngIf="sale.observaciones != ''">
+              {{ sale.observaciones }}
+
+            </div>
+
+           
           </div>
+
           <div
             style="border-bottom: 1px solid rgb(190, 190, 190)"
             class="col-lg-2 col-md-2"
@@ -215,7 +222,11 @@
         <div class="col-lg-4 col-md-4 font-weight-bold">
           ${{ totalComisiones | number }}
         </div>
- 
+        <div class="col-lg-5 col-md-5 font-weight-bold"></div>
+        <div class="col-lg-3 col-md-3 font-weight-bold">TOTAL COMISIONES GUIA</div>
+        <div class="col-lg-4 col-md-4 font-weight-bold">
+          ${{ totalComisionesGuias | number }}
+        </div>
         <div class="col-lg-5 col-md-5 font-weight-bold"></div>
         <div class="col-lg-3 col-md-3 font-weight-bold">TOTAL VOUCHER CREDITO</div>
         <div class="col-lg-4 col-md-4 font-weight-bold">
@@ -234,7 +245,7 @@
         <div class="col-lg-5 col-md-5 font-weight-bold"></div>
         <div class="col-lg-3 col-md-3 font-weight-bold">TOTAL ENTREGA</div>
         <div class="col-lg-4 col-md-4 font-weight-bold">
-          ${{ total -  (calcTypePay("card") + calcMixed("tarjeta")) - totalVauches| number }}
+          ${{ total - (calcTypePay("transferencia") + calcMixed("transferencia")) - (calcTypePay("card") + calcMixed("tarjeta")) - totalVauches| number }}
         </div>
         <div class="col-lg-5 col-md-5 font-weight-bold"></div>
       </div>

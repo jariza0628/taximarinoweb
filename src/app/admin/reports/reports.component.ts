@@ -23,7 +23,7 @@ export class ReportsComponent implements OnInit {
   paymentType = paymentType;
   totalVauches: number;
   totalComisiones: number;
-
+  totalComisionesGuias: number;
   acumuladoComisionistas: { name: string; valorAcumulado: number }[] = [];
 
   usrmail: string;
@@ -160,7 +160,7 @@ export class ReportsComponent implements OnInit {
         return "Mixto";
         break;
       case "transferencia":
-        return "Mixto";
+        return "Transferencia";
         break;  
       default:
         return sale.typepay;
@@ -220,7 +220,34 @@ export class ReportsComponent implements OnInit {
        
     } 
   }
-
+  totalComisionesGuia() {
+    this.totalComisionesGuias = 0;
+     if(this.data.length > 0){
+       this.data.forEach((sale) => {
+          
+         if(sale.guia && sale.guia !=''){
+           sale.plans.forEach((plan) => {
+             console.log('totalComisionesGuias', plan);
+             
+             plan.services.forEach(element => {
+               if(element.comision_value){
+                 this.totalComisionesGuias += Number(element.comision_value);
+               }
+             });
+             /*
+             plan.services.forEach(serviceItem => {
+               total += serviceItem.publicvalue;
+             });*/
+           });
+           sale.detail.forEach((serviceItem) => {
+             if(serviceItem.comision_value){
+               this.totalComisionesGuias += Number(serviceItem.comision_value);
+             }
+           });
+         }
+       });
+     } 
+   }
   /**
    * @method return total by count service
    * */
@@ -322,6 +349,7 @@ export class ReportsComponent implements OnInit {
     this.services.forEach((service) => (total += this.countByService(service)));
     this.totalVauchess();
     this.totalCOmisionistas();
+    this.totalComisionesGuia();
     return total;
   }
   totalVauchess() {
@@ -365,7 +393,7 @@ export class ReportsComponent implements OnInit {
     let totalMixed = 0;
     let totaltransferencia = 0;
     this.data.forEach((sale) => {
-      if (sale.typepay === 'mixed') {
+      if (sale.typepay === "mixted"  || sale.typepay === "mixed") {
         if(tarjeta==='tarjeta'){
           totalMixed = totalMixed + sale.tarjeta;
         }

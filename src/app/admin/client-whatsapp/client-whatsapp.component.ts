@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { GeneralServiceService } from '../services/general-service.service';
 import { ZenviaService } from '../services/zenvia.service';
+import { ExcelService } from '../services/excel.service';
 @Component({
   selector: 'app-client-whatsapp',
   templateUrl: './client-whatsapp.component.html',
@@ -14,7 +15,7 @@ export class ClientWhatsappComponent implements OnInit {
 
   plantillaId: any;
   plantillas: any = [];
-  constructor(public _GeneralServiceService: GeneralServiceService, public _ZenviaService: ZenviaService) { }
+  constructor(public _GeneralServiceService: GeneralServiceService,public _ExcelService: ExcelService, public _ZenviaService: ZenviaService) { }
 
   ngOnInit() {
     this.initiForm();
@@ -37,6 +38,10 @@ export class ClientWhatsappComponent implements OnInit {
     }
   }
 
+  exportExcel(){
+    this._ExcelService.exportToExcel(this.result, "Clientes Whatsapp");
+
+  }
   
   getDataBydate(date?) {
     let dateSelected;

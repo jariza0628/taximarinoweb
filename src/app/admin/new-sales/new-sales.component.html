@@ -271,7 +271,7 @@
                       </ng-container>
                     </ng-container>
 
-                    <ng-container *ngIf="sellerSelected === '0' || sellerSelected === 'AUDIOVISUALCAJA2'">
+                    <ng-container *ngIf="sellerSelected === '0' || sellerSelected === 'AUDIOVISUALCAJA2'  || sellerSelected === 'AUDIOVISUALCAJA1'">
                       <ng-container
                         *ngIf="
                            item.code === '280' ||
@@ -280,8 +280,11 @@
                             item.code === '286' ||
                             item.code === '287' ||  
                             item.code === '288' || 
-                            item.code === '289'  
+                            item.code === '289' || 
+                            item.code === '292' || 
+                            item.code === '291' 
                         "
+ 
                       >
                         <button
                           style="margin-right: 5px; margin-bottom: 5px"

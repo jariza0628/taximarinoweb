@@ -74,6 +74,18 @@ export class CodebarComponent implements OnInit {
         tarjeta: new FormControl(data.tarjeta, [
           Validators.maxLength(100),
         ]),
+        comisionista: new FormControl(data.comisionista, [
+          Validators.maxLength(100),
+        ]),
+        guia: new FormControl(data.guia, [
+          Validators.maxLength(100),
+        ]),
+        totalComison: new FormControl(data.totalComison, [
+          Validators.maxLength(100),
+        ]),
+        numeroCliente: new FormControl(data.numeroCliente, [
+          Validators.maxLength(100),
+        ]),
         total: new FormControl(data.total, [
           Validators.maxLength(100),
         ]),
@@ -92,6 +104,9 @@ export class CodebarComponent implements OnInit {
         efecty: new FormControl(data.efecty, [
           Validators.maxLength(100),
         ]),
+        transferencia: new FormControl(data.transferencia, [
+          Validators.maxLength(100),
+        ]),
         hour: new FormControl(data.hour, [
           Validators.maxLength(100),
         ]),
@@ -102,6 +117,9 @@ export class CodebarComponent implements OnInit {
           Validators.maxLength(100),
         ]),
         description: new FormControl('', [
+          Validators.maxLength(100),
+        ]),
+        observaciones: new FormControl(data.observaciones, [
           Validators.maxLength(100),
         ]),
       });
@@ -118,6 +136,9 @@ export class CodebarComponent implements OnInit {
           Validators.maxLength(100),
         ]),
         tarjeta: new FormControl("", [
+          Validators.maxLength(100),
+        ]),
+        numeroCliente: new FormControl("", [
           Validators.maxLength(100),
         ]),
         total: new FormControl("", [
@@ -138,6 +159,18 @@ export class CodebarComponent implements OnInit {
         efecty: new FormControl("", [
           Validators.maxLength(100),
         ]),
+        transferencia: new FormControl("", [
+          Validators.maxLength(100),
+        ]),
+        comisionista: new FormControl("", [
+          Validators.maxLength(100),
+        ]),
+        guia: new FormControl("", [
+          Validators.maxLength(100),
+        ]),
+        totalComison: new FormControl("", [
+          Validators.maxLength(100),
+        ]),
         hour: new FormControl("", [
           Validators.maxLength(100),
         ]),
@@ -150,6 +183,9 @@ export class CodebarComponent implements OnInit {
         description: new FormControl('', [
           Validators.maxLength(100),
         ]),
+        observaciones: new FormControl('', [
+          Validators.maxLength(100),
+        ])
       });
     }
  
@@ -158,6 +194,8 @@ export class CodebarComponent implements OnInit {
   submitFilter(){
     let formValue;
     formValue = this._formEntity.value;
+    this.data = [];
+  
     this.getSehech(formValue.codebar);
 
   }
@@ -187,6 +225,7 @@ export class CodebarComponent implements OnInit {
     });
   }
   getSehech(code){
+    this.data = [];
     this._GeneralServiceService.getSalesBydaCodeBar('sales', code).subscribe(
       data => {
         this.data = data.map((e) => {
@@ -198,6 +237,10 @@ export class CodebarComponent implements OnInit {
             ...e.payload.doc.data(),
           } as Sales;
         });
+        if(this.data.length == 0){
+          alert("Codigo no econtrado");
+          window.location.reload();
+        }
       }
     )
   }
@@ -292,6 +335,7 @@ export class CodebarComponent implements OnInit {
     this.data[0].efecty = formValue.efecty;
     this.data[0].vaucher = formValue.vaucher;
     this.data[0].zone = formValue.zone;
+    this.data[0].transferencia = formValue.transferencia;
     this.data[0].detail.forEach((element) => {
       element.publicvalue = Number(element.publicvalue)
     })
