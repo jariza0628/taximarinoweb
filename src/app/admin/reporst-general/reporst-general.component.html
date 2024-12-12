@@ -110,6 +110,14 @@
       >
         Excel
       </button>
+      -
+      <button
+        style="margin-top: 8px"
+        class="btn-success btn"
+        (click)="exportSolocomision()"
+      >
+        Excel Comisionistas
+      </button>
       <h4>Planes o combos Registrados</h4>
       <br />
       <table class="table table-hover">
@@ -120,7 +128,9 @@
             <th scope="col">Servicios</th>
             <th scope="col">Cliente</th>
             <th scope="col">Fecha</th>
-            <th scope="col">Vendedor</th>
+            <th scope="col">Cajero</th>
+            <th scope="col">Comisionista</th>
+            <th scope="col">$ Comision</th>
           </tr>
         </thead>
         <tbody>
@@ -131,6 +141,8 @@
             <td>{{ item.name | titlecase }}</td>
             <td>{{ item.date }}</td>
             <td>{{ item.seller }}</td>
+            <td>{{ item.comisionista }}</td>
+            <td>{{ item.totalComison | currency: "$ ":"symbol":"4.0-0"  }}</td>
           </tr>
         </tbody>
       </table>

@@ -554,6 +554,11 @@ export class NewSalesComponent implements OnInit {
   }
 
   async onSubmit1() {
+
+    debugger
+    if(this.generalSale.observaciones == undefined || this.generalSale.observaciones == ''){
+      this.generalSale.observaciones = "";
+    }
     // let consecutivoinical = 100;
     // let consecutivoinical = 200;
     let impresiones = 0;
@@ -623,7 +628,7 @@ export class NewSalesComponent implements OnInit {
               clientIdentification: this._formEntity.value.dni,
               consecutivo: consecutivoUltimo,
               zona: foundUser.zone,
-              
+             
             };
     
        
@@ -696,6 +701,7 @@ export class NewSalesComponent implements OnInit {
                   });
                  
                 });
+               
                 body = {
                   ...formValue,
                   plans: this.arraySelectPlan,
@@ -714,7 +720,7 @@ export class NewSalesComponent implements OnInit {
                   idGeneralSale: saleIdentifier,
                   timeStamp: new Date().getTime(),
                   consecutivo: consecutivoUltimo,
-                  observaciones: this.generalSale.observaciones
+                  observaciones: this.generalSale.observaciones 
                 };
                 if (ventas) {
                

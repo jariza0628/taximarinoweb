@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 export class ZenviaService {
 
   private apiUrl = 'https://api.zenvia.com/v2/channels/whatsapp/messages';
-  private apiToken = 'kqEJpW2K5O5M9D5BmmgW5OkBtbcj4dyjIRnE';
+  private apiToken = 'o6uJTadfk-t-33Oj4pDBhuvVJ0cQi2ZyBHFs'; //'kqEJpW2K5O5M9D5BmmgW5OkBtbcj4dyjIRnE';
 
   constructor(private http: HttpClient) { }
 

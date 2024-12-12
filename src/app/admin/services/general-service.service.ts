@@ -87,11 +87,17 @@ export class GeneralServiceService {
   }
 
   getSalesByDateAndComision(entiti, data, data2, data3) {
-    return this.firestore
+    try {
+      return this.firestore
       .collection(entiti, (ref) =>
-        ref.where("comisionista", "==", data).where("date", ">=", data2).where("date", "<=", data3)
+        ref.where("comisionista", "==", data).where("date", "==", data2)//.where("date", "<=", data3)
       )
       .snapshotChanges();
+    } catch (error) {
+      console.log(error);
+      debugger
+    }
+   
   }
   getSalesByDateAndComisionGeneral(entiti, data, data2, data3) {
     //.where("date", ">=", data).where("date", "<=", data2)

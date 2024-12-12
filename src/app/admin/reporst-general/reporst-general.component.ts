@@ -124,10 +124,11 @@ export class ReporstGeneralComponent implements OnInit {
           if (sale.typepay === "card") {
             report.bank += this.calcValueSale(sale);
           }
-          if (sale.typepay === "mixted") {
+          if (sale.typepay === "mixted" || sale.typepay  === "mixed") {
             report.efecty += sale.efecty;
             report.bank += sale.tarjeta;
           }
+            
         }
       });
       // Si no lo encuentra añadirlo a generalReport
@@ -157,7 +158,7 @@ export class ReporstGeneralComponent implements OnInit {
             vaucher: 0,
           };
         }
-        if (sale.typepay === "mixted") {
+        if (sale.typepay === "mixted" || sale.typepay  === "mixed") {
           reportTemp = {
             bank: sale.tarjeta,
             efecty: sale.efecty,
@@ -297,6 +298,8 @@ export class ReporstGeneralComponent implements OnInit {
   export() {
     this._ExcelService.exportToExcel(this.dataFilter, "General");
   }
+
+
   exportExcel(val) {
     switch (val) {
       case 'generalReport':
@@ -394,5 +397,22 @@ export class ReporstGeneralComponent implements OnInit {
         (services = `${services} ${services === "" ? "" : "+"} ${service.name}`)
     );
     return services;
+  }
+
+  exportSolocomision() {
+    let comisionistaFiltrados = this.dataFilter
+    .filter(record => record.comisionista) // Filtrar los registros con comisionista válido
+    // Excluir atributos no deseados
+    .map(({ detail, emailCliente, id, idGeneralSale, plans,consecutivo,dni, transferencia, tarjetas, zone,vaucher, state, timeStamp, ...rest}) => {
+      // Concatenar la propiedad 'nombre' de los objetos en el array 'detail'
+      const detailConcatenado = detail.map(item => item.name).join(", ");
+      const plansConcatenado = plans.map(item => item.name).join(", ");
+      return {
+        ...rest,
+        detail: detailConcatenado, // Reemplazar 'detail' con la concatenación
+        plans: plansConcatenado,  // Reemplazar 'plans' con la concatenación
+      };
+    });
+    this._ExcelService.exportToExcel(comisionistaFiltrados, "General-comisionistas");
   }
 }

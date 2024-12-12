@@ -65,7 +65,7 @@ export class ReportComisionistasComponent implements OnInit {
         ).subscribe((data) => {
           // console.log('dara', data);
           this.data = data.map((e) => {
-            console.log("result", e.payload.doc.data());
+            //console.log("result", e.payload.doc.data());
             return {
               id: e.payload.doc.id,
               ...e.payload.doc.data(),
@@ -85,7 +85,7 @@ export class ReportComisionistasComponent implements OnInit {
       this.GN.getFirebase("commissions").subscribe((data) => {
         // console.log('dara', data);
         this.users = data.map((e) => {
-          console.log(e.payload.doc.data());
+          //console.log(e.payload.doc.data());
           return {
             id: e.payload.doc.id,
             ...e.payload.doc.data(),
@@ -96,7 +96,7 @@ export class ReportComisionistasComponent implements OnInit {
   
     getServices() {
       this.GN.getFirebase("service").subscribe((data) => {
-        console.log("dara", data);
+        //console.log("dara", data);
         this.services = data.map((e) => {
           // console.log(e.payload.doc.data());
           return {
@@ -119,6 +119,9 @@ export class ReportComisionistasComponent implements OnInit {
           return "Crédito";
           break;
         case "mixed":
+          return "Mixto";
+          break;
+        case "mixted":
           return "Mixto";
           break;
         default:
@@ -210,7 +213,7 @@ export class ReportComisionistasComponent implements OnInit {
     countByServiceNoVaucher(service: Service) {
       if (this.services.length > 0) {
         let total = 0;
-        console.log('countByServiceNoVaucher data', this.data);    
+        //console.log('countByServiceNoVaucher data', this.data);    
         this.data.forEach((sale) => {
           if(sale.vaucher > 0){
             sale.plans.forEach((plan) => {
@@ -342,7 +345,7 @@ export class ReportComisionistasComponent implements OnInit {
           }
         });
       });
-      console.log("calcDepartament" + dept + ": ", totalDep);
+      //console.log("calcDepartament" + dept + ": ", totalDep);
   
       return totalDep;
     }
@@ -363,7 +366,7 @@ export class ReportComisionistasComponent implements OnInit {
           }
         });
       });
-      console.log("calcDepartament" + dept + ": ", totalDep);
+      //console.log("calcDepartament" + dept + ": ", totalDep);
   
       return totalDep;
     }

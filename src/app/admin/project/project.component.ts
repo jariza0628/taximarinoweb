@@ -42,7 +42,7 @@ export class ProjectComponent implements OnInit {
         name: "Zonas",
         link: "ponitsale",
 
-        rol: "user",
+        rol: "Admin",
         icon: "bi bi-caret-right-fill",
       },
       {
@@ -76,6 +76,7 @@ export class ProjectComponent implements OnInit {
         rol: "admin",
         icon: "bi bi-clock-history",
       },
+     
       {
         name: "Inventario Manilla",
         link: "inventory",
@@ -84,7 +85,7 @@ export class ProjectComponent implements OnInit {
       },
       {
         name: "Reportes Diarios",
-        link: "bi bi-bar-chart-fill",
+        link: "daily-reports",
         rol: "user",
         icon: "bi bi-wallet-fill",
       },
@@ -95,9 +96,15 @@ export class ProjectComponent implements OnInit {
         icon: "bi bi-cash-coin",
       },
       {
+        name: "General comisiones",
+        link: "general",
+        rol: "admin",
+        icon: "bi bi-clock-history",
+      },
+      {
         name: "Comisionistas",
         link: "comision",
-        rol: "user",
+        rol: "Admin",
         icon: "bi bi-wallet-fill",
       },
       {

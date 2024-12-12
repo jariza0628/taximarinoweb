@@ -20,6 +20,7 @@ export class ClientWhatsappComponent implements OnInit {
   ngOnInit() {
     this.initiForm();
     this.getPlantillas();
+    this.result = [];
   }
 
   initiForm() {
