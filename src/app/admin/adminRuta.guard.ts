@@ -16,7 +16,7 @@ export class AdminRutaGuard implements CanActivate {
 // Verifica si el usuario está autenticado y si el email cumple con la condición
 this.usrmail = localStorage.getItem("userlog");
 
-if (this.authService.isLoggedIn && this.usrmail === 'jefferariza@outlook.com') {
+if (this.authService.isLoggedIn && (this.usrmail === 'jefferariza@outlook.com'  )) {
   return true;
 } else {
   return this.router.parseUrl('/admin/new-sales');
