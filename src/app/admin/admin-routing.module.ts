@@ -35,6 +35,7 @@ import { ClientWhatsappComponent } from "./client-whatsapp/client-whatsapp.compo
 import { AdminRutaGuard } from "./adminRuta.guard";
 import { adminPuntoVentasGuard } from "./adminPuntoVentas.guard";
 import { AdminRutaEspecialGuard } from "./adminRutaEspecial.guard";
+import { ReportSalesAuditoriaComponent } from "./report-sales-auditoria/report-sales-auditoria.component";
 
 const routes: Routes = [
   {
@@ -147,7 +148,7 @@ const routes: Routes = [
       {
         path: "reportseller",
         component: ReportSalesComponent,
-        canActivate: [AdminRutaEspecialGuard],
+        canActivate: [AdminGuard],
       },
       {
         path: "used",
@@ -183,6 +184,11 @@ const routes: Routes = [
         path: "clienteswhatsapp",
         component: ClientWhatsappComponent,
         canActivate: [AdminGuard],
+      },
+      {
+        path: "reportgeneral",
+        component: ReportSalesAuditoriaComponent,
+        canActivate: [AdminRutaEspecialGuard],
       }
     ],
   },

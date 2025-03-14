@@ -103,7 +103,7 @@ export class ReportsComponent implements OnInit {
   // }
 
   getsellers() {
-    if(this.usrmail === 'jefferariza@outlook.com' || this.usrmail === 'taximarinomsr@gmail.com' || this.usrmail === 'hadarraga@gmail.com'){
+    if(this.usrmail === 'jefferariza@outlook.com' || this.usrmail === 'taximarinomsr@gmail.com' || this.usrmail === 'hadarraga@gmail.com' || this.usrmail === 'taximarino2020@gmail.com'){
       this.GN.getSeller().subscribe((data) => {
         this.users = data.map((e) => {
           console.log("users", e.payload.doc.data());

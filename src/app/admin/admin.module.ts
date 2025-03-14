@@ -43,13 +43,14 @@ import { ClientWhatsappComponent } from './client-whatsapp/client-whatsapp.compo
 import { MatAutocompleteModule, MatButtonModule, MatFormFieldModule, MatInputModule } from '@angular/material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {MatIconModule} from '@angular/material/icon';
+import { ReportSalesAuditoriaComponent } from './report-sales-auditoria/report-sales-auditoria.component';
 
 
 @NgModule({
   declarations: [
     ProjectListComponent, ProjectCreateComponent, ProjectUpdateComponent,
     ProjectComponent, LoginComponent, ReportAdminComponent, PointSaleComponent, AgencyComponent, SalesComponent,
-    IndividualServicesComponent, PlansComponent, NewSalesComponent, ReceiptComponent, ReportComponent, DetailComponent, CodebarComponent, HistoryReportComponent, InventoryComponent, ComisionComponent, ReporstGeneralComponent, CodebarNoveltiesComponent, ReportUsedComponent, ReportSalesComponent, BoatComponent, CloseComponent, ComisionsComponent, ManillasComponent, ReportComisionistasComponent, ReporteComisionistasGeneralComponent, ClientWhatsappComponent],
+    IndividualServicesComponent, PlansComponent, NewSalesComponent, ReceiptComponent, ReportComponent, DetailComponent, CodebarComponent, HistoryReportComponent, InventoryComponent, ComisionComponent, ReporstGeneralComponent, CodebarNoveltiesComponent, ReportUsedComponent, ReportSalesComponent, BoatComponent, CloseComponent, ComisionsComponent, ManillasComponent, ReportComisionistasComponent, ReporteComisionistasGeneralComponent, ClientWhatsappComponent, ReportSalesAuditoriaComponent],
   imports: [
     CommonModule,
     AdminRoutingModule,
