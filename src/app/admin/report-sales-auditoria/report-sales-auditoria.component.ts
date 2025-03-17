@@ -54,25 +54,7 @@ export class ReportSalesAuditoriaComponent implements OnInit {
   subscription1: any;
 
   useremail: string;
-  usuariosComision = [
-  'ACUARIUM',
-  'precargadotaquilla',
-  'TAQUILLAACUARIO2',
-  'TAQUILLACUEVA',
-  'OFICINAACUARIO',
-  'ALJADISTAQUILLA',
-  'AUDIovisualCAJA1',
-  'ACAUDIOVISUALCAJA2',
-  'ACTIVIDADACUARIO1',
-  'ACTIVIDADACUARIO2',
-  'Canopyacuario',
-  'Canopyplayablanca',
-  'Canopytorre',
-  'Canopyplataforma',
-  'CIMCUEVA',
-  'AUDIOVISUALCAJA2',
-  'canopyacuario'
-];
+  usuariosComision = [];
   constructor(
     private _ExcelService: ExcelService,
     private _GeneralServiceService: GeneralServiceService
@@ -105,39 +87,141 @@ export class ReportSalesAuditoriaComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.useremail = localStorage.getItem("userlog");
     this.getServices();
     this.getSellers();
-    this.useremail = localStorage.getItem("userlog");
   }
 
   getDataByRangeDate() {
     console.log("getDataByRangeDate");
+    // acuariosistema2020@gmail.com
+    if(this.useremail == 'acuariosistema2020@gmail.com'){
+      this.usuariosComision = [
+        "TAQUILLAACUARIO2",
+        "TAQUILLACUEVA",
+        "OFICINAACUARIO",
+        "ALJADISTAQUILLA",
+        "AUDIOVISUALCAJA1",
+        "ACAUDIOVISUALCAJA2",
+        "ACTIVIDADACUARIO1",
+        "ACTIVIDADACUARIO2",
+        "CIMCUEVA",
+        "precargadotaquilla"
+      ];
 
-    if (this.date1 && this.date2) {
-      this.subscription1 = this._GeneralServiceService
-        .getSalesByDateRange("sales", this.date1, this.date2)
-        .subscribe((data) => {
-          console.log("dara", data);
-          
-           // Filtrar los datos para excluir los vendedores que están en la lista 'usuariosComision'
-          this.data = data
-          .map((e) => {
-            console.log(e.payload.doc.data());
-            return {
-              id: e.payload.doc.id,
-              ...e.payload.doc.data(),
-            } as any;
-          })
-          .filter((item) => !this.usuariosComision.includes(item.seller)); 
-
-
-          this.dataFilter = this.data;
-          this.copyData = this.data;
-          this.reportGeneral();
-          this.calcValue(this.dataFilter);
-        });
-    } else {
+      if (this.date1 && this.date2) {
+        this.subscription1 = this._GeneralServiceService
+          .getSalesByDateRange("sales", this.date1, this.date2)
+          .subscribe((data) => {
+            console.log("dara", data);
+            
+             // Filtrar los datos para excluir los vendedores que están en la lista 'usuariosComision'
+            this.data = data
+            .map((e) => {
+              console.log(e.payload.doc.data());
+              return {
+                id: e.payload.doc.id,
+                ...e.payload.doc.data(),
+              } as any;
+            })
+            .filter((item) => this.usuariosComision.includes(item.seller)); 
+  
+  
+            this.dataFilter = this.data;
+            this.copyData = this.data;
+            this.reportGeneral();
+            this.calcValue(this.dataFilter);
+          });
+      } else {
+      }
     }
+    if(this.useremail == 'taximarino2020@gmail.com'){
+      this.usuariosComision = [
+        'ACUARIUM',
+        'precargadotaquilla',
+        'TAQUILLAACUARIO2',
+        'TAQUILLACUEVA',
+        'OFICINAACUARIO',
+        'ALJADISTAQUILLA',
+        'ACAUDIOVISUALCAJA1',
+        'ACAUDIOVISUALCAJA2',
+        'ACTIVIDADACUARIO1',
+        'ACTIVIDADACUARIO2',
+        'Canopyacuario',
+        'Canopyplayablanca',
+        'Canopytorre',
+        'Canopyplataforma',
+        'CIMCUEVA',
+        'AUDIOVISUALCAJA2',
+        'canopyacuario'
+      ];
+
+      if (this.date1 && this.date2) {
+        this.subscription1 = this._GeneralServiceService
+          .getSalesByDateRange("sales", this.date1, this.date2)
+          .subscribe((data) => {
+            console.log("dara", data);
+            
+             // Filtrar los datos para excluir los vendedores que están en la lista 'usuariosComision'
+            this.data = data
+            .map((e) => {
+              console.log(e.payload.doc.data());
+              return {
+                id: e.payload.doc.id,
+                ...e.payload.doc.data(),
+              } as any;
+            })
+            .filter((item) => !this.usuariosComision.includes(item.seller)); 
+  
+  
+            this.dataFilter = this.data;
+            this.copyData = this.data;
+            this.reportGeneral();
+            this.calcValue(this.data);
+          });
+      } else {
+      }
+    }
+      if(this.useremail == 'canopysistema2020@gmail.com'){
+        this.usuariosComision = [
+        
+          'Canopyacuario',
+          'Canopyplayablanca',
+          'Canopytorre',
+          'Canopyplataforma',
+          'canopyacuario'
+        ];
+
+        if (this.date1 && this.date2) {
+          this.subscription1 = this._GeneralServiceService
+            .getSalesByDateRange("sales", this.date1, this.date2)
+            .subscribe((data) => {
+              console.log("dara", data);
+              
+               // Filtrar los datos para excluir los vendedores que están en la lista 'usuariosComision'
+              this.data = data
+              .map((e) => {
+                console.log(e.payload.doc.data());
+                return {
+                  id: e.payload.doc.id,
+                  ...e.payload.doc.data(),
+                } as any;
+              })
+              .filter((item) => this.usuariosComision.includes(item.seller)); 
+    
+    
+              this.dataFilter = this.data;
+              this.copyData = this.data;
+              this.reportGeneral();
+              this.calcValue(this.dataFilter);
+            });
+        } else {
+        }
+      }
+      console.log(this.usuariosComision);
+      
+
+
   }
 
   verificarDatos() {
@@ -154,7 +238,7 @@ export class ReportSalesAuditoriaComponent implements OnInit {
   }
 
   reportGeneral() {
-    debugger;
+ 
     this.individualService = [];
     this.generalReport = [];
     try {
@@ -754,6 +838,7 @@ export class ReportSalesAuditoriaComponent implements OnInit {
   }
 
   calcValue(data: any) {
+    debugger
     this.total = 0;
     data.forEach((sale) => {
       sale.plans.forEach((plan) => {

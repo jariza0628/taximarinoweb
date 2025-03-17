@@ -148,7 +148,7 @@ const routes: Routes = [
       {
         path: "reportseller",
         component: ReportSalesComponent,
-        canActivate: [AdminGuard],
+        canActivate: [AdminRutaGuard],
       },
       {
         path: "used",

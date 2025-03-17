@@ -15,8 +15,8 @@ export class AdminRutaEspecialGuard implements CanActivate {
     state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean | UrlTree {
 // Verifica si el usuario está autenticado y si el email cumple con la condición
 this.usrmail = localStorage.getItem("userlog");
-debugger
-if (this.authService.isLoggedIn && (this.usrmail === 'jefferariza@outlook.com' || this.usrmail === 'taximarino2020@gmail.com' )) {
+ 
+if (this.authService.isLoggedIn && (this.usrmail === 'jefferariza@outlook.com' || this.usrmail === 'taximarino2020@gmail.com' || this.usrmail === 'canopysistema2020@gmail.com')) {
   return true;
 } else {
   return this.router.parseUrl('/admin/new-sales');
